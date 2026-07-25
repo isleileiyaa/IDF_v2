@@ -1,0 +1,38 @@
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4192, std:0.0000 ---- mae:0.2962, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4192, std:0.0000 ---- mae:0.2962, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4192, std:0.0000 ---- mae:0.2962, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4238, std:0.0000 ---- mae:0.3067, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4238, std:0.0000 ---- mae:0.3067, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4238, std:0.0000 ---- mae:0.3067, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4234, std:0.0000 ---- mae:0.3082, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4234, std:0.0000 ---- mae:0.3082, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4234, std:0.0000 ---- mae:0.3082, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4062, std:0.0000 ---- mae:0.2878, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4062, std:0.0000 ---- mae:0.2878, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4062, std:0.0000 ---- mae:0.2878, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4109, std:0.0000 ---- mae:0.2987, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4109, std:0.0000 ---- mae:0.2987, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4109, std:0.0000 ---- mae:0.2987, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4118, std:0.0000 ---- mae:0.3004, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4118, std:0.0000 ---- mae:0.3004, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4118, std:0.0000 ---- mae:0.3004, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.3981, std:0.0000 ---- mae:0.2817, std:0.0000

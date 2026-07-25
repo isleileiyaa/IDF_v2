@@ -1,0 +1,6 @@
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.1635, std:0.0000 ---- mae:0.2115, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.1635, std:0.0000 ---- mae:0.2115, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.1635, std:0.0000 ---- mae:0.2115, std:0.0000

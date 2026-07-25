@@ -1,0 +1,36 @@
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4249, std:0.0000 ---- mae:0.2978, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4249, std:0.0000 ---- mae:0.2978, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4249, std:0.0000 ---- mae:0.2978, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4241, std:0.0000 ---- mae:0.2968, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4241, std:0.0000 ---- mae:0.2968, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4241, std:0.0000 ---- mae:0.2968, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4270, std:0.0000 ---- mae:0.3001, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4270, std:0.0000 ---- mae:0.3001, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4270, std:0.0000 ---- mae:0.3001, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4118, std:0.0000 ---- mae:0.2915, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4118, std:0.0000 ---- mae:0.2915, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4118, std:0.0000 ---- mae:0.2915, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4094, std:0.0000 ---- mae:0.2899, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4094, std:0.0000 ---- mae:0.2899, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4094, std:0.0000 ---- mae:0.2899, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4132, std:0.0000 ---- mae:0.2927, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4132, std:0.0000 ---- mae:0.2927, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.4132, std:0.0000 ---- mae:0.2927, std:0.0000

@@ -1,0 +1,32 @@
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_moe_kb_ETTh1
+mse:0.3592, std:0.0000 ---- mae:0.3636, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_moe_kb_ETTh2
+mse:0.3589, std:0.0000 ---- mae:0.3647, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_moe_kb_ETTm1
+mse:0.3596, std:0.0000 ---- mae:0.3656, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_moe_kb_ETTm2
+mse:0.3590, std:0.0000 ---- mae:0.3652, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_moe_kb_ETTh1
+mse:0.2430, std:0.0000 ---- mae:0.2984, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_moe_kb_ETTh2
+mse:0.2421, std:0.0000 ---- mae:0.2982, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_moe_kb_ETTm1
+mse:0.2436, std:0.0000 ---- mae:0.2992, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_moe_kb_ETTm2
+mse:0.2413, std:0.0000 ---- mae:0.2983, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_moe_kb_ETTh1
+mse:0.3045, std:0.0000 ---- mae:0.3218, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_moe_kb_ETTh2
+mse:0.3096, std:0.0000 ---- mae:0.3250, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_moe_kb_ETTm1
+mse:0.3013, std:0.0000 ---- mae:0.3183, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_moe_kb_ETTm2
+mse:0.3113, std:0.0000 ---- mae:0.3245, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_moe_kb_ETTh1
+mse:0.1479, std:0.0000 ---- mae:0.2278, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_moe_kb_ETTh2
+mse:0.1490, std:0.0000 ---- mae:0.2294, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_moe_kb_ETTm1
+mse:0.1491, std:0.0000 ---- mae:0.2284, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_moe_kb_ETTm2
+mse:0.1484, std:0.0000 ---- mae:0.2277, std:0.0000

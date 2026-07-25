@@ -1,0 +1,16 @@
+augment_mode=moe_disentangle
+checkpoint_dir=/home/wangbing/fenglei/TSRAG-clean/TS-RAG-main/TS-RAG/checkpoints/data50m_moe_disentangle_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning
+zeroshot_script=script/zeroshot_chronos_moe_disentangle.sh
+
+model_steps1999.pth mse=0.1653 mae=0.2123
+model_steps2999.pth mse=0.1681 mae=0.2157
+model_steps3999.pth mse=0.1622 mae=0.2075
+model_steps4999.pth mse=0.1688 mae=0.2189
+model_steps5999.pth mse=0.1635 mae=0.2093
+model_steps6999.pth mse=0.1705 mae=0.2174
+model_steps7999.pth mse=0.1672 mae=0.2163
+model_steps8999.pth mse=0.1647 mae=0.2164
+model_steps9999.pth mse=0.1686 mae=0.2175
+model_steps999.pth mse=0.1636 mae=0.2129
+
+BEST checkpoint=model_steps3999.pth mse=0.1622 mae=0.2075

@@ -1,0 +1,2 @@
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis
+mse:0.2921, std:0.0000 ---- mae:0.3124, std:0.0000

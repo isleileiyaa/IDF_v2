@@ -1,0 +1,8 @@
+ETTh1_zeroshot_512_pred_64_chronosbolt_baseline
+mse:0.7182, std:0.0000 ---- mae:0.5768, std:0.0000
+ETTh1_zeroshot_512_pred_64_chronosbolt_baseline
+mse:0.0690, std:0.0000 ---- mae:0.2048, std:0.0000
+ETTh1_zeroshot_512_pred_64_chronosbolt_baseline
+mse:0.7182, std:0.0000 ---- mae:0.5768, std:0.0000
+ETTh1_zeroshot_512_pred_64_chronosbolt_baseline
+mse:0.7182, std:0.0000 ---- mae:0.5768, std:0.0000

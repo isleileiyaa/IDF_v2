@@ -1,0 +1,110 @@
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.3523, std:0.0000 ---- mae:0.3655, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.2375, std:0.0000 ---- mae:0.2993, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.2961, std:0.0000 ---- mae:0.3178, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.1507, std:0.0000 ---- mae:0.2310, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.1519, std:0.0000 ---- mae:0.1915, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.0926, std:0.0000 ---- mae:0.2077, std:0.0000
+electricity_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.1139, std:0.0000 ---- mae:0.2049, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.3535, std:0.0000 ---- mae:0.3660, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.2426, std:0.0000 ---- mae:0.3024, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.2963, std:0.0000 ---- mae:0.3191, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.1538, std:0.0000 ---- mae:0.2332, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.1533, std:0.0000 ---- mae:0.1920, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.0935, std:0.0000 ---- mae:0.2097, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.3527, std:0.0000 ---- mae:0.3657, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.2401, std:0.0000 ---- mae:0.3028, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.2963, std:0.0000 ---- mae:0.3186, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.1546, std:0.0000 ---- mae:0.2347, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.1549, std:0.0000 ---- mae:0.1945, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.0978, std:0.0000 ---- mae:0.2154, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.3527, std:0.0000 ---- mae:0.3653, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.2408, std:0.0000 ---- mae:0.3049, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.2967, std:0.0000 ---- mae:0.3202, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.1626, std:0.0000 ---- mae:0.2409, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.1603, std:0.0000 ---- mae:0.2005, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.1277, std:0.0000 ---- mae:0.2424, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.3543, std:0.0000 ---- mae:0.3651, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.2398, std:0.0000 ---- mae:0.3020, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.3010, std:0.0000 ---- mae:0.3196, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.1547, std:0.0000 ---- mae:0.2341, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.1536, std:0.0000 ---- mae:0.1913, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.1003, std:0.0000 ---- mae:0.2152, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.3522, std:0.0000 ---- mae:0.3666, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.2418, std:0.0000 ---- mae:0.3046, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.2958, std:0.0000 ---- mae:0.3200, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.1605, std:0.0000 ---- mae:0.2388, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.1607, std:0.0000 ---- mae:0.2010, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.1168, std:0.0000 ---- mae:0.2343, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.3521, std:0.0000 ---- mae:0.3664, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.2402, std:0.0000 ---- mae:0.3044, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.2961, std:0.0000 ---- mae:0.3195, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.1554, std:0.0000 ---- mae:0.2363, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.1551, std:0.0000 ---- mae:0.1961, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.1127, std:0.0000 ---- mae:0.2320, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.3679, std:0.0000 ---- mae:0.3890, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.2563, std:0.0000 ---- mae:0.3160, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.3239, std:0.0000 ---- mae:0.3491, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.1533, std:0.0000 ---- mae:0.2383, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.1527, std:0.0000 ---- mae:0.2036, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.0790, std:0.0000 ---- mae:0.1978, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:1.6532, std:0.0000 ---- mae:0.8654, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.9564, std:0.0000 ---- mae:0.6636, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:2.1617, std:0.0000 ---- mae:0.9354, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.7568, std:0.0000 ---- mae:0.5490, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:0.8628, std:0.0000 ---- mae:0.5302, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_dual_projector_mlp
+mse:1.1989, std:0.0000 ---- mae:0.6748, std:0.0000

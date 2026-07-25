@@ -1,0 +1,24 @@
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.1648, std:0.0000 ---- mae:0.2115, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.1648, std:0.0000 ---- mae:0.2115, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.1648, std:0.0000 ---- mae:0.2115, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.1689, std:0.0000 ---- mae:0.2158, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.1689, std:0.0000 ---- mae:0.2158, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.1689, std:0.0000 ---- mae:0.2158, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.1597, std:0.0000 ---- mae:0.2064, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.1597, std:0.0000 ---- mae:0.2064, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.1597, std:0.0000 ---- mae:0.2064, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.1636, std:0.0000 ---- mae:0.2112, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.1636, std:0.0000 ---- mae:0.2112, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.1636, std:0.0000 ---- mae:0.2112, std:0.0000

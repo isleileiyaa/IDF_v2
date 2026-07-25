@@ -1,0 +1,24 @@
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_deepmlp
+mse:0.3516, std:0.0000 ---- mae:0.3675, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_deepmlp
+mse:0.2398, std:0.0000 ---- mae:0.2984, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_deepmlp
+mse:0.2956, std:0.0000 ---- mae:0.3191, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_deepmlp
+mse:0.1501, std:0.0000 ---- mae:0.2289, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_deepmlp
+mse:0.1498, std:0.0000 ---- mae:0.1857, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_deepmlp
+mse:0.0796, std:0.0000 ---- mae:0.1919, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_deepmlp
+mse:0.3523, std:0.0000 ---- mae:0.3659, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_deepmlp
+mse:0.2382, std:0.0000 ---- mae:0.2962, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_deepmlp
+mse:0.2964, std:0.0000 ---- mae:0.3184, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_deepmlp
+mse:0.1486, std:0.0000 ---- mae:0.2272, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_deepmlp
+mse:0.1474, std:0.0000 ---- mae:0.1827, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_deepmlp
+mse:0.0738, std:0.0000 ---- mae:0.1852, std:0.0000

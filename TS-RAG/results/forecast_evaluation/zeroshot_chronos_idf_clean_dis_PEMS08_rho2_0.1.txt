@@ -1,0 +1,2 @@
+PEMS08_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis
+mse:0.2668, std:0.0000 ---- mae:0.3328, std:0.0000

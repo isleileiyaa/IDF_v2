@@ -1,0 +1,26 @@
+augment_mode=idf_clean_dis
+checkpoint_dir=/home/wangbing/fenglei/TSRAG-clean/TS-RAG-main/TS-RAG/checkpoints/data50m_idf_clean_dis_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_rho0_0_0_0
+zeroshot_script=script/zeroshot_chronos_idf_clean_dis.sh
+
+model_steps1499.pth mse=0.199700 mae=0.256543
+model_steps1999.pth mse=0.198186 mae=0.255357
+model_steps2499.pth mse=0.198157 mae=0.255429
+model_steps2999.pth mse=0.204329 mae=0.256329
+model_steps3499.pth mse=0.197386 mae=0.254443
+model_steps3999.pth mse=0.205900 mae=0.258943
+model_steps4499.pth mse=0.196400 mae=0.252757
+model_steps4999.pth mse=0.199900 mae=0.257714
+model_steps499.pth mse=0.195386 mae=0.253271
+model_steps5499.pth mse=0.198571 mae=0.256014
+model_steps5999.pth mse=0.197957 mae=0.253986
+model_steps6499.pth mse=0.201471 mae=0.255614
+model_steps6999.pth mse=0.197729 mae=0.252500
+model_steps7499.pth mse=0.198971 mae=0.252900
+model_steps7999.pth mse=0.193957 mae=0.251486
+model_steps8499.pth mse=0.192857 mae=0.250814
+model_steps8999.pth mse=0.194186 mae=0.251157
+model_steps9499.pth mse=0.194771 mae=0.250571
+model_steps9999.pth mse=0.193714 mae=0.250214
+model_steps999.pth mse=0.202671 mae=0.257386
+
+BEST checkpoint=model_steps8499.pth mse=0.192857 mae=0.250814

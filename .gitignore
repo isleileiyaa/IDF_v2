@@ -1,0 +1,25 @@
+# --- large generated data / model artifacts (do not commit) ---
+datasets/
+retrieval_database/
+TS-RAG/checkpoints/
+*.pth
+*.bin
+*.pkl
+*.parquet
+
+# --- experiment tracking / run outputs ---
+TS-RAG/wandb/
+TS-RAG/script/wandb/
+TS-RAG/script/my_results/
+TS-RAG/script/tmp*/
+wandb/
+
+# --- python ---
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# --- misc local artifacts ---
+*.tar.gz
+*.zip

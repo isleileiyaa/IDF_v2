@@ -1,0 +1,38 @@
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.7670, std:0.0000 ---- mae:0.5891, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.7670, std:0.0000 ---- mae:0.5891, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.7670, std:0.0000 ---- mae:0.5891, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.7619, std:0.0000 ---- mae:0.5883, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.7619, std:0.0000 ---- mae:0.5883, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.7619, std:0.0000 ---- mae:0.5883, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.7501, std:0.0000 ---- mae:0.5834, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.7501, std:0.0000 ---- mae:0.5834, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.7501, std:0.0000 ---- mae:0.5834, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.7396, std:0.0000 ---- mae:0.5782, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.7396, std:0.0000 ---- mae:0.5782, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.7396, std:0.0000 ---- mae:0.5782, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.7412, std:0.0000 ---- mae:0.5808, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.7412, std:0.0000 ---- mae:0.5808, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.7412, std:0.0000 ---- mae:0.5808, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.7337, std:0.0000 ---- mae:0.5787, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.7337, std:0.0000 ---- mae:0.5787, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.7337, std:0.0000 ---- mae:0.5787, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.7232, std:0.0000 ---- mae:0.5729, std:0.0000

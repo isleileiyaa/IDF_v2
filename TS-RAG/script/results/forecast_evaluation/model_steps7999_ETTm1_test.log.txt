@@ -1,0 +1,6 @@
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.3826, std:0.0000 ---- mae:0.3953, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.3826, std:0.0000 ---- mae:0.3953, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_branch
+mse:0.3826, std:0.0000 ---- mae:0.3953, std:0.0000

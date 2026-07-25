@@ -1,0 +1,38 @@
+ETTh1_zeroshot_512_pred_64_512_retrieve_64
+mse:0.3556, std:0.0000 ---- mae:0.3623, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64
+mse:0.3556, std:0.0000 ---- mae:0.3623, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64
+mse:0.3582, std:0.0000 ---- mae:0.3650, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64
+mse:0.2420, std:0.0000 ---- mae:0.2986, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64
+mse:0.3059, std:0.0000 ---- mae:0.3206, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64
+mse:0.1508, std:0.0000 ---- mae:0.2283, std:0.0000
+electricity_zeroshot_512_pred_64_512_retrieve_64
+mse:0.1128, std:0.0000 ---- mae:0.2008, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64
+mse:0.0902, std:0.0000 ---- mae:0.2084, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64
+mse:0.1515, std:0.0000 ---- mae:0.1872, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64
+mse:0.3592, std:0.0000 ---- mae:0.3636, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64
+mse:0.2421, std:0.0000 ---- mae:0.2982, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64
+mse:0.3013, std:0.0000 ---- mae:0.3183, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64
+mse:0.1484, std:0.0000 ---- mae:0.2277, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64
+mse:0.1469, std:0.0000 ---- mae:0.2557, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64
+mse:0.1634, std:0.0000 ---- mae:0.1972, std:0.0000
+traffic_zeroshot_512_pred_64_512_retrieve_64
+mse:0.3683, std:0.0000 ---- mae:0.2340, std:0.0000
+solar_zeroshot_512_pred_64_512_retrieve_64
+mse:0.4569, std:0.0000 ---- mae:0.3334, std:0.0000
+PEMS08_zeroshot_512_pred_64_512_retrieve_64
+mse:0.3576, std:0.0000 ---- mae:0.4021, std:0.0000
+AQWan_zeroshot_512_pred_64_512_retrieve_64
+mse:0.6821, std:0.0000 ---- mae:0.4196, std:0.0000

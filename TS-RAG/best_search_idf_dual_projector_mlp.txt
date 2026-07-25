@@ -1,0 +1,16 @@
+augment_mode=idf_dual_projector_mlp
+checkpoint_dir=/home/wangbing/fenglei/TSRAG-clean/TS-RAG-main/TS-RAG/checkpoints/data50m_idf_dual_projector_mlp_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_lambda0_0_tau0.1
+zeroshot_script=script/zeroshot_chronos_idf_dual_projector_mlp.sh
+
+model_steps1999.pth mse=0.366300 mae=0.373700
+model_steps2999.pth mse=0.365300 mae=0.369000
+model_steps3999.pth mse=0.356900 mae=0.366500
+model_steps4999.pth mse=0.357100 mae=0.369400
+model_steps5999.pth mse=0.368100 mae=0.371500
+model_steps6999.pth mse=0.368400 mae=0.371400
+model_steps7999.pth mse=0.361700 mae=0.368100
+model_steps8999.pth mse=0.362000 mae=0.370000
+model_steps9999.pth mse=0.352300 mae=0.365500
+model_steps999.pth mse=0.367800 mae=0.375300
+
+BEST checkpoint=model_steps9999.pth mse=0.352300 mae=0.365500
