@@ -486,7 +486,16 @@ if args.freeze_chronos_bolt:
         param.requires_grad = False
     # unfreeze the specified layers
     for name, param in model.named_parameters():
-        param.requires_grad = any(layer in name for layer in layers_to_unfreeze)
+        if name.startswith('backbone.'):
+            # Moirai2's own backbone submodule names its internal transformer FFN
+            # sublayer 'ffn' (uni2ts TransformerEncoderLayer.ffn), which collides
+            # with the substring match below and would otherwise unfreeze it --
+            # the Moirai2 backbone (everything under the 'backbone.' prefix, see
+            # models/Moirai2.py) must always stay frozen regardless of
+            # layers_to_unfreeze.
+            param.requires_grad = False
+        else:
+            param.requires_grad = any(layer in name for layer in layers_to_unfreeze)
 
 trainable_param_names = [name for name, param in model.named_parameters() if param.requires_grad]
 print('Trainable parameters:')
