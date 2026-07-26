@@ -402,6 +402,12 @@ def test_retrieve(model, test_data, test_loader, args, device):
                 outputs = outputs.quantile_preds.to(batch_x)
                 central_idx = torch.abs(torch.tensor(quantiles) - 0.5).argmin()
                 outputs = outputs[:, central_idx]
+            elif args.model == 'Moirai2Retrieve':
+                outputs = model(context = batch_x,
+                                target = batch_y,
+                                retrieved_seq = retrieved_seqs,
+                                distances = distances)                  # Moirai2RiddeOutput
+                outputs = outputs.point_forecast
             elif args.model == 'MOMENTRetrieve':
                 outputs = model(x_enc=batch_x.float().unsqueeze(1), retrieved_seq=retrieved_seqs.float())
                 outputs = outputs.forecast.squeeze(1)

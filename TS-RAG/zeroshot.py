@@ -22,6 +22,7 @@ from utils.tools import test, test_retrieve
 from retrieve import do_retrieve, load_database, frequency_dict
 from data_provider.data_factory import data_provider
 from models.ChronosBolt import ChronosBoltPipeline, ChronosBoltModelForForecastingWithRetrieval
+from models.Moirai2 import Moirai2ModelForForecastingWithRetrieval
 warnings.filterwarnings('ignore')
 
 fix_seed = 2021
@@ -260,6 +261,30 @@ elif args.model == 'ChronosBoltRetrieve':
             new_state_dict[new_key] = value
         msg = model.load_state_dict(new_state_dict, strict=False)
         print("Loaded IDF checkpoint:", best_model_path)
+        print("Missing keys:", msg.missing_keys[:10])
+        print("Unexpected keys:", msg.unexpected_keys[:10])
+    else:
+        print("Running baseline without retrieval checkpoint.")
+    model.to(device)
+elif args.model == 'Moirai2Retrieve':
+    # Backbone (Salesforce/moirai-2.0-R-small) is loaded and frozen inside
+    # Moirai2ModelForForecastingWithRetrieval.__init__ itself; args.augment_mode
+    # / args.pretrained_model_path are not read by this model (see
+    # models/Moirai2.py and pretrain.py's Moirai2Retrieve branch for the same
+    # note).
+    model = Moirai2ModelForForecastingWithRetrieval(
+        context_length=args.seq_len,
+        prediction_length=args.pred_len,
+    )
+    if args.augment_mode != 'baseline':
+        ckpt = torch.load(best_model_path, map_location="cpu")
+        from collections import OrderedDict
+        new_state_dict = OrderedDict()
+        for key, value in ckpt.items():
+            new_key = key.replace("module.", "")
+            new_state_dict[new_key] = value
+        msg = model.load_state_dict(new_state_dict, strict=False)
+        print("Loaded RIDDE checkpoint:", best_model_path)
         print("Missing keys:", msg.missing_keys[:10])
         print("Unexpected keys:", msg.unexpected_keys[:10])
     else:
