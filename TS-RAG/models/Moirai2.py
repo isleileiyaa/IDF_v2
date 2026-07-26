@@ -1,21 +1,34 @@
 """
-RIDDE retrieval-fusion head on top of a frozen Moirai 2.0 backbone.
+Retrieval-fusion heads on top of a frozen Moirai 2.0 backbone.
 
-Unlike the Chronos-Bolt path (models/ChronosBolt.py, augment='idf_clean_dis'),
-f_inv/f_dyn/f_g here output a plain point forecast (dim = prediction_length)
-trained with L2 loss (paper Eq. 14), instead of Chronos-Bolt's 9-quantile
-output. This keeps the RIDDE head's output format independent of whatever
-format the backbone itself produces, so swapping backbones again later only
-requires adapting how `q` (a d_model-dim query vector) is obtained.
+Two variants live here, both following the same philosophy: whatever the
+fusion mechanism, the head outputs a plain point forecast (dim =
+prediction_length) trained with L2 loss, instead of relying on the
+backbone's own output format (Chronos-Bolt's 9-quantile head). This keeps
+each head's output format independent of the backbone, so swapping backbones
+again later only requires adapting how `q` (a d_model-dim query vector) is
+obtained.
+
+- Moirai2ModelForForecastingWithRetrieval: ports the RIDDE / idf_clean_dis
+  fusion (models/ChronosBolt.py, augment='idf_clean_dis') -- learned
+  retrieval scoring + fuse/routing gates + separate inv/dyn heads.
+- Moirai2MoEModelForForecastingWithRetrieval: ports the plain 'moe' fusion
+  (models/ChronosBolt.py, augment='moe', see _run_moe_fusion) -- self-attention
+  over [query, retrieved_y_1, ..., retrieved_y_M] + per-token gate + softmax
+  weighted sum, residual-added back onto the query.
+
+Both share Moirai2RetrievalBackbone for backbone loading/freezing and `q`
+extraction (a forward hook on self.backbone.encoder -- Moirai2Module.forward()
+itself is never reimplemented).
 
 The backbone (Salesforce/moirai-2.0-R-small) is loaded from a vendored,
 dependency-trimmed subset of uni2ts -- see TS-RAG/third_party/README.md for
 why it's vendored instead of `pip install uni2ts`. The backbone is always
-frozen; only the layers listed in NEW_HEAD_LAYER_NAMES are trainable. Those
-names don't overlap with the backbone's own parameter names (all prefixed
+frozen; only each subclass's own head layers are trainable. Those names
+don't overlap with the backbone's own parameter names (all prefixed
 `backbone.`), so the existing "freeze everything, then unfreeze by layer-name
 substring match" logic in pretrain.py (see --freeze_chronos_bolt) works on
-this model unmodified.
+these models unmodified.
 """
 
 import os
@@ -35,7 +48,7 @@ from uni2ts.model.moirai2 import Moirai2Module  # noqa: E402
 
 from .ChronosBolt import InstanceNorm  # noqa: E402
 
-NEW_HEAD_LAYER_NAMES = [
+RIDDE_HEAD_LAYER_NAMES = [
     "encode_mlp",
     "ret_score_head",
     "fuse_gate",
@@ -44,24 +57,25 @@ NEW_HEAD_LAYER_NAMES = [
     "dyn_pred_head_clean",
     "final_pred_head",
 ]
+# kept for backward compatibility with existing imports (sanity_check_moirai2.py)
+NEW_HEAD_LAYER_NAMES = RIDDE_HEAD_LAYER_NAMES
+
+MOE_HEAD_LAYER_NAMES = [
+    "encode_mlp",
+    "mha",
+    "ffn",
+    "gate_layer",
+    "point_pred_head",
+]
 
 
-@dataclass
-class Moirai2RiddeOutput:
-    loss: Optional[torch.Tensor]
-    point_forecast: torch.Tensor  # (B, L), de-normalized (query's own scale)
-    # intermediates, kept around purely for the sanity-check script / debugging
-    q: torch.Tensor
-    h_ret: torch.Tensor
-    h: torch.Tensor
-    z_inv: torch.Tensor
-    z_dyn: torch.Tensor
-    y_inv: torch.Tensor
-    y_dyn: torch.Tensor
-    final_pred: torch.Tensor  # (B, L), normalized (query loc/scale) space, pre inverse-transform
+class Moirai2RetrievalBackbone(nn.Module):
+    """
+    Shared plumbing: loads + freezes the Moirai2 backbone, extracts the query
+    hidden state `q` via a forward hook, and normalizes retrieved windows.
+    Subclasses add their own fusion head + forward().
+    """
 
-
-class Moirai2ModelForForecastingWithRetrieval(nn.Module):
     def __init__(
         self,
         pretrained_model_name: str = "Salesforce/moirai-2.0-R-small",
@@ -85,21 +99,8 @@ class Moirai2ModelForForecastingWithRetrieval(nn.Module):
         self.context_length = context_length
         self.context_token_length = context_length // patch_size
         self.prediction_length = prediction_length
-        L = prediction_length
 
         self.instance_norm = InstanceNorm()
-
-        self.encode_mlp = nn.Sequential(
-            nn.Linear(L, d),
-            nn.ReLU(),
-            nn.Linear(d, d),
-        )
-        self.ret_score_head = nn.Linear(d * 2, 1)
-        self.fuse_gate = nn.Linear(d * 2, d)
-        self.routing_gate = nn.Linear(d * 2, d)
-        self.inv_pred_head = nn.Linear(d, L)
-        self.dyn_pred_head_clean = nn.Linear(d, L)
-        self.final_pred_head = nn.Linear(L * 2, L)
 
         self._reprs = None
         self.backbone.encoder.register_forward_hook(self._capture_reprs_hook)
@@ -143,6 +144,59 @@ class Moirai2ModelForForecastingWithRetrieval(nn.Module):
         q = reprs[:, self.context_token_length - 1, :]
         return q
 
+    def normalize_retrieved_y(self, retrieved_seq: torch.Tensor):
+        """
+        retrieved_seq: (B, top_k, r_L) raw retrieved x+y windows, r_L >= prediction_length.
+        Returns (retrieved_y (B, M, L) in retrieved-window-normalized space, M).
+        """
+        L = self.prediction_length
+        retrieved_seq_norm, _ = self.instance_norm(retrieved_seq)
+        r_B, r_M, r_L = retrieved_seq_norm.shape
+        assert r_L >= L, f"retrieved window length ({r_L}) must be >= prediction_length ({L})"
+        retrieved_y = retrieved_seq_norm[..., -L:]  # (B, M, L)
+        return retrieved_y, r_M
+
+
+@dataclass
+class Moirai2RiddeOutput:
+    loss: Optional[torch.Tensor]
+    point_forecast: torch.Tensor  # (B, L), de-normalized (query's own scale)
+    # intermediates, kept around purely for the sanity-check script / debugging
+    q: torch.Tensor
+    h_ret: torch.Tensor
+    h: torch.Tensor
+    z_inv: torch.Tensor
+    z_dyn: torch.Tensor
+    y_inv: torch.Tensor
+    y_dyn: torch.Tensor
+    final_pred: torch.Tensor  # (B, L), normalized (query loc/scale) space, pre inverse-transform
+
+
+class Moirai2ModelForForecastingWithRetrieval(Moirai2RetrievalBackbone):
+    """RIDDE (idf_clean_dis) fusion head, ported to a frozen Moirai2 backbone."""
+
+    def __init__(
+        self,
+        pretrained_model_name: str = "Salesforce/moirai-2.0-R-small",
+        context_length: int = 512,
+        prediction_length: int = 64,
+    ):
+        super().__init__(pretrained_model_name, context_length, prediction_length)
+        d = self.d_model
+        L = self.prediction_length
+
+        self.encode_mlp = nn.Sequential(
+            nn.Linear(L, d),
+            nn.ReLU(),
+            nn.Linear(d, d),
+        )
+        self.ret_score_head = nn.Linear(d * 2, 1)
+        self.fuse_gate = nn.Linear(d * 2, d)
+        self.routing_gate = nn.Linear(d * 2, d)
+        self.inv_pred_head = nn.Linear(d, L)
+        self.dyn_pred_head_clean = nn.Linear(d, L)
+        self.final_pred_head = nn.Linear(L * 2, L)
+
     def forward(
         self,
         context: torch.Tensor,
@@ -158,19 +212,13 @@ class Moirai2ModelForForecastingWithRetrieval(nn.Module):
             of using `distances` directly)
         target: optional (B, prediction_length) raw ground-truth future, for L2 loss
         """
-        L = self.prediction_length
-
         # query's own normalization stats -- used only to normalize `target` for the
         # loss and to de-normalize the final prediction, mirroring the Chronos-Bolt
         # idf_clean_dis convention (loss computed in query-normalized space).
         _, loc_scale = self.instance_norm(context)
 
         q = self.get_query_repr(context)  # (B, d)
-
-        retrieved_seq_norm, _ = self.instance_norm(retrieved_seq)
-        r_B, r_M, r_L = retrieved_seq_norm.shape
-        assert r_L >= L, f"retrieved window length ({r_L}) must be >= prediction_length ({L})"
-        retrieved_y = retrieved_seq_norm[..., -L:]  # (B, M, L)
+        retrieved_y, r_M = self.normalize_retrieved_y(retrieved_seq)  # (B, M, L)
 
         retrieved_y_enc = torch.stack(
             [self.encode_mlp(retrieved_y[:, i, :]) for i in range(r_M)], dim=1
@@ -213,5 +261,106 @@ class Moirai2ModelForForecastingWithRetrieval(nn.Module):
             z_dyn=z_dyn,
             y_inv=y_inv,
             y_dyn=y_dyn,
+            final_pred=final_pred,
+        )
+
+
+@dataclass
+class Moirai2MoEOutput:
+    loss: Optional[torch.Tensor]
+    point_forecast: torch.Tensor  # (B, L), de-normalized (query's own scale)
+    q: torch.Tensor
+    retrieved_y_enc: torch.Tensor  # (B, M, d)
+    att_output: torch.Tensor  # (B, 1+M, d)
+    alpha: torch.Tensor  # (B, 1+M, 1)
+    h: torch.Tensor  # (B, d), fused representation after residual add
+    final_pred: torch.Tensor  # (B, L), normalized space, pre inverse-transform
+
+
+class Moirai2MoEModelForForecastingWithRetrieval(Moirai2RetrievalBackbone):
+    """
+    Plain 'moe' fusion (models/ChronosBolt.py::_run_moe_fusion), ported to a
+    frozen Moirai2 backbone: self-attention over [q, retrieved_y_1..M],
+    per-token sigmoid gate + softmax, weighted sum residual-added onto q,
+    then a single Linear head -> point forecast (instead of the Chronos-Bolt
+    path's native 9-quantile output_patch_embedding).
+    """
+
+    def __init__(
+        self,
+        pretrained_model_name: str = "Salesforce/moirai-2.0-R-small",
+        context_length: int = 512,
+        prediction_length: int = 64,
+    ):
+        super().__init__(pretrained_model_name, context_length, prediction_length)
+        d = self.d_model
+        L = self.prediction_length
+
+        self.encode_mlp = nn.Sequential(
+            nn.Linear(L, d),
+            nn.ReLU(),
+            nn.Linear(d, d),
+        )
+        self.mha = nn.MultiheadAttention(embed_dim=d, num_heads=8, batch_first=True)
+        self.ffn = nn.Sequential(
+            nn.Linear(d, d),
+            nn.ReLU(),
+            nn.Linear(d, d),
+        )
+        self.gate_layer = nn.Sequential(
+            nn.Linear(d, d),
+            nn.ReLU(),
+            nn.Linear(d, 1),
+        )
+        self.dropout = nn.Dropout(p=0.2)
+        self.point_pred_head = nn.Linear(d, L)
+
+    def forward(
+        self,
+        context: torch.Tensor,
+        retrieved_seq: torch.Tensor,
+        distances: Optional[torch.Tensor] = None,
+        target: Optional[torch.Tensor] = None,
+    ) -> Moirai2MoEOutput:
+        _, loc_scale = self.instance_norm(context)
+
+        q = self.get_query_repr(context)  # (B, d)
+        retrieved_y, r_M = self.normalize_retrieved_y(retrieved_seq)  # (B, M, L)
+
+        retrieved_y_enc = torch.stack(
+            [self.encode_mlp(retrieved_y[:, i, :]) for i in range(r_M)], dim=1
+        )  # (B, M, d)
+
+        q_seq = q.unsqueeze(1)  # (B, 1, d)
+        all_enc = torch.cat([q_seq, retrieved_y_enc], dim=1)  # (B, 1+M, d)
+        att_output, _ = self.mha(all_enc, all_enc, all_enc)
+        att_output = all_enc + att_output
+        att_output = att_output + self.dropout(self.ffn(att_output))
+
+        scores = torch.stack(
+            [torch.sigmoid(self.gate_layer(att_output[:, i, :])) for i in range(r_M + 1)], dim=1
+        )  # (B, 1+M, 1)
+        alpha = F.softmax(scores, dim=1)
+        fused = torch.sum(alpha * att_output, dim=1)  # (B, d)
+        fused = self.dropout(fused)
+        h = q + fused  # (B, d) -- residual add, mirrors Chronos-Bolt's sequence_output + fused.unsqueeze(1)
+
+        final_pred = self.point_pred_head(h)  # (B, L), normalized space
+
+        loss = None
+        if target is not None:
+            target_norm, _ = self.instance_norm(target, loc_scale)
+            loss = F.mse_loss(final_pred, target_norm)
+
+        point_forecast = self.instance_norm.inverse(final_pred, loc_scale)
+
+        return Moirai2MoEOutput(
+            loss=loss,
+            point_forecast=point_forecast,
+            q=q,
+            retrieved_y_enc=retrieved_y_enc,
+            att_output=att_output,
+            alpha=alpha,
+            h=h,
             final_pred=final_pred,
         )

@@ -1,7 +1,7 @@
 export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
 
 save_suffix="${SAVE_SUFFIX:-}"
-filename="${SAVE_FILE_NAME:-zeroshot_moirai2_idf_clean_dis${save_suffix:+_${save_suffix}}.txt}"
+filename="${SAVE_FILE_NAME:-zeroshot_moirai2_moe${save_suffix:+_${save_suffix}}.txt}"
 model=Moirai2Retrieve
 gpu_loc=0
 run_file="/home/fenglei/TS-RAG-main/TS-RAG/zeroshot.py"
@@ -9,19 +9,19 @@ seq_len=512
 pred_len=64
 datasets="${DATASETS:-ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate electricity}"
 lookback_length=512
-augment_mode=idf_clean_dis
+augment_mode=moe
 top_k=10
 
 batch_size=256
 retrieval_database_dir="/home/fenglei/TS-RAG-main/retrieval_database/"
 ett_root_path="${ETT_ROOT_PATH:-/home/fenglei/TS-RAG-main/datasets/ETT-small/}"
 custom_datasets_root="${CUSTOM_DATASETS_ROOT:-/home/fenglei/TS-RAG-main/datasets/}"
-# NOTE: Moirai2ModelForForecastingWithRetrieval does not read
+# NOTE: Moirai2MoEModelForForecastingWithRetrieval does not read
 # --pretrained_model_path (its backbone is always
 # Salesforce/moirai-2.0-R-small, loaded from HuggingFace Hub inside the model
 # class itself) -- unlike the Chronos-Bolt zeroshot script, no
 # pretrained_model_path arg is passed below.
-default_checkpoint_model_path="/home/fenglei/TS-RAG-main/TS-RAG/checkpoints/moirai2_idf_clean_dis_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_final.pth"
+default_checkpoint_model_path="/home/fenglei/TS-RAG-main/TS-RAG/checkpoints/moirai2_moe_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_final.pth"
 checkpoint_model_path="${CHECKPOINT_MODEL_PATH:-$default_checkpoint_model_path}"
 echo "checkpoint_model_path=$checkpoint_model_path"
 
@@ -86,7 +86,7 @@ fi
 python $run_file \
     --root_path "$root_path" \
     --data_path "${dataset}.csv" \
-    --model_id "${dataset}_zeroshot_${seq_len}_pred_${pred_len}_${lookback_length}_retrieve_${pred_len}_moirai2_idf_clean_dis" \
+    --model_id "${dataset}_zeroshot_${seq_len}_pred_${pred_len}_${lookback_length}_retrieve_${pred_len}_moirai2_moe" \
     --data $data \
     --top_k $top_k \
     --checkpoint_model_path $checkpoint_model_path \

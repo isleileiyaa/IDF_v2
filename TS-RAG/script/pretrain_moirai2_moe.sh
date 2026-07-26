@@ -4,9 +4,10 @@ top_k=10
 retrieve_lookback_length=512
 retrieval_database_path="${PRETRAIN_RETRIEVAL_DATABASE_PATH:-/home/fenglei/TS-RAG-main/retrieval_database/pretrain/retrieval_database_${retrieve_lookback_length}.parquet}"
 # augment_mode selects which fusion head pretrain.py attaches to the frozen
-# Moirai2 backbone (see models/Moirai2.py): 'idf_clean_dis' for the RIDDE
-# port, 'moe' for the plain moe-fusion port (script/pretrain_moirai2_moe.sh).
-augment_mode=idf_clean_dis
+# Moirai2 backbone (see models/Moirai2.py): 'moe' for the plain moe-fusion
+# port (mirrors models/ChronosBolt.py's _run_moe_fusion), 'idf_clean_dis' for
+# the RIDDE port (script/pretrain_moirai2_idf_clean_dis.sh).
+augment_mode=moe
 context_length=512
 prediction_length=64
 checkpoints="${CHECKPOINTS_DIR:-/home/fenglei/TS-RAG-main/TS-RAG/checkpoints}"
@@ -22,7 +23,7 @@ batch_size=256
 shuffle_buffer_length=${SHUFFLE_BUFFER_LENGTH:-10000}
 
 model_id="moirai2_${augment_mode}_${context_length}_pred${prediction_length}_lookback${retrieve_lookback_length}_top${top_k}_lr${lr}_drop${drop_prob}_${optimizer}_cosanneal_step${train_steps}_bs${batch_size}"
-echo "Launching Moirai2 RIDDE pretrain"
+echo "Launching Moirai2 moe pretrain"
 echo "model_id=$model_id"
 python $run_file \
     --model_id $model_id \

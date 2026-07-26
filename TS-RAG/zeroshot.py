@@ -22,7 +22,7 @@ from utils.tools import test, test_retrieve
 from retrieve import do_retrieve, load_database, frequency_dict
 from data_provider.data_factory import data_provider
 from models.ChronosBolt import ChronosBoltPipeline, ChronosBoltModelForForecastingWithRetrieval
-from models.Moirai2 import Moirai2ModelForForecastingWithRetrieval
+from models.Moirai2 import Moirai2ModelForForecastingWithRetrieval, Moirai2MoEModelForForecastingWithRetrieval
 warnings.filterwarnings('ignore')
 
 fix_seed = 2021
@@ -267,15 +267,24 @@ elif args.model == 'ChronosBoltRetrieve':
         print("Running baseline without retrieval checkpoint.")
     model.to(device)
 elif args.model == 'Moirai2Retrieve':
-    # Backbone (Salesforce/moirai-2.0-R-small) is loaded and frozen inside
-    # Moirai2ModelForForecastingWithRetrieval.__init__ itself; args.augment_mode
-    # / args.pretrained_model_path are not read by this model (see
-    # models/Moirai2.py and pretrain.py's Moirai2Retrieve branch for the same
-    # note).
-    model = Moirai2ModelForForecastingWithRetrieval(
-        context_length=args.seq_len,
-        prediction_length=args.pred_len,
-    )
+    # Backbone (Salesforce/moirai-2.0-R-small) is loaded and frozen inside the
+    # model class itself; args.pretrained_model_path is not read by either
+    # variant. args.augment_mode selects which fusion head to use, mirroring
+    # pretrain.py's Moirai2Retrieve branch.
+    if args.augment_mode == 'idf_clean_dis':
+        model = Moirai2ModelForForecastingWithRetrieval(
+            context_length=args.seq_len,
+            prediction_length=args.pred_len,
+        )
+    elif args.augment_mode == 'moe':
+        model = Moirai2MoEModelForForecastingWithRetrieval(
+            context_length=args.seq_len,
+            prediction_length=args.pred_len,
+        )
+    else:
+        raise ValueError(
+            f"Moirai2Retrieve only supports augment_mode in ['idf_clean_dis', 'moe'], got {args.augment_mode!r}"
+        )
     if args.augment_mode != 'baseline':
         ckpt = torch.load(best_model_path, map_location="cpu")
         from collections import OrderedDict

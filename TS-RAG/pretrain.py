@@ -16,7 +16,7 @@ from torch.nn.utils import clip_grad_norm_
 from models.moment import MOMENTPipelineWithRetrieval
 from dataset import CustomPretrainDataset, Retriever_for_pretrain
 from models.ChronosBolt import ChronosBoltModelForForecasting, ChronosBoltModelForForecastingWithRetrieval
-from models.Moirai2 import Moirai2ModelForForecastingWithRetrieval
+from models.Moirai2 import Moirai2ModelForForecastingWithRetrieval, Moirai2MoEModelForForecastingWithRetrieval
     
 warnings.filterwarnings('ignore')
 
@@ -274,15 +274,23 @@ elif args.model == 'Moirai2Retrieve':
     # Backbone (Salesforce/moirai-2.0-R-small) is loaded and frozen inside the
     # model class itself (requires_grad=False set in __init__); no checkpoint
     # load / init_extra_weights needed here, unlike ChronosBoltRetrieve.
-    # args.augment_mode is not read by this model -- the RIDDE head here is a
-    # single fixed architecture (point-forecast, L2 loss). It's still fine to
-    # pass --augment_mode idf_clean_dis alongside --freeze_chronos_bolt since
-    # the new-head layer names match, but it has no effect on model
-    # construction, and the backbone stays frozen either way.
-    model = Moirai2ModelForForecastingWithRetrieval(
-        context_length=args.context_length,
-        prediction_length=args.prediction_length,
-    )
+    # args.augment_mode selects which fusion head to attach on top of the
+    # frozen backbone -- both output a point forecast (L2 loss), unlike the
+    # Chronos-Bolt path's 9-quantile heads.
+    if args.augment_mode == 'idf_clean_dis':
+        model = Moirai2ModelForForecastingWithRetrieval(
+            context_length=args.context_length,
+            prediction_length=args.prediction_length,
+        )
+    elif args.augment_mode == 'moe':
+        model = Moirai2MoEModelForForecastingWithRetrieval(
+            context_length=args.context_length,
+            prediction_length=args.prediction_length,
+        )
+    else:
+        raise ValueError(
+            f"Moirai2Retrieve only supports augment_mode in ['idf_clean_dis', 'moe'], got {args.augment_mode!r}"
+        )
 elif args.model == 'MOMENTRetrieve':
     MOMENT_MODEL_PATH = "AutonLab/MOMENT-1-large"
     model = MOMENTPipelineWithRetrieval.from_pretrained(MOMENT_MODEL_PATH,
@@ -314,6 +322,12 @@ elif args.optimizer == 'adamw':
 # freeze params
 if args.freeze_chronos_bolt:
     layers_to_unfreeze = ['gate_layer', 'encode_mlp', 'mha', 'ffn']
+    if args.model == 'Moirai2Retrieve' and args.augment_mode == 'moe':
+        # Moirai2MoEModelForForecastingWithRetrieval adds its own point-forecast
+        # head (point_pred_head) instead of reusing a native backbone head, unlike
+        # the Chronos-Bolt 'moe' path -- the base layers_to_unfreeze list above
+        # doesn't cover it.
+        layers_to_unfreeze.append('point_pred_head')
     if args.augment_mode == 'moe3':
         if args.model == 'ChronosBoltRetrieve':
             layers_to_unfreeze.append('output_patch_embedding')
@@ -540,7 +554,7 @@ for i, batch in pbar:
         outputs = model(context = batch['x'].float(),
                         target = batch['y'].float(),
                         retrieved_seq = retrieved_seqs.float(),
-                        distances = batch['distances'].float())                  # Moirai2RiddeOutput
+                        distances = batch['distances'].float())                  # Moirai2RiddeOutput / Moirai2MoEOutput
     elif args.model == 'MOMENTRetrieve':
         outputs = model(x_enc=batch['x'].float().unsqueeze(1), retrieved_seq=retrieved_seqs.float())
         outputs = outputs.forecast.squeeze(1)                                                     
