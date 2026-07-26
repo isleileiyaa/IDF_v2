@@ -16,6 +16,7 @@ from torch.nn.utils import clip_grad_norm_
 from models.moment import MOMENTPipelineWithRetrieval
 from dataset import CustomPretrainDataset, Retriever_for_pretrain
 from models.ChronosBolt import ChronosBoltModelForForecasting, ChronosBoltModelForForecastingWithRetrieval
+from models.Moirai2 import Moirai2ModelForForecastingWithRetrieval
     
 warnings.filterwarnings('ignore')
 
@@ -269,6 +270,19 @@ elif args.model == 'ChronosBoltRetrieve':
             model.f_inv,
             model.f_dyn,
         ])
+elif args.model == 'Moirai2Retrieve':
+    # Backbone (Salesforce/moirai-2.0-R-small) is loaded and frozen inside the
+    # model class itself (requires_grad=False set in __init__); no checkpoint
+    # load / init_extra_weights needed here, unlike ChronosBoltRetrieve.
+    # args.augment_mode is not read by this model -- the RIDDE head here is a
+    # single fixed architecture (point-forecast, L2 loss). It's still fine to
+    # pass --augment_mode idf_clean_dis alongside --freeze_chronos_bolt since
+    # the new-head layer names match, but it has no effect on model
+    # construction, and the backbone stays frozen either way.
+    model = Moirai2ModelForForecastingWithRetrieval(
+        context_length=args.context_length,
+        prediction_length=args.prediction_length,
+    )
 elif args.model == 'MOMENTRetrieve':
     MOMENT_MODEL_PATH = "AutonLab/MOMENT-1-large"
     model = MOMENTPipelineWithRetrieval.from_pretrained(MOMENT_MODEL_PATH,
@@ -518,10 +532,15 @@ for i, batch in pbar:
         batch['distances'] = batch['distances'].float().to(device)
         retrieved_seqs = retrieved_seqs.float().to(device)
     if args.model == 'ChronosBoltRetrieve':
-        outputs = model(context = batch['x'].float(), 
+        outputs = model(context = batch['x'].float(),
                         target = batch['y'].float(),
-                        retrieved_seq = retrieved_seqs.float(), 
+                        retrieved_seq = retrieved_seqs.float(),
                         distances = batch['distances'].float())                  # ChronosBoltOutput
+    elif args.model == 'Moirai2Retrieve':
+        outputs = model(context = batch['x'].float(),
+                        target = batch['y'].float(),
+                        retrieved_seq = retrieved_seqs.float(),
+                        distances = batch['distances'].float())                  # Moirai2RiddeOutput
     elif args.model == 'MOMENTRetrieve':
         outputs = model(x_enc=batch['x'].float().unsqueeze(1), retrieved_seq=retrieved_seqs.float())
         outputs = outputs.forecast.squeeze(1)                                                     
