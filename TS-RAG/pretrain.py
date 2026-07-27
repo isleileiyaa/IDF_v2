@@ -323,11 +323,11 @@ elif args.optimizer == 'adamw':
 if args.freeze_chronos_bolt:
     layers_to_unfreeze = ['gate_layer', 'encode_mlp', 'mha', 'ffn']
     if args.model == 'Moirai2Retrieve' and args.augment_mode == 'moe':
-        # Moirai2MoEModelForForecastingWithRetrieval adds its own point-forecast
-        # head (point_pred_head) instead of reusing a native backbone head, unlike
-        # the Chronos-Bolt 'moe' path -- the base layers_to_unfreeze list above
-        # doesn't cover it.
-        layers_to_unfreeze.append('point_pred_head')
+        # Moirai2MoEModelForForecastingWithRetrieval adds its own quantile
+        # head (quantile_pred_head) instead of reusing a native backbone head,
+        # unlike the Chronos-Bolt 'moe' path -- the base layers_to_unfreeze
+        # list above doesn't cover it.
+        layers_to_unfreeze.append('quantile_pred_head')
     if args.augment_mode == 'moe3':
         if args.model == 'ChronosBoltRetrieve':
             layers_to_unfreeze.append('output_patch_embedding')

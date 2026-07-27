@@ -12,9 +12,14 @@ prediction_length=64
 checkpoints="${CHECKPOINTS_DIR:-/home/fenglei/TS-RAG-main/TS-RAG/checkpoints}"
 data_path="${PRETRAIN_DATA_PATH:-/home/fenglei/TS-RAG-main/datasets/pretrain/pretrain_pairs_ctx${retrieve_lookback_length}}"
 train_steps=${TRAIN_STEPS:-10000}
-evaluation_steps=${EVALUATION_STEPS:-10000}
+# evaluation_steps < train_steps so the CosineAnnealingLR scheduler actually
+# fires more than once and real decay happens over the run (with
+# evaluation_steps==train_steps it barely moves). lr tuned via a 4-round,
+# 23-config sweep on 6 datasets (ETTh1/ETTh2/ETTm1/ETTm2/weather/exchange_rate):
+# lr=0.0003 (old default) -> avg mse 0.2635; lr=0.000015 -> avg mse 0.2380.
+evaluation_steps=${EVALUATION_STEPS:-1000}
 optimizer=adamw
-lr=0.0003
+lr=0.000015
 weight_decay=0.01
 tmax=20
 drop_prob=0.2

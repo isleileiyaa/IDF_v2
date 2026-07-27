@@ -21,7 +21,7 @@ custom_datasets_root="${CUSTOM_DATASETS_ROOT:-/home/fenglei/TS-RAG-main/datasets
 # Salesforce/moirai-2.0-R-small, loaded from HuggingFace Hub inside the model
 # class itself) -- unlike the Chronos-Bolt zeroshot script, no
 # pretrained_model_path arg is passed below.
-default_checkpoint_model_path="/home/fenglei/TS-RAG-main/TS-RAG/checkpoints/moirai2_idf_clean_dis_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_final.pth"
+default_checkpoint_model_path="/home/fenglei/TS-RAG-main/TS-RAG/checkpoints/moirai2_idf_clean_dis_512_pred64_lookback512_top10_lr0.000015_drop0.2_adamw_cosanneal_step10000_bs256_final.pth"
 checkpoint_model_path="${CHECKPOINT_MODEL_PATH:-$default_checkpoint_model_path}"
 echo "checkpoint_model_path=$checkpoint_model_path"
 

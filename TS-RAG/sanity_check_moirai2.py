@@ -4,9 +4,9 @@ Sanity check for models/Moirai2.py -- NOT a training script.
 Builds a small fake batch, runs one full forward pass through
 Moirai2ModelForForecastingWithRetrieval, and prints the shape of every
 intermediate tensor in the RIDDE fusion chain (q -> h_ret -> h -> z_inv/z_dyn
--> y_inv/y_dyn -> final_pred -> point_forecast), plus a frozen/trainable
-parameter breakdown. Meant to catch shape mistakes / silent broadcasting in
-seconds, before spending time on a real training run.
+-> y_inv/y_dyn -> quantile_preds -> point_forecast (median quantile)), plus a
+frozen/trainable parameter breakdown. Meant to catch shape mistakes / silent
+broadcasting in seconds, before spending time on a real training run.
 """
 
 import torch
@@ -63,20 +63,21 @@ def main():
     out = model(context=context, retrieved_seq=retrieved_seq, distances=distances, target=target)
 
     print(f"\nintermediate shapes:")
-    for field in ["q", "h_ret", "h", "z_inv", "z_dyn", "y_inv", "y_dyn", "final_pred", "point_forecast"]:
+    for field in ["q", "h_ret", "h", "z_inv", "z_dyn", "y_inv", "y_dyn", "quantile_preds", "point_forecast"]:
         t = getattr(out, field)
         print(f"  {field:15s} {tuple(t.shape)}")
     print(f"  {'loss':15s} {out.loss.item():.6f}")
 
+    NQ = model.num_quantiles
     expected = {
         "q": (BATCH_SIZE, model.d_model),
         "h_ret": (BATCH_SIZE, model.d_model),
         "h": (BATCH_SIZE, model.d_model),
         "z_inv": (BATCH_SIZE, model.d_model),
         "z_dyn": (BATCH_SIZE, model.d_model),
-        "y_inv": (BATCH_SIZE, PREDICTION_LENGTH),
-        "y_dyn": (BATCH_SIZE, PREDICTION_LENGTH),
-        "final_pred": (BATCH_SIZE, PREDICTION_LENGTH),
+        "y_inv": (BATCH_SIZE, NQ, PREDICTION_LENGTH),
+        "y_dyn": (BATCH_SIZE, NQ, PREDICTION_LENGTH),
+        "quantile_preds": (BATCH_SIZE, NQ, PREDICTION_LENGTH),
         "point_forecast": (BATCH_SIZE, PREDICTION_LENGTH),
     }
     for field, exp_shape in expected.items():

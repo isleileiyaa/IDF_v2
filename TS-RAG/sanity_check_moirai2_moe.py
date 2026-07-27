@@ -56,18 +56,19 @@ def main():
     out = model(context=context, retrieved_seq=retrieved_seq, distances=distances, target=target)
 
     print(f"\nintermediate shapes:")
-    for field in ["q", "retrieved_y_enc", "att_output", "alpha", "h", "final_pred", "point_forecast"]:
+    for field in ["q", "retrieved_y_enc", "att_output", "alpha", "h", "quantile_preds", "point_forecast"]:
         t = getattr(out, field)
         print(f"  {field:15s} {tuple(t.shape)}")
     print(f"  {'loss':15s} {out.loss.item():.6f}")
 
+    NQ = model.num_quantiles
     expected = {
         "q": (BATCH_SIZE, model.d_model),
         "retrieved_y_enc": (BATCH_SIZE, TOP_K, model.d_model),
         "att_output": (BATCH_SIZE, TOP_K + 1, model.d_model),
         "alpha": (BATCH_SIZE, TOP_K + 1, 1),
         "h": (BATCH_SIZE, model.d_model),
-        "final_pred": (BATCH_SIZE, PREDICTION_LENGTH),
+        "quantile_preds": (BATCH_SIZE, NQ, PREDICTION_LENGTH),
         "point_forecast": (BATCH_SIZE, PREDICTION_LENGTH),
     }
     for field, exp_shape in expected.items():

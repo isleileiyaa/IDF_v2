@@ -1,13 +1,11 @@
 """
 Retrieval-fusion heads on top of a frozen Moirai 2.0 backbone.
 
-Two variants live here, both following the same philosophy: whatever the
-fusion mechanism, the head outputs a plain point forecast (dim =
-prediction_length) trained with L2 loss, instead of relying on the
-backbone's own output format (Chronos-Bolt's 9-quantile head). This keeps
-each head's output format independent of the backbone, so swapping backbones
-again later only requires adapting how `q` (a d_model-dim query vector) is
-obtained.
+Two variants live here, both following the same philosophy as the original
+Chronos-Bolt-backed methods they port: the head outputs a 9-quantile
+distribution over the forecast horizon (dim = num_quantiles *
+prediction_length), trained with the same pinball/quantile loss Chronos-Bolt
+uses, instead of the backbone's own native output format.
 
 - Moirai2ModelForForecastingWithRetrieval: ports the RIDDE / idf_clean_dis
   fusion (models/ChronosBolt.py, augment='idf_clean_dis') -- learned
@@ -17,9 +15,9 @@ obtained.
   over [query, retrieved_y_1, ..., retrieved_y_M] + per-token gate + softmax
   weighted sum, residual-added back onto the query.
 
-Both share Moirai2RetrievalBackbone for backbone loading/freezing and `q`
+Both share Moirai2RetrievalBackbone for backbone loading/freezing, `q`
 extraction (a forward hook on self.backbone.encoder -- Moirai2Module.forward()
-itself is never reimplemented).
+itself is never reimplemented), and the quantile loss/de-normalization math.
 
 The backbone (Salesforce/moirai-2.0-R-small) is loaded from a vendored,
 dependency-trimmed subset of uni2ts -- see TS-RAG/third_party/README.md for
@@ -48,6 +46,9 @@ from uni2ts.model.moirai2 import Moirai2Module  # noqa: E402
 
 from .ChronosBolt import InstanceNorm  # noqa: E402
 
+# same 9-level grid Chronos-Bolt trains on (config.chronos_config["quantiles"])
+QUANTILE_LEVELS = (0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9)
+
 RIDDE_HEAD_LAYER_NAMES = [
     "encode_mlp",
     "ret_score_head",
@@ -65,14 +66,15 @@ MOE_HEAD_LAYER_NAMES = [
     "mha",
     "ffn",
     "gate_layer",
-    "point_pred_head",
+    "quantile_pred_head",
 ]
 
 
 class Moirai2RetrievalBackbone(nn.Module):
     """
     Shared plumbing: loads + freezes the Moirai2 backbone, extracts the query
-    hidden state `q` via a forward hook, and normalizes retrieved windows.
+    hidden state `q` via a forward hook, normalizes retrieved windows, and
+    provides the quantile loss / de-normalization math shared by all heads.
     Subclasses add their own fusion head + forward().
     """
 
@@ -99,6 +101,11 @@ class Moirai2RetrievalBackbone(nn.Module):
         self.context_length = context_length
         self.context_token_length = context_length // patch_size
         self.prediction_length = prediction_length
+
+        self.num_quantiles = len(QUANTILE_LEVELS)
+        self.register_buffer("quantiles", torch.tensor(QUANTILE_LEVELS), persistent=False)
+        self.pred_dim = self.num_quantiles * prediction_length
+        self.median_idx = QUANTILE_LEVELS.index(0.5)
 
         self.instance_norm = InstanceNorm()
 
@@ -156,20 +163,59 @@ class Moirai2RetrievalBackbone(nn.Module):
         retrieved_y = retrieved_seq_norm[..., -L:]  # (B, M, L)
         return retrieved_y, r_M
 
+    def quantile_loss(
+        self,
+        quantile_preds: torch.Tensor,
+        target: torch.Tensor,
+        loc_scale,
+    ) -> torch.Tensor:
+        """
+        quantile_preds: (B, num_quantiles, L), query-normalized space.
+        target: (B, L) raw ground truth.
+        loc_scale: the query's own (loc, scale) from self.instance_norm(context).
+        Pinball/quantile loss, same formula and reduction as Chronos-Bolt.
+        """
+        target_norm, _ = self.instance_norm(target, loc_scale)
+        # Guard against near-constant context windows: InstanceNorm's
+        # constant-input check only catches exact equality, so a context
+        # window that's almost-but-not-exactly flat gets a tiny nonzero
+        # scale, and target_norm = (target - loc) / scale can explode to
+        # O(1e4) even though target itself looks unremarkable -- squared,
+        # that's enough to blow up training (observed: loss spiking to
+        # ~170k-4.7M / ~60M and derailing an otherwise-healthy run).
+        # Clamping in normalized space is scale-invariant and a no-op for
+        # well-conditioned data (which stays well within +-100).
+        target_norm = torch.clamp(target_norm, min=-100.0, max=100.0)
+        target_norm = target_norm.unsqueeze(1)  # (B, 1, L), broadcasts against (B, num_quantiles, L)
+
+        loss = 2 * torch.abs(
+            (target_norm - quantile_preds)
+            * ((target_norm <= quantile_preds).float() - self.quantiles.view(1, -1, 1))
+        )
+        loss = loss.mean(dim=-2)  # mean over quantile levels
+        loss = loss.sum(dim=-1)  # sum over the horizon
+        return loss.mean()  # mean over batch
+
+    def denormalize_quantiles(self, quantile_preds: torch.Tensor, loc_scale) -> torch.Tensor:
+        """quantile_preds: (B, num_quantiles, L) normalized -> same shape, query's raw scale."""
+        B = quantile_preds.shape[0]
+        flat = self.instance_norm.inverse(quantile_preds.reshape(B, -1), loc_scale)
+        return flat.view(*quantile_preds.shape)
+
 
 @dataclass
 class Moirai2RiddeOutput:
     loss: Optional[torch.Tensor]
-    point_forecast: torch.Tensor  # (B, L), de-normalized (query's own scale)
+    quantile_preds: torch.Tensor  # (B, num_quantiles, L), de-normalized (query's own scale)
+    point_forecast: torch.Tensor  # (B, L), median quantile, de-normalized
     # intermediates, kept around purely for the sanity-check script / debugging
     q: torch.Tensor
     h_ret: torch.Tensor
     h: torch.Tensor
     z_inv: torch.Tensor
     z_dyn: torch.Tensor
-    y_inv: torch.Tensor
-    y_dyn: torch.Tensor
-    final_pred: torch.Tensor  # (B, L), normalized (query loc/scale) space, pre inverse-transform
+    y_inv: torch.Tensor  # (B, num_quantiles, L), normalized space
+    y_dyn: torch.Tensor  # (B, num_quantiles, L), normalized space
 
 
 class Moirai2ModelForForecastingWithRetrieval(Moirai2RetrievalBackbone):
@@ -184,6 +230,7 @@ class Moirai2ModelForForecastingWithRetrieval(Moirai2RetrievalBackbone):
         super().__init__(pretrained_model_name, context_length, prediction_length)
         d = self.d_model
         L = self.prediction_length
+        pred_dim = self.pred_dim
 
         self.encode_mlp = nn.Sequential(
             nn.Linear(L, d),
@@ -193,9 +240,9 @@ class Moirai2ModelForForecastingWithRetrieval(Moirai2RetrievalBackbone):
         self.ret_score_head = nn.Linear(d * 2, 1)
         self.fuse_gate = nn.Linear(d * 2, d)
         self.routing_gate = nn.Linear(d * 2, d)
-        self.inv_pred_head = nn.Linear(d, L)
-        self.dyn_pred_head_clean = nn.Linear(d, L)
-        self.final_pred_head = nn.Linear(L * 2, L)
+        self.inv_pred_head = nn.Linear(d, pred_dim)
+        self.dyn_pred_head_clean = nn.Linear(d, pred_dim)
+        self.final_pred_head = nn.Linear(pred_dim * 2, pred_dim)
 
     def forward(
         self,
@@ -210,9 +257,12 @@ class Moirai2ModelForForecastingWithRetrieval(Moirai2RetrievalBackbone):
         distances: unused here (kept for interface parity with the Chronos-Bolt path;
             idf_clean_dis learns its own retrieval weighting via ret_score_head instead
             of using `distances` directly)
-        target: optional (B, prediction_length) raw ground-truth future, for L2 loss
+        target: optional (B, prediction_length) raw ground-truth future, for the loss
         """
-        # query's own normalization stats -- used only to normalize `target` for the
+        B = context.shape[0]
+        Q, L = self.num_quantiles, self.prediction_length
+
+        # query's own normalization stats -- used to normalize `target` for the
         # loss and to de-normalize the final prediction, mirroring the Chronos-Bolt
         # idf_clean_dis convention (loss computed in query-normalized space).
         _, loc_scale = self.instance_norm(context)
@@ -238,21 +288,22 @@ class Moirai2ModelForForecastingWithRetrieval(Moirai2RetrievalBackbone):
         z_inv = gamma * h
         z_dyn = (1 - gamma) * h
 
-        y_inv = self.inv_pred_head(z_inv)  # (B, L)
-        y_dyn = self.dyn_pred_head_clean(z_dyn)  # (B, L)
+        y_inv = self.inv_pred_head(z_inv).view(B, Q, L)
+        y_dyn = self.dyn_pred_head_clean(z_dyn).view(B, Q, L)
 
-        final_in = torch.cat([y_inv, y_dyn], dim=-1)  # (B, 2L)
-        final_pred = self.final_pred_head(final_in)  # (B, L), normalized space
+        final_in = torch.cat([y_inv.reshape(B, -1), y_dyn.reshape(B, -1)], dim=-1)  # (B, 2*pred_dim)
+        quantile_preds = self.final_pred_head(final_in).view(B, Q, L)  # normalized space
 
         loss = None
         if target is not None:
-            target_norm, _ = self.instance_norm(target, loc_scale)
-            loss = F.mse_loss(final_pred, target_norm)
+            loss = self.quantile_loss(quantile_preds, target, loc_scale)
 
-        point_forecast = self.instance_norm.inverse(final_pred, loc_scale)
+        quantile_preds = self.denormalize_quantiles(quantile_preds, loc_scale)
+        point_forecast = quantile_preds[:, self.median_idx, :]
 
         return Moirai2RiddeOutput(
             loss=loss,
+            quantile_preds=quantile_preds,
             point_forecast=point_forecast,
             q=q,
             h_ret=h_ret,
@@ -261,20 +312,19 @@ class Moirai2ModelForForecastingWithRetrieval(Moirai2RetrievalBackbone):
             z_dyn=z_dyn,
             y_inv=y_inv,
             y_dyn=y_dyn,
-            final_pred=final_pred,
         )
 
 
 @dataclass
 class Moirai2MoEOutput:
     loss: Optional[torch.Tensor]
-    point_forecast: torch.Tensor  # (B, L), de-normalized (query's own scale)
+    quantile_preds: torch.Tensor  # (B, num_quantiles, L), de-normalized (query's own scale)
+    point_forecast: torch.Tensor  # (B, L), median quantile, de-normalized
     q: torch.Tensor
     retrieved_y_enc: torch.Tensor  # (B, M, d)
     att_output: torch.Tensor  # (B, 1+M, d)
     alpha: torch.Tensor  # (B, 1+M, 1)
     h: torch.Tensor  # (B, d), fused representation after residual add
-    final_pred: torch.Tensor  # (B, L), normalized space, pre inverse-transform
 
 
 class Moirai2MoEModelForForecastingWithRetrieval(Moirai2RetrievalBackbone):
@@ -282,8 +332,8 @@ class Moirai2MoEModelForForecastingWithRetrieval(Moirai2RetrievalBackbone):
     Plain 'moe' fusion (models/ChronosBolt.py::_run_moe_fusion), ported to a
     frozen Moirai2 backbone: self-attention over [q, retrieved_y_1..M],
     per-token sigmoid gate + softmax, weighted sum residual-added onto q,
-    then a single Linear head -> point forecast (instead of the Chronos-Bolt
-    path's native 9-quantile output_patch_embedding).
+    then a Linear head projecting to the 9-quantile grid (instead of the
+    Chronos-Bolt path's native output_patch_embedding).
     """
 
     def __init__(
@@ -313,7 +363,7 @@ class Moirai2MoEModelForForecastingWithRetrieval(Moirai2RetrievalBackbone):
             nn.Linear(d, 1),
         )
         self.dropout = nn.Dropout(p=0.2)
-        self.point_pred_head = nn.Linear(d, L)
+        self.quantile_pred_head = nn.Linear(d, self.pred_dim)
 
     def forward(
         self,
@@ -322,6 +372,9 @@ class Moirai2MoEModelForForecastingWithRetrieval(Moirai2RetrievalBackbone):
         distances: Optional[torch.Tensor] = None,
         target: Optional[torch.Tensor] = None,
     ) -> Moirai2MoEOutput:
+        B = context.shape[0]
+        Q, L = self.num_quantiles, self.prediction_length
+
         _, loc_scale = self.instance_norm(context)
 
         q = self.get_query_repr(context)  # (B, d)
@@ -345,22 +398,22 @@ class Moirai2MoEModelForForecastingWithRetrieval(Moirai2RetrievalBackbone):
         fused = self.dropout(fused)
         h = q + fused  # (B, d) -- residual add, mirrors Chronos-Bolt's sequence_output + fused.unsqueeze(1)
 
-        final_pred = self.point_pred_head(h)  # (B, L), normalized space
+        quantile_preds = self.quantile_pred_head(h).view(B, Q, L)  # normalized space
 
         loss = None
         if target is not None:
-            target_norm, _ = self.instance_norm(target, loc_scale)
-            loss = F.mse_loss(final_pred, target_norm)
+            loss = self.quantile_loss(quantile_preds, target, loc_scale)
 
-        point_forecast = self.instance_norm.inverse(final_pred, loc_scale)
+        quantile_preds = self.denormalize_quantiles(quantile_preds, loc_scale)
+        point_forecast = quantile_preds[:, self.median_idx, :]
 
         return Moirai2MoEOutput(
             loss=loss,
+            quantile_preds=quantile_preds,
             point_forecast=point_forecast,
             q=q,
             retrieved_y_enc=retrieved_y_enc,
             att_output=att_output,
             alpha=alpha,
             h=h,
-            final_pred=final_pred,
         )
