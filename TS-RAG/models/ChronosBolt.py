@@ -41,6 +41,7 @@ class ChronosBoltOutput(ModelOutput):
     loss_smooth: Optional[torch.Tensor] = None
     loss_inv: Optional[torch.Tensor] = None
     loss_dis: Optional[torch.Tensor] = None
+    loss_dis_output: Optional[torch.Tensor] = None
     loss_ret: Optional[torch.Tensor] = None
     loss_dyn: Optional[torch.Tensor] = None
     use_disentangle_aux_loss: Optional[bool] = None
@@ -1661,6 +1662,7 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             loss_smooth = self._zero_loss_like(loss_forecast)
             loss_inv = self._zero_loss_like(loss_forecast)
             loss_dis = self._zero_loss_like(loss_forecast)
+            loss_dis_output = self._zero_loss_like(loss_forecast)
             loss_ret = self._zero_loss_like(loss_forecast)
             loss_dyn = self._zero_loss_like(loss_forecast)
 
@@ -1694,8 +1696,19 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             rho2 = float(getattr(self, "rho2", 0.0))
             rho3 = float(getattr(self, "rho3", 0.0))
             rho4 = float(getattr(self, "rho4", 0.0))
+            rho_dis_output = float(getattr(self, "rho_dis_output", 0.0))
+            # dis_mode selects which disentanglement term(s) actually enter the total loss:
+            #   'latent'  -> only L_dis on z_inv/z_dyn (rho2), matches the original RIDDE paper
+            #   'output'  -> only L_dis on y_hat_inv/y_hat_dyn (rho_dis_output)
+            #   'both'    -> both terms with their own independent weights
+            # Both loss_dis and loss_dis_output are still computed/logged regardless of mode
+            # for observability; only their contribution to `loss` is gated here.
+            dis_mode = getattr(self, "dis_mode", "latent")
+            rho2_eff = rho2 if dis_mode in ("latent", "both") else 0.0
+            rho_dis_output_eff = rho_dis_output if dis_mode in ("output", "both") else 0.0
             aux_loss_enabled = (
-                use_disentangle_aux_loss and any(rho > 0.0 for rho in (rho1, rho2, rho3, rho4))
+                use_disentangle_aux_loss
+                and any(rho > 0.0 for rho in (rho1, rho2_eff, rho3, rho4, rho_dis_output_eff))
             ) or (
                 self.augment == 'idf_dual_projector'
                 and any(v > 0.0 for v in (
@@ -1723,13 +1736,27 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
                     z_dyn_n = F.normalize(aux_z_dyn.flatten(1), dim=-1)
                     loss_dis = (z_inv_n * z_dyn_n).sum(dim=-1).abs().mean()
 
+                    # Output-level counterpart of loss_dis: same cosine-abs-mean form,
+                    # applied to the flattened prediction-head outputs y_hat_inv/y_hat_dyn
+                    # (B, num_quantiles, L) -> (B, num_quantiles * L) instead of z_inv/z_dyn.
+                    y_inv_n = F.normalize(aux_y_inv.reshape(batch_size, -1), dim=-1)
+                    y_dyn_n = F.normalize(aux_y_dyn.reshape(batch_size, -1), dim=-1)
+                    loss_dis_output = (y_inv_n * y_dyn_n).sum(dim=-1).abs().mean()
+
                     ret_target = aux_h_ret.detach() if getattr(self, "aux_loss_detach_ret", True) else aux_h_ret
                     loss_ret = F.mse_loss(aux_z_inv, ret_target)
 
                     mse_dyn = F.mse_loss(y_dyn_hidden, dyn_target)
                     dyn_margin = float(getattr(self, "dyn_margin", 1.0))
                     loss_dyn = -torch.clamp(mse_dyn, max=dyn_margin)
-                    loss = loss_forecast + rho1 * loss_inv + rho2 * loss_dis + rho3 * loss_ret + rho4 * loss_dyn
+                    loss = (
+                        loss_forecast
+                        + rho1 * loss_inv
+                        + rho2_eff * loss_dis
+                        + rho3 * loss_ret
+                        + rho4 * loss_dyn
+                        + rho_dis_output_eff * loss_dis_output
+                    )
 
         # Unscale predictions
         fused_quantile_preds = self.instance_norm.inverse(
@@ -1745,6 +1772,7 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             loss_smooth=loss_smooth,
             loss_inv=loss_inv,
             loss_dis=loss_dis,
+            loss_dis_output=loss_dis_output,
             loss_ret=loss_ret,
             loss_dyn=loss_dyn,
             use_disentangle_aux_loss=use_disentangle_aux_loss,

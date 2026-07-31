@@ -36,3 +36,9 @@ PEMS08_zeroshot_512_pred_64_512_retrieve_64
 mse:0.3576, std:0.0000 ---- mae:0.4021, std:0.0000
 AQWan_zeroshot_512_pred_64_512_retrieve_64
 mse:0.6821, std:0.0000 ---- mae:0.4196, std:0.0000
+Wind_zeroshot_512_pred_64_512_retrieve_64
+mse:0.9212, std:0.0000 ---- mae:0.6073, std:0.0000
+ZafNoo_zeroshot_512_pred_64_512_retrieve_64
+mse:0.4046, std:0.0000 ---- mae:0.3494, std:0.0000
+CzeLan_zeroshot_512_pred_64_512_retrieve_64
+mse:0.2275, std:0.0000 ---- mae:0.2510, std:0.0000

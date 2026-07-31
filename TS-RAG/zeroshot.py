@@ -23,6 +23,7 @@ from retrieve import do_retrieve, load_database, frequency_dict
 from data_provider.data_factory import data_provider
 from models.ChronosBolt import ChronosBoltPipeline, ChronosBoltModelForForecastingWithRetrieval
 from models.Moirai2 import Moirai2ModelForForecastingWithRetrieval, Moirai2MoEModelForForecastingWithRetrieval
+from models.TimesFM25 import TimesFM25ModelForForecastingWithRetrieval, TimesFM25MoEModelForForecastingWithRetrieval
 warnings.filterwarnings('ignore')
 
 fix_seed = 2021
@@ -298,6 +299,36 @@ elif args.model == 'Moirai2Retrieve':
         print("Unexpected keys:", msg.unexpected_keys[:10])
     else:
         print("Running baseline without retrieval checkpoint.")
+    model.to(device)
+elif args.model == 'TimesFM25Retrieve':
+    # Backbone (google/timesfm-2.5-200m-pytorch, native timesfm package) is
+    # loaded and frozen inside the model class itself; args.pretrained_model_path
+    # is not read. args.augment_mode selects which fusion head to use, mirroring
+    # pretrain.py's TimesFM25Retrieve branch.
+    if args.augment_mode == 'idf_clean_dis':
+        model = TimesFM25ModelForForecastingWithRetrieval(
+            context_length=args.seq_len,
+            prediction_length=args.pred_len,
+        )
+    elif args.augment_mode == 'moe':
+        model = TimesFM25MoEModelForForecastingWithRetrieval(
+            context_length=args.seq_len,
+            prediction_length=args.pred_len,
+        )
+    else:
+        raise ValueError(
+            f"TimesFM25Retrieve only supports augment_mode in ['idf_clean_dis', 'moe'], got {args.augment_mode!r}"
+        )
+    ckpt = torch.load(best_model_path, map_location="cpu")
+    from collections import OrderedDict
+    new_state_dict = OrderedDict()
+    for key, value in ckpt.items():
+        new_key = key.replace("module.", "")
+        new_state_dict[new_key] = value
+    msg = model.load_state_dict(new_state_dict, strict=False)
+    print("Loaded RIDDE checkpoint:", best_model_path)
+    print("Missing keys:", msg.missing_keys[:10])
+    print("Unexpected keys:", msg.unexpected_keys[:10])
     model.to(device)
 elif args.model == "MOMENTRetrieve":
     MOMENT_MODEL_PATH = "AutonLab/MOMENT-1-large"

@@ -1,0 +1,2 @@
+electricity_zeroshot_512_pred_64_512_retrieve_64_moirai2_moe
+mse:0.1720, std:0.0000 ---- mae:0.2891, std:0.0000

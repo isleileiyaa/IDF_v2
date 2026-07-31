@@ -7,7 +7,7 @@ gpu_loc=0
 run_file="/home/fenglei/TS-RAG-main/TS-RAG/zeroshot.py"
 seq_len=512
 pred_len=64
-datasets="${DATASETS:-ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate electricity traffic solar PEMS08 AQWan}"
+datasets="${DATASETS:-ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate electricity traffic solar PEMS08 AQWan Wind ILI ZafNoo CzeLan}"
 lookback_length=512
 augment_mode=idf_clean_dis
 top_k=10
@@ -62,9 +62,25 @@ elif [ "$dataset" = 'AQWan' ]; then
     data='custom_retrieve'
     metadata_frequency='hour'
     root_path="${custom_datasets_root}/${dataset}/"
+elif [ "$dataset" = 'Wind' ]; then
+    data='custom_retrieve'
+    metadata_frequency='15minutes'
+    root_path="${custom_datasets_root}/${dataset}/"
+elif [ "$dataset" = 'ILI' ]; then
+    data='custom_retrieve'
+    metadata_frequency='week'
+    root_path="${custom_datasets_root}/${dataset}/"
+elif [ "$dataset" = 'ZafNoo' ]; then
+    data='custom_retrieve'
+    metadata_frequency='30minutes'
+    root_path="${custom_datasets_root}/${dataset}/"
+elif [ "$dataset" = 'CzeLan' ]; then
+    data='custom_retrieve'
+    metadata_frequency='30minutes'
+    root_path="${custom_datasets_root}/${dataset}/"
 else
     echo "Unknown dataset: $dataset"
-    echo "Supported datasets: ETTh1 ETTh2 ETTm1 ETTm2 weather electricity exchange_rate traffic solar PEMS08 AQWan"
+    echo "Supported datasets: ETTh1 ETTh2 ETTm1 ETTm2 weather electricity exchange_rate traffic solar PEMS08 AQWan Wind ILI ZafNoo CzeLan"
     exit 1
 fi
 

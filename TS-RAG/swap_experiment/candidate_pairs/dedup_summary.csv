@@ -1,0 +1,16 @@
+dataset,raw_pairs,independent_pairs,channels_covered
+ETTh1,71,34,6
+ETTm1,11744,496,7
+electricity,4816,1322,159
+ETTh2,79,39,7
+ETTm2,6914,365,7
+weather,31993,1236,21
+exchange_rate,153,42,8
+traffic,31435,7698,849
+solar,89887,6841,138
+PEMS08,48881,3614,171
+AQWan,1664,296,11
+Wind,5783,408,7
+ILI,0,0,0
+ZafNoo,416,81,10
+CzeLan,3259,242,10

@@ -23,3 +23,6 @@ __pycache__/
 # --- misc local artifacts ---
 *.tar.gz
 *.zip
+
+# --- third-party source clones (pip install -e'd, not hand-vendored) ---
+TS-RAG/third_party/timesfm/

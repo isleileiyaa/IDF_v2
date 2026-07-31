@@ -1,0 +1,28 @@
+2 (5772, 321)
+self.enc_in = 321
+self.data_x = (5772, 321)
+electricity: 1322 pairs
+
+=== Moirai2 ===
+  loaded /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/moirai2_idf_clean_dis_512_pred64_lookback512_top10_lr0.000015_drop0.2_adamw_cosanneal_step10000_bs256_final.pth
+  missing=[] unexpected=[]
+  median_idx=4
+  electricity: 64/1322 pairs done  electricity: 128/1322 pairs done  electricity: 192/1322 pairs done  electricity: 256/1322 pairs done  electricity: 320/1322 pairs done  electricity: 384/1322 pairs done  electricity: 448/1322 pairs done  electricity: 512/1322 pairs done  electricity: 576/1322 pairs done  electricity: 640/1322 pairs done  electricity: 704/1322 pairs done  electricity: 768/1322 pairs done  electricity: 832/1322 pairs done  electricity: 896/1322 pairs done  electricity: 960/1322 pairs done  electricity: 1024/1322 pairs done  electricity: 1088/1322 pairs done  electricity: 1152/1322 pairs done  electricity: 1216/1322 pairs done  electricity: 1280/1322 pairs done  electricity: 1322/1322 pairs done
+
+=== TimesFM2.5 ===
+  loaded /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/timesfm25_idf_clean_dis_512_pred64_lookback512_top10_lr0.000005_drop0.2_adamw_cosanneal_step10000_bs256_final.pth
+  missing=[] unexpected=[]
+  median_idx=4
+  electricity: 64/1322 pairs done  electricity: 128/1322 pairs done  electricity: 192/1322 pairs done  electricity: 256/1322 pairs done  electricity: 320/1322 pairs done  electricity: 384/1322 pairs done  electricity: 448/1322 pairs done  electricity: 512/1322 pairs done  electricity: 576/1322 pairs done  electricity: 640/1322 pairs done  electricity: 704/1322 pairs done  electricity: 768/1322 pairs done  electricity: 832/1322 pairs done  electricity: 896/1322 pairs done  electricity: 960/1322 pairs done  electricity: 1024/1322 pairs done  electricity: 1088/1322 pairs done  electricity: 1152/1322 pairs done  electricity: 1216/1322 pairs done  electricity: 1280/1322 pairs done  electricity: 1322/1322 pairs done
+
+
+=== Moirai2 / TimesFM2.5, electricity, rho=0 ===
+  backbone     dataset               experiment    n  mean_d_A  mean_d_B  frac_closer_to_B  wilcoxon_p
+   Moirai2 electricity      main (swap dynamic) 1322    0.2280    0.2728            0.3979      0.0000
+   Moirai2 electricity control (swap invariant) 1322    0.2570    0.2672            0.4592      0.0037
+   Moirai2    Combined      main (swap dynamic) 1322    0.2280    0.2728            0.3979      0.0000
+   Moirai2    Combined control (swap invariant) 1322    0.2570    0.2672            0.4592      0.0037
+TimesFM2.5 electricity      main (swap dynamic) 1322    0.3647    0.3605            0.4879      0.6841
+TimesFM2.5 electricity control (swap invariant) 1322    0.3680    0.3533            0.5287      0.0229
+TimesFM2.5    Combined      main (swap dynamic) 1322    0.3647    0.3605            0.4879      0.6841
+TimesFM2.5    Combined control (swap invariant) 1322    0.3680    0.3533            0.5287      0.0229

@@ -5,7 +5,7 @@ gpu_loc=0
 run_file=zeroshot.py
 seq_len=512
 pred_len=64
-datasets="${DATASETS:-ETTh1 ETTh2 ETTm1 ETTm2 electricity exchange_rate weather traffic solar PEMS08 AQWan}"
+datasets="${DATASETS:-ETTh1 ETTh2 ETTm1 ETTm2 electricity exchange_rate weather traffic solar PEMS08 AQWan Wind ILI ZafNoo CzeLan}"
 lookback_length=512
 augment_mode=moe
 top_k=10
@@ -54,6 +54,22 @@ elif [ $dataset == 'PEMS08' ]; then
 elif [ $dataset == 'AQWan' ]; then
     data='custom_retrieve'
     metadata_frequency='hour'
+    root_path="../datasets/${dataset}/"
+elif [ $dataset == 'Wind' ]; then
+    data='custom_retrieve'
+    metadata_frequency='15minutes'
+    root_path="../datasets/${dataset}/"
+elif [ $dataset == 'ILI' ]; then
+    data='custom_retrieve'
+    metadata_frequency='week'
+    root_path="../datasets/${dataset}/"
+elif [ $dataset == 'ZafNoo' ]; then
+    data='custom_retrieve'
+    metadata_frequency='30minutes'
+    root_path="../datasets/${dataset}/"
+elif [ $dataset == 'CzeLan' ]; then
+    data='custom_retrieve'
+    metadata_frequency='30minutes'
     root_path="../datasets/${dataset}/"
 fi
 

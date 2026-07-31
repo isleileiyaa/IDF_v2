@@ -1,0 +1,8 @@
+AQWan_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis
+mse:0.6839, std:0.0000 ---- mae:0.4207, std:0.0000
+Wind_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis
+mse:0.8969, std:0.0000 ---- mae:0.5941, std:0.0000
+ZafNoo_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis
+mse:0.4020, std:0.0000 ---- mae:0.3515, std:0.0000
+CzeLan_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis
+mse:0.2000, std:0.0000 ---- mae:0.2317, std:0.0000

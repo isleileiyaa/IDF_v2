@@ -38,6 +38,22 @@ def get_custom_period_channel(data_path):
         # per hour
         pc["period"] = 24
         pc["channel"] = 11
+    if 'Wind' in data_path:
+        # per 15min
+        pc["period"] = 96
+        pc["channel"] = 7
+    if 'ILI' in data_path:
+        # per week (annual cycle)
+        pc["period"] = 52
+        pc["channel"] = 7
+    if 'ZafNoo' in data_path:
+        # per 30min
+        pc["period"] = 48
+        pc["channel"] = 11
+    if 'CzeLan' in data_path:
+        # per 30min
+        pc["period"] = 48
+        pc["channel"] = 11
     if 'electricity' in data_path:
         # per hour 
         pc["period"] = 24

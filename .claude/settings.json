@@ -1,0 +1,48 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p /home/fenglei/cross-rag/cross-rag/third_party/uni2ts/common /home/fenglei/cross-rag/cross-rag/third_party/uni2ts/model/moirai2 /home/fenglei/cross-rag/cross-rag/third_party/uni2ts/module/position)",
+      "Bash(cp __TRACKED_VAR__/__init__.py /home/fenglei/cross-rag/cross-rag/third_party/uni2ts/__init__.py)",
+      "Bash(cp __TRACKED_VAR__/__about__.py /home/fenglei/cross-rag/cross-rag/third_party/uni2ts/__about__.py)",
+      "Bash(cp __TRACKED_VAR__/LICENSE.txt /home/fenglei/cross-rag/cross-rag/third_party/uni2ts/LICENSE.txt)",
+      "Bash(cp __TRACKED_VAR__/common/__init__.py /home/fenglei/cross-rag/cross-rag/third_party/uni2ts/common/__init__.py)",
+      "Bash(rm -f /home/fenglei/cross-rag/cross-rag/results/forecast_evaluation/zeroshot_crossrag_moirai2_smoketest.txt *)",
+      "Bash(awk '{print $3}')",
+      "Bash(awk 'NR%500==1')",
+      "Bash(ln -sf /home/fenglei/TS-RAG-main/retrieval_database/ETTh2_hour_512.pkl ETTh2_hour_512_Z_space.pkl)",
+      "Bash(ln -sf /home/fenglei/TS-RAG-main/retrieval_database/ETTm1_minute_512.pkl ETTm1_minute_512_Z_space.pkl)",
+      "Bash(ln -sf /home/fenglei/TS-RAG-main/retrieval_database/ETTm2_minute_512.pkl ETTm2_minute_512_Z_space.pkl)",
+      "Bash(ln -sf /home/fenglei/TS-RAG-main/retrieval_database/exchange_rate_hour_512.pkl exchange_rate_hour_512_Z_space.pkl)",
+      "Bash(ln -sf /home/fenglei/TS-RAG-main/retrieval_database/weather_10minutes_512.pkl weather_10minutes_512_Z_space.pkl)",
+      "Bash(dmesg)",
+      "Bash(chmod +x /tmp/claude-1007/-home-fenglei-TS-RAG-main/a60a7fb1-1e7b-466f-848e-91dbd0d19028/scratchpad/ridde_hpo_sweep.sh)",
+      "Bash(bash /tmp/claude-1007/-home-fenglei-TS-RAG-main/a60a7fb1-1e7b-466f-848e-91dbd0d19028/scratchpad/ridde_hpo_sweep.sh)",
+      "Bash(echo \"SWEEP DONE exit=$?\")",
+      "Bash(chmod +x /tmp/claude-1007/-home-fenglei-TS-RAG-main/a60a7fb1-1e7b-466f-848e-91dbd0d19028/scratchpad/ridde_hpo_sweep_round2.sh)",
+      "Bash(bash /tmp/claude-1007/-home-fenglei-TS-RAG-main/a60a7fb1-1e7b-466f-848e-91dbd0d19028/scratchpad/ridde_hpo_sweep_round2.sh)",
+      "Bash(echo \"ROUND2 DONE exit=$?\")",
+      "Bash(chmod +x /tmp/claude-1007/-home-fenglei-TS-RAG-main/a60a7fb1-1e7b-466f-848e-91dbd0d19028/scratchpad/ridde_hpo_sweep_round3.sh)",
+      "Bash(bash /tmp/claude-1007/-home-fenglei-TS-RAG-main/a60a7fb1-1e7b-466f-848e-91dbd0d19028/scratchpad/ridde_hpo_sweep_round3.sh)",
+      "Bash(echo \"ROUND3 DONE exit=$?\")",
+      "Bash(chmod +x /tmp/claude-1007/-home-fenglei-TS-RAG-main/a60a7fb1-1e7b-466f-848e-91dbd0d19028/scratchpad/ridde_hpo_sweep_round4.sh)",
+      "Bash(bash /tmp/claude-1007/-home-fenglei-TS-RAG-main/a60a7fb1-1e7b-466f-848e-91dbd0d19028/scratchpad/ridde_hpo_sweep_round4.sh)",
+      "Bash(echo \"ROUND4 DONE exit=$?\")",
+      "Bash(git commit -m ' *)",
+      "Bash(curl -sL https://huggingface.co/google/timesfm-2.5-200m-pytorch/raw/main/config.json -o /tmp/claude-1007/-home-fenglei-TS-RAG-main/a60a7fb1-1e7b-466f-848e-91dbd0d19028/scratchpad/timesfm_research/config.json)",
+      "Bash(curl -s https://raw.githubusercontent.com/huggingface/transformers/main/docs/source/en/model_doc/timesfm2_5.md -o /tmp/claude-1007/-home-fenglei-TS-RAG-main/a60a7fb1-1e7b-466f-848e-91dbd0d19028/scratchpad/timesfm_research/timesfm2_5_doc.md)",
+      "Bash(curl -s https://raw.githubusercontent.com/huggingface/transformers/main/src/transformers/models/timesfm2_5/modeling_timesfm2_5.py -o /tmp/claude-1007/-home-fenglei-TS-RAG-main/a60a7fb1-1e7b-466f-848e-91dbd0d19028/scratchpad/timesfm_research/modeling_timesfm2_5.py)",
+      "Bash(curl -sL https://huggingface.co/google/timesfm-2.5-200m-pytorch/raw/main/README.md -o /tmp/claude-1007/-home-fenglei-TS-RAG-main/a60a7fb1-1e7b-466f-848e-91dbd0d19028/scratchpad/timesfm_research/pytorch_readme.md)",
+      "Bash(curl -s https://raw.githubusercontent.com/google-research/timesfm/master/src/timesfm/timesfm_2p5/timesfm_2p5_torch.py -o /tmp/claude-1007/-home-fenglei-TS-RAG-main/a60a7fb1-1e7b-466f-848e-91dbd0d19028/scratchpad/timesfm_research/timesfm_2p5_torch.py)",
+      "Bash(curl -s https://raw.githubusercontent.com/google-research/timesfm/master/pyproject.toml -o /tmp/claude-1007/-home-fenglei-TS-RAG-main/a60a7fb1-1e7b-466f-848e-91dbd0d19028/scratchpad/timesfm_research/pyproject.toml)",
+      "Bash(sed -e 's/moirai2/timesfm25/g' -e 's/Moirai2/TimesFM25/g' pretrain_moirai2_moe.sh)",
+      "Bash(sed -e 's/moirai2/timesfm25/g' -e 's/Moirai2/TimesFM25/g' zeroshot_moirai2_moe.sh)",
+      "Bash(python sanity_check_timesfm25.py)"
+    ],
+    "additionalDirectories": [
+      "/home/fenglei/cross-rag/cross-rag/third_party",
+      "/home/fenglei/cross-rag/cross-rag/models",
+      "/home/fenglei/cross-rag/cross-rag",
+      "/home/fenglei/cross-rag/datasets/ETT-small"
+    ]
+  }
+}

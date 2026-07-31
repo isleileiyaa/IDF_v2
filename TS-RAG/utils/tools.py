@@ -408,6 +408,12 @@ def test_retrieve(model, test_data, test_loader, args, device):
                                 retrieved_seq = retrieved_seqs,
                                 distances = distances)                  # Moirai2RiddeOutput
                 outputs = outputs.point_forecast
+            elif args.model == 'TimesFM25Retrieve':
+                outputs = model(context = batch_x,
+                                target = batch_y,
+                                retrieved_seq = retrieved_seqs,
+                                distances = distances)                  # TimesFM25RiddeOutput / TimesFM25MoEOutput
+                outputs = outputs.point_forecast
             elif args.model == 'MOMENTRetrieve':
                 outputs = model(x_enc=batch_x.float().unsqueeze(1), retrieved_seq=retrieved_seqs.float())
                 outputs = outputs.forecast.squeeze(1)
@@ -540,7 +546,7 @@ def get_borders(dataset_name, seq_len, total_length=None):
     elif 'ETTm' in dataset_name:
         border1s = [0, 12 * 30 * 24 * 4 - seq_len, 12 * 30 * 24 * 4 + 4 * 30 * 24 * 4 - seq_len]
         border2s = [12 * 30 * 24 * 4, 12 * 30 * 24 * 4 + 4 * 30 * 24 * 4, 12 * 30 * 24 * 4 + 8 * 30 * 24 * 4]
-    elif dataset_name in ['electricity', 'exchange_rate', 'weather', 'traffic', 'solar']:
+    elif dataset_name in ['electricity', 'exchange_rate', 'weather', 'traffic', 'solar', 'Wind', 'ILI', 'ZafNoo', 'CzeLan']:
         if total_length is None:
             raise ValueError("need to provide total_length for {}".format(dataset_name))
         num_train = int(total_length * 0.7)

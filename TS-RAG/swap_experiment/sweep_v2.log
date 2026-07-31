@@ -1,0 +1,259 @@
+Some weights of ChronosBoltModelForForecastingWithRetrieval were not initialized from the model checkpoint at /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/base/ and are newly initialized: ['dyn_aux_backproj.bias', 'dyn_aux_backproj.weight', 'dyn_pred_head_clean.bias', 'dyn_pred_head_clean.weight', 'encode_mlp.0.bias', 'encode_mlp.0.weight', 'encode_mlp.2.bias', 'encode_mlp.2.weight', 'final_pred_head.bias', 'final_pred_head.weight', 'fuse_gate.bias', 'fuse_gate.weight', 'inv_aux_backproj.bias', 'inv_aux_backproj.weight', 'inv_pred_head.bias', 'inv_pred_head.weight', 'ret_score_head.bias', 'ret_score_head.weight', 'routing_gate.bias', 'routing_gate.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Passing a tuple of `past_key_values` is deprecated and will be removed in Transformers v4.48.0. You should pass an instance of `EncoderDecoderCache` instead, e.g. `past_key_values=EncoderDecoderCache.from_legacy_cache(past_key_values)`.
+Some weights of ChronosBoltModelForForecastingWithRetrieval were not initialized from the model checkpoint at /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/base/ and are newly initialized: ['dyn_aux_backproj.bias', 'dyn_aux_backproj.weight', 'dyn_pred_head_clean.bias', 'dyn_pred_head_clean.weight', 'encode_mlp.0.bias', 'encode_mlp.0.weight', 'encode_mlp.2.bias', 'encode_mlp.2.weight', 'final_pred_head.bias', 'final_pred_head.weight', 'fuse_gate.bias', 'fuse_gate.weight', 'inv_aux_backproj.bias', 'inv_aux_backproj.weight', 'inv_pred_head.bias', 'inv_pred_head.weight', 'ret_score_head.bias', 'ret_score_head.weight', 'routing_gate.bias', 'routing_gate.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Some weights of ChronosBoltModelForForecastingWithRetrieval were not initialized from the model checkpoint at /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/base/ and are newly initialized: ['dyn_aux_backproj.bias', 'dyn_aux_backproj.weight', 'dyn_pred_head_clean.bias', 'dyn_pred_head_clean.weight', 'encode_mlp.0.bias', 'encode_mlp.0.weight', 'encode_mlp.2.bias', 'encode_mlp.2.weight', 'final_pred_head.bias', 'final_pred_head.weight', 'fuse_gate.bias', 'fuse_gate.weight', 'inv_aux_backproj.bias', 'inv_aux_backproj.weight', 'inv_pred_head.bias', 'inv_pred_head.weight', 'ret_score_head.bias', 'ret_score_head.weight', 'routing_gate.bias', 'routing_gate.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Some weights of ChronosBoltModelForForecastingWithRetrieval were not initialized from the model checkpoint at /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/base/ and are newly initialized: ['dyn_aux_backproj.bias', 'dyn_aux_backproj.weight', 'dyn_pred_head_clean.bias', 'dyn_pred_head_clean.weight', 'encode_mlp.0.bias', 'encode_mlp.0.weight', 'encode_mlp.2.bias', 'encode_mlp.2.weight', 'final_pred_head.bias', 'final_pred_head.weight', 'fuse_gate.bias', 'fuse_gate.weight', 'inv_aux_backproj.bias', 'inv_aux_backproj.weight', 'inv_pred_head.bias', 'inv_pred_head.weight', 'ret_score_head.bias', 'ret_score_head.weight', 'routing_gate.bias', 'routing_gate.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Some weights of ChronosBoltModelForForecastingWithRetrieval were not initialized from the model checkpoint at /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/base/ and are newly initialized: ['dyn_aux_backproj.bias', 'dyn_aux_backproj.weight', 'dyn_pred_head_clean.bias', 'dyn_pred_head_clean.weight', 'encode_mlp.0.bias', 'encode_mlp.0.weight', 'encode_mlp.2.bias', 'encode_mlp.2.weight', 'final_pred_head.bias', 'final_pred_head.weight', 'fuse_gate.bias', 'fuse_gate.weight', 'inv_aux_backproj.bias', 'inv_aux_backproj.weight', 'inv_pred_head.bias', 'inv_pred_head.weight', 'ret_score_head.bias', 'ret_score_head.weight', 'routing_gate.bias', 'routing_gate.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Some weights of ChronosBoltModelForForecastingWithRetrieval were not initialized from the model checkpoint at /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/base/ and are newly initialized: ['dyn_aux_backproj.bias', 'dyn_aux_backproj.weight', 'dyn_pred_head_clean.bias', 'dyn_pred_head_clean.weight', 'encode_mlp.0.bias', 'encode_mlp.0.weight', 'encode_mlp.2.bias', 'encode_mlp.2.weight', 'final_pred_head.bias', 'final_pred_head.weight', 'fuse_gate.bias', 'fuse_gate.weight', 'inv_aux_backproj.bias', 'inv_aux_backproj.weight', 'inv_pred_head.bias', 'inv_pred_head.weight', 'ret_score_head.bias', 'ret_score_head.weight', 'routing_gate.bias', 'routing_gate.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+2 (3392, 7)
+self.enc_in = 7
+self.data_x = (3392, 7)
+[ETTh1] bundle loaded in 0.6s, 34 pairs
+  loaded model rho2=0
+  ETTh1: 34/34 pairs done
+  [ETTh1] rho2=0: 0.11s (3.32 ms/pair)
+  loaded model rho2=0.001
+  ETTh1: 34/34 pairs done
+  [ETTh1] rho2=0.001: 0.04s (1.10 ms/pair)
+  loaded model rho2=0.01
+  ETTh1: 34/34 pairs done
+  [ETTh1] rho2=0.01: 0.04s (1.11 ms/pair)
+  loaded model rho2=0.1
+  ETTh1: 34/34 pairs done
+  [ETTh1] rho2=0.1: 0.04s (1.09 ms/pair)
+  loaded model rho2=1
+  ETTh1: 34/34 pairs done
+  [ETTh1] rho2=1: 0.04s (1.12 ms/pair)
+  loaded model rho2=10
+  ETTh1: 34/34 pairs done
+  [ETTh1] rho2=10: 0.04s (1.08 ms/pair)
+2 (12032, 7)
+self.enc_in = 7
+self.data_x = (12032, 7)
+[ETTm1] bundle loaded in 1.7s, 496 pairs
+  ETTm1: 496/496 pairs done
+  [ETTm1] rho2=0: 0.49s (0.99 ms/pair)
+  ETTm1: 496/496 pairs done
+  [ETTm1] rho2=0.001: 0.48s (0.98 ms/pair)
+  ETTm1: 496/496 pairs done
+  [ETTm1] rho2=0.01: 0.48s (0.97 ms/pair)
+  ETTm1: 496/496 pairs done
+  [ETTm1] rho2=0.1: 0.48s (0.97 ms/pair)
+  ETTm1: 496/496 pairs done
+  [ETTm1] rho2=1: 0.49s (0.98 ms/pair)
+  ETTm1: 496/496 pairs done
+  [ETTm1] rho2=10: 0.48s (0.97 ms/pair)
+2 (5772, 321)
+self.enc_in = 321
+self.data_x = (5772, 321)
+[electricity] bundle loaded in 61.8s, 1322 pairs
+  electricity: 512/1322 pairs done  electricity: 1024/1322 pairs done  electricity: 1322/1322 pairs done
+  [electricity] rho2=0: 1.28s (0.97 ms/pair)
+  electricity: 512/1322 pairs done  electricity: 1024/1322 pairs done  electricity: 1322/1322 pairs done
+  [electricity] rho2=0.001: 1.29s (0.98 ms/pair)
+  electricity: 512/1322 pairs done  electricity: 1024/1322 pairs done  electricity: 1322/1322 pairs done
+  [electricity] rho2=0.01: 1.29s (0.98 ms/pair)
+  electricity: 512/1322 pairs done  electricity: 1024/1322 pairs done  electricity: 1322/1322 pairs done
+  [electricity] rho2=0.1: 1.30s (0.98 ms/pair)
+  electricity: 512/1322 pairs done  electricity: 1024/1322 pairs done  electricity: 1322/1322 pairs done
+  [electricity] rho2=1: 1.30s (0.98 ms/pair)
+  electricity: 512/1322 pairs done  electricity: 1024/1322 pairs done  electricity: 1322/1322 pairs done
+  [electricity] rho2=10: 1.27s (0.96 ms/pair)
+2 (3392, 7)
+self.enc_in = 7
+self.data_x = (3392, 7)
+[ETTh2] bundle loaded in 0.5s, 39 pairs
+  ETTh2: 39/39 pairs done
+  [ETTh2] rho2=0: 0.04s (1.14 ms/pair)
+  ETTh2: 39/39 pairs done
+  [ETTh2] rho2=0.001: 0.04s (1.11 ms/pair)
+  ETTh2: 39/39 pairs done
+  [ETTh2] rho2=0.01: 0.04s (1.11 ms/pair)
+  ETTh2: 39/39 pairs done
+  [ETTh2] rho2=0.1: 0.04s (1.12 ms/pair)
+  ETTh2: 39/39 pairs done
+  [ETTh2] rho2=1: 0.04s (1.11 ms/pair)
+  ETTh2: 39/39 pairs done
+  [ETTh2] rho2=10: 0.04s (1.11 ms/pair)
+2 (12032, 7)
+self.enc_in = 7
+self.data_x = (12032, 7)
+[ETTm2] bundle loaded in 1.6s, 365 pairs
+  ETTm2: 365/365 pairs done
+  [ETTm2] rho2=0: 0.36s (0.99 ms/pair)
+  ETTm2: 365/365 pairs done
+  [ETTm2] rho2=0.001: 0.36s (0.97 ms/pair)
+  ETTm2: 365/365 pairs done
+  [ETTm2] rho2=0.01: 0.36s (0.97 ms/pair)
+  ETTm2: 365/365 pairs done
+  [ETTm2] rho2=0.1: 0.36s (0.98 ms/pair)
+  ETTm2: 365/365 pairs done
+  [ETTm2] rho2=1: 0.35s (0.97 ms/pair)
+  ETTm2: 365/365 pairs done
+  [ETTm2] rho2=10: 0.36s (0.98 ms/pair)
+2 (11051, 21)
+self.enc_in = 21
+self.data_x = (11051, 21)
+[weather] bundle loaded in 2.8s, 1236 pairs
+  weather: 512/1236 pairs done  weather: 1024/1236 pairs done  weather: 1236/1236 pairs done
+  [weather] rho2=0: 1.19s (0.96 ms/pair)
+  weather: 512/1236 pairs done  weather: 1024/1236 pairs done  weather: 1236/1236 pairs done
+  [weather] rho2=0.001: 1.20s (0.97 ms/pair)
+  weather: 512/1236 pairs done  weather: 1024/1236 pairs done  weather: 1236/1236 pairs done
+  [weather] rho2=0.01: 1.19s (0.96 ms/pair)
+  weather: 512/1236 pairs done  weather: 1024/1236 pairs done  weather: 1236/1236 pairs done
+  [weather] rho2=0.1: 1.20s (0.97 ms/pair)
+  weather: 512/1236 pairs done  weather: 1024/1236 pairs done  weather: 1236/1236 pairs done
+  [weather] rho2=1: 1.21s (0.98 ms/pair)
+  weather: 512/1236 pairs done  weather: 1024/1236 pairs done  weather: 1236/1236 pairs done
+  [weather] rho2=10: 1.21s (0.98 ms/pair)
+2 (2029, 8)
+self.enc_in = 8
+self.data_x = (2029, 8)
+[exchange_rate] bundle loaded in 0.1s, 42 pairs
+  exchange_rate: 42/42 pairs done
+  [exchange_rate] rho2=0: 0.05s (1.09 ms/pair)
+  exchange_rate: 42/42 pairs done
+  [exchange_rate] rho2=0.001: 0.05s (1.07 ms/pair)
+  exchange_rate: 42/42 pairs done
+  [exchange_rate] rho2=0.01: 0.05s (1.07 ms/pair)
+  exchange_rate: 42/42 pairs done
+  [exchange_rate] rho2=0.1: 0.04s (1.06 ms/pair)
+  exchange_rate: 42/42 pairs done
+  [exchange_rate] rho2=1: 0.04s (1.06 ms/pair)
+  exchange_rate: 42/42 pairs done
+  [exchange_rate] rho2=10: 0.05s (1.08 ms/pair)
+2 (4020, 862)
+self.enc_in = 862
+self.data_x = (4020, 862)
+[traffic] bundle loaded in 186.4s, 7698 pairs
+  traffic: 512/7698 pairs done  traffic: 1024/7698 pairs done  traffic: 1536/7698 pairs done  traffic: 2048/7698 pairs done  traffic: 2560/7698 pairs done  traffic: 3072/7698 pairs done  traffic: 3584/7698 pairs done  traffic: 4096/7698 pairs done  traffic: 4608/7698 pairs done  traffic: 5120/7698 pairs done  traffic: 5632/7698 pairs done  traffic: 6144/7698 pairs done  traffic: 6656/7698 pairs done  traffic: 7168/7698 pairs done  traffic: 7680/7698 pairs done  traffic: 7698/7698 pairs done
+  [traffic] rho2=0: 7.55s (0.98 ms/pair)
+  traffic: 512/7698 pairs done  traffic: 1024/7698 pairs done  traffic: 1536/7698 pairs done  traffic: 2048/7698 pairs done  traffic: 2560/7698 pairs done  traffic: 3072/7698 pairs done  traffic: 3584/7698 pairs done  traffic: 4096/7698 pairs done  traffic: 4608/7698 pairs done  traffic: 5120/7698 pairs done  traffic: 5632/7698 pairs done  traffic: 6144/7698 pairs done  traffic: 6656/7698 pairs done  traffic: 7168/7698 pairs done  traffic: 7680/7698 pairs done  traffic: 7698/7698 pairs done
+  [traffic] rho2=0.001: 7.51s (0.98 ms/pair)
+  traffic: 512/7698 pairs done  traffic: 1024/7698 pairs done  traffic: 1536/7698 pairs done  traffic: 2048/7698 pairs done  traffic: 2560/7698 pairs done  traffic: 3072/7698 pairs done  traffic: 3584/7698 pairs done  traffic: 4096/7698 pairs done  traffic: 4608/7698 pairs done  traffic: 5120/7698 pairs done  traffic: 5632/7698 pairs done  traffic: 6144/7698 pairs done  traffic: 6656/7698 pairs done  traffic: 7168/7698 pairs done  traffic: 7680/7698 pairs done  traffic: 7698/7698 pairs done
+  [traffic] rho2=0.01: 7.56s (0.98 ms/pair)
+  traffic: 512/7698 pairs done  traffic: 1024/7698 pairs done  traffic: 1536/7698 pairs done  traffic: 2048/7698 pairs done  traffic: 2560/7698 pairs done  traffic: 3072/7698 pairs done  traffic: 3584/7698 pairs done  traffic: 4096/7698 pairs done  traffic: 4608/7698 pairs done  traffic: 5120/7698 pairs done  traffic: 5632/7698 pairs done  traffic: 6144/7698 pairs done  traffic: 6656/7698 pairs done  traffic: 7168/7698 pairs done  traffic: 7680/7698 pairs done  traffic: 7698/7698 pairs done
+  [traffic] rho2=0.1: 7.60s (0.99 ms/pair)
+  traffic: 512/7698 pairs done  traffic: 1024/7698 pairs done  traffic: 1536/7698 pairs done  traffic: 2048/7698 pairs done  traffic: 2560/7698 pairs done  traffic: 3072/7698 pairs done  traffic: 3584/7698 pairs done  traffic: 4096/7698 pairs done  traffic: 4608/7698 pairs done  traffic: 5120/7698 pairs done  traffic: 5632/7698 pairs done  traffic: 6144/7698 pairs done  traffic: 6656/7698 pairs done  traffic: 7168/7698 pairs done  traffic: 7680/7698 pairs done  traffic: 7698/7698 pairs done
+  [traffic] rho2=1: 7.57s (0.98 ms/pair)
+  traffic: 512/7698 pairs done  traffic: 1024/7698 pairs done  traffic: 1536/7698 pairs done  traffic: 2048/7698 pairs done  traffic: 2560/7698 pairs done  traffic: 3072/7698 pairs done  traffic: 3584/7698 pairs done  traffic: 4096/7698 pairs done  traffic: 4608/7698 pairs done  traffic: 5120/7698 pairs done  traffic: 5632/7698 pairs done  traffic: 6144/7698 pairs done  traffic: 6656/7698 pairs done  traffic: 7168/7698 pairs done  traffic: 7680/7698 pairs done  traffic: 7698/7698 pairs done
+  [traffic] rho2=10: 7.55s (0.98 ms/pair)
+2 (11024, 137)
+self.enc_in = 137
+self.data_x = (11024, 137)
+[solar] bundle loaded in 28.6s, 6841 pairs
+  solar: 512/6841 pairs done  solar: 1024/6841 pairs done  solar: 1536/6841 pairs done  solar: 2048/6841 pairs done  solar: 2560/6841 pairs done  solar: 3072/6841 pairs done  solar: 3584/6841 pairs done  solar: 4096/6841 pairs done  solar: 4608/6841 pairs done  solar: 5120/6841 pairs done  solar: 5632/6841 pairs done  solar: 6144/6841 pairs done  solar: 6656/6841 pairs done  solar: 6841/6841 pairs done
+  [solar] rho2=0: 6.67s (0.98 ms/pair)
+  solar: 512/6841 pairs done  solar: 1024/6841 pairs done  solar: 1536/6841 pairs done  solar: 2048/6841 pairs done  solar: 2560/6841 pairs done  solar: 3072/6841 pairs done  solar: 3584/6841 pairs done  solar: 4096/6841 pairs done  solar: 4608/6841 pairs done  solar: 5120/6841 pairs done  solar: 5632/6841 pairs done  solar: 6144/6841 pairs done  solar: 6656/6841 pairs done  solar: 6841/6841 pairs done
+  [solar] rho2=0.001: 6.68s (0.98 ms/pair)
+  solar: 512/6841 pairs done  solar: 1024/6841 pairs done  solar: 1536/6841 pairs done  solar: 2048/6841 pairs done  solar: 2560/6841 pairs done  solar: 3072/6841 pairs done  solar: 3584/6841 pairs done  solar: 4096/6841 pairs done  solar: 4608/6841 pairs done  solar: 5120/6841 pairs done  solar: 5632/6841 pairs done  solar: 6144/6841 pairs done  solar: 6656/6841 pairs done  solar: 6841/6841 pairs done
+  [solar] rho2=0.01: 6.72s (0.98 ms/pair)
+  solar: 512/6841 pairs done  solar: 1024/6841 pairs done  solar: 1536/6841 pairs done  solar: 2048/6841 pairs done  solar: 2560/6841 pairs done  solar: 3072/6841 pairs done  solar: 3584/6841 pairs done  solar: 4096/6841 pairs done  solar: 4608/6841 pairs done  solar: 5120/6841 pairs done  solar: 5632/6841 pairs done  solar: 6144/6841 pairs done  solar: 6656/6841 pairs done  solar: 6841/6841 pairs done
+  [solar] rho2=0.1: 6.68s (0.98 ms/pair)
+  solar: 512/6841 pairs done  solar: 1024/6841 pairs done  solar: 1536/6841 pairs done  solar: 2048/6841 pairs done  solar: 2560/6841 pairs done  solar: 3072/6841 pairs done  solar: 3584/6841 pairs done  solar: 4096/6841 pairs done  solar: 4608/6841 pairs done  solar: 5120/6841 pairs done  solar: 5632/6841 pairs done  solar: 6144/6841 pairs done  solar: 6656/6841 pairs done  solar: 6841/6841 pairs done
+  [solar] rho2=1: 6.64s (0.97 ms/pair)
+  solar: 512/6841 pairs done  solar: 1024/6841 pairs done  solar: 1536/6841 pairs done  solar: 2048/6841 pairs done  solar: 2560/6841 pairs done  solar: 3072/6841 pairs done  solar: 3584/6841 pairs done  solar: 4096/6841 pairs done  solar: 4608/6841 pairs done  solar: 5120/6841 pairs done  solar: 5632/6841 pairs done  solar: 6144/6841 pairs done  solar: 6656/6841 pairs done  solar: 6841/6841 pairs done
+  [solar] rho2=10: 6.70s (0.98 ms/pair)
+2 (4083, 170)
+self.enc_in = 170
+self.data_x = (4083, 170)
+[PEMS08] bundle loaded in 13.3s, 3614 pairs
+  PEMS08: 512/3614 pairs done  PEMS08: 1024/3614 pairs done  PEMS08: 1536/3614 pairs done  PEMS08: 2048/3614 pairs done  PEMS08: 2560/3614 pairs done  PEMS08: 3072/3614 pairs done  PEMS08: 3584/3614 pairs done  PEMS08: 3614/3614 pairs done
+  [PEMS08] rho2=0: 3.54s (0.98 ms/pair)
+  PEMS08: 512/3614 pairs done  PEMS08: 1024/3614 pairs done  PEMS08: 1536/3614 pairs done  PEMS08: 2048/3614 pairs done  PEMS08: 2560/3614 pairs done  PEMS08: 3072/3614 pairs done  PEMS08: 3584/3614 pairs done  PEMS08: 3614/3614 pairs done
+  [PEMS08] rho2=0.001: 3.53s (0.98 ms/pair)
+  PEMS08: 512/3614 pairs done  PEMS08: 1024/3614 pairs done  PEMS08: 1536/3614 pairs done  PEMS08: 2048/3614 pairs done  PEMS08: 2560/3614 pairs done  PEMS08: 3072/3614 pairs done  PEMS08: 3584/3614 pairs done  PEMS08: 3614/3614 pairs done
+  [PEMS08] rho2=0.01: 3.54s (0.98 ms/pair)
+  PEMS08: 512/3614 pairs done  PEMS08: 1024/3614 pairs done  PEMS08: 1536/3614 pairs done  PEMS08: 2048/3614 pairs done  PEMS08: 2560/3614 pairs done  PEMS08: 3072/3614 pairs done  PEMS08: 3584/3614 pairs done  PEMS08: 3614/3614 pairs done
+  [PEMS08] rho2=0.1: 3.53s (0.98 ms/pair)
+  PEMS08: 512/3614 pairs done  PEMS08: 1024/3614 pairs done  PEMS08: 1536/3614 pairs done  PEMS08: 2048/3614 pairs done  PEMS08: 2560/3614 pairs done  PEMS08: 3072/3614 pairs done  PEMS08: 3584/3614 pairs done  PEMS08: 3614/3614 pairs done
+  [PEMS08] rho2=1: 3.54s (0.98 ms/pair)
+  PEMS08: 512/3614 pairs done  PEMS08: 1024/3614 pairs done  PEMS08: 1536/3614 pairs done  PEMS08: 2048/3614 pairs done  PEMS08: 2560/3614 pairs done  PEMS08: 3072/3614 pairs done  PEMS08: 3584/3614 pairs done  PEMS08: 3614/3614 pairs done
+  [PEMS08] rho2=10: 3.55s (0.98 ms/pair)
+2 (7524, 11)
+self.enc_in = 11
+self.data_x = (7524, 11)
+[AQWan] bundle loaded in 1.0s, 296 pairs
+  AQWan: 296/296 pairs done
+  [AQWan] rho2=0: 0.29s (1.00 ms/pair)
+  AQWan: 296/296 pairs done
+  [AQWan] rho2=0.001: 0.29s (0.99 ms/pair)
+  AQWan: 296/296 pairs done
+  [AQWan] rho2=0.01: 0.29s (0.99 ms/pair)
+  AQWan: 296/296 pairs done
+  [AQWan] rho2=0.1: 0.29s (0.99 ms/pair)
+  AQWan: 296/296 pairs done
+  [AQWan] rho2=1: 0.30s (1.00 ms/pair)
+  AQWan: 296/296 pairs done
+  [AQWan] rho2=10: 0.29s (0.99 ms/pair)
+2 (10246, 7)
+self.enc_in = 7
+self.data_x = (10246, 7)
+[Wind] bundle loaded in 0.8s, 408 pairs
+  Wind: 408/408 pairs done
+  [Wind] rho2=0: 0.41s (1.00 ms/pair)
+  Wind: 408/408 pairs done
+  [Wind] rho2=0.001: 0.41s (1.00 ms/pair)
+  Wind: 408/408 pairs done
+  [Wind] rho2=0.01: 0.40s (0.99 ms/pair)
+  Wind: 408/408 pairs done
+  [Wind] rho2=0.1: 0.41s (0.99 ms/pair)
+  Wind: 408/408 pairs done
+  [Wind] rho2=1: 0.41s (1.00 ms/pair)
+  Wind: 408/408 pairs done
+  [Wind] rho2=10: 0.40s (0.97 ms/pair)
+2 (4357, 11)
+self.enc_in = 11
+self.data_x = (4357, 11)
+[ZafNoo] bundle loaded in 0.5s, 81 pairs
+  ZafNoo: 81/81 pairs done
+  [ZafNoo] rho2=0: 0.08s (1.03 ms/pair)
+  ZafNoo: 81/81 pairs done
+  [ZafNoo] rho2=0.001: 0.08s (1.01 ms/pair)
+  ZafNoo: 81/81 pairs done
+  [ZafNoo] rho2=0.01: 0.08s (1.02 ms/pair)
+  ZafNoo: 81/81 pairs done
+  [ZafNoo] rho2=0.1: 0.08s (1.02 ms/pair)
+  ZafNoo: 81/81 pairs done
+  [ZafNoo] rho2=1: 0.08s (1.00 ms/pair)
+  ZafNoo: 81/81 pairs done
+  [ZafNoo] rho2=10: 0.08s (1.01 ms/pair)
+2 (4498, 11)
+self.enc_in = 11
+self.data_x = (4498, 11)
+[CzeLan] bundle loaded in 0.7s, 242 pairs
+  CzeLan: 242/242 pairs done
+  [CzeLan] rho2=0: 0.24s (1.00 ms/pair)
+  CzeLan: 242/242 pairs done
+  [CzeLan] rho2=0.001: 0.24s (1.00 ms/pair)
+  CzeLan: 242/242 pairs done
+  [CzeLan] rho2=0.01: 0.24s (1.00 ms/pair)
+  CzeLan: 242/242 pairs done
+  [CzeLan] rho2=0.1: 0.24s (1.00 ms/pair)
+  CzeLan: 242/242 pairs done
+  [CzeLan] rho2=1: 0.24s (0.99 ms/pair)
+  CzeLan: 242/242 pairs done
+  [CzeLan] rho2=10: 0.24s (1.00 ms/pair)
+
+
+=== rho2 sweep: Combined row across all rho2 values ===
+ rho2  dataset               experiment     n  mean_d_A  mean_d_B  frac_closer_to_B  wilcoxon_p
+    0 Combined      main (swap dynamic) 22714    0.5385    0.6399            0.4508      0.0000
+    0 Combined control (swap invariant) 22714    0.5552    0.6070            0.4816      0.0000
+0.001 Combined      main (swap dynamic) 22714    0.5303    0.6298            0.4551      0.0000
+0.001 Combined control (swap invariant) 22714    0.5503    0.6016            0.4888      0.0000
+ 0.01 Combined      main (swap dynamic) 22714    0.5444    0.6408            0.4548      0.0000
+ 0.01 Combined control (swap invariant) 22714    0.5660    0.6156            0.4885      0.0000
+  0.1 Combined      main (swap dynamic) 22714    0.5477    0.6220            0.4752      0.0000
+  0.1 Combined control (swap invariant) 22714    0.5501    0.6154            0.4684      0.0000
+    1 Combined      main (swap dynamic) 22714    0.5491    0.6315            0.4541      0.0000
+    1 Combined control (swap invariant) 22714    0.5569    0.6248            0.4737      0.0000
+   10 Combined      main (swap dynamic) 22714    0.5376    0.6190            0.4596      0.0000
+   10 Combined control (swap invariant) 22714    0.5560    0.6097            0.4753      0.0000

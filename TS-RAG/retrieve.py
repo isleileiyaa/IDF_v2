@@ -14,10 +14,12 @@ from utils.tools import get_borders
 
 frequency_dict = {'ETTh1': 'hour', 'ETTh2': 'hour', 'ETTm1': 'minute', 'ETTm2': 'minute',
                     'electricity': 'hour', 'weather': '10minutes', 'traffic': 'hour', 'exchange_rate': 'hour', 'illness': 'hour',
-                    'solar': '10minutes', 'PEMS08': '5minutes', 'AQWan': 'hour'}
+                    'solar': '10minutes', 'PEMS08': '5minutes', 'AQWan': 'hour', 'Wind': '15minutes', 'ILI': 'week',
+                    'ZafNoo': '30minutes', 'CzeLan': '30minutes'}
 subdir_name_dict = {'ETTh1': 'ETT-small', 'ETTh2': 'ETT-small', 'ETTm1': 'ETT-small', 'ETTm2': 'ETT-small',
                     'electricity': 'electricity', 'weather': 'weather', 'traffic': 'traffic', 'solar': 'solar',
-                    'PEMS08': 'PEMS08', 'AQWan': 'AQWan'}
+                    'PEMS08': 'PEMS08', 'AQWan': 'AQWan', 'Wind': 'Wind', 'ILI': 'ILI', 'ZafNoo': 'ZafNoo',
+                    'CzeLan': 'CzeLan'}
 
 # Self-retrieval KB build density: by default every dataset embeds a dense,
 # stride-1 sliding window over its full history (one window per timestep),

@@ -140,3 +140,9 @@ solar_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis
 mse:0.4131, std:0.0000 ---- mae:0.3360, std:0.0000
 AQWan_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis
 mse:0.6830, std:0.0000 ---- mae:0.4197, std:0.0000
+Wind_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis
+mse:0.8972, std:0.0000 ---- mae:0.5945, std:0.0000
+ZafNoo_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis
+mse:0.4011, std:0.0000 ---- mae:0.3509, std:0.0000
+CzeLan_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis
+mse:0.1987, std:0.0000 ---- mae:0.2305, std:0.0000

@@ -1,4 +1,10 @@
-# third_party/uni2ts
+# third_party/
+
+Backbone dependencies that don't ship as clean, narrowly-scoped PyPI packages
+live here, one subdirectory per backbone. See each backbone's own section
+below for why it's handled the way it is.
+
+## third_party/uni2ts
 
 Vendored subset of [SalesforceAIResearch/uni2ts](https://github.com/SalesforceAIResearch/uni2ts)
 (commit: `main` as of 2026-07-26), Apache-2.0 licensed (see `uni2ts/LICENSE.txt`).
@@ -40,8 +46,33 @@ then does `from uni2ts.model.moirai2 import Moirai2Module`, so this package
 resolves as a normal top-level `uni2ts` import without touching the `tsrag`
 env's installed packages.
 
-## Updating
+## Updating (uni2ts)
 
 If upstream `uni2ts` changes `Moirai2Module`'s architecture, re-fetch the
 files listed above from the `uni2ts` GitHub repo and re-apply the same trim
 to `model/moirai2/__init__.py`.
+
+## third_party/timesfm
+
+**Not vendored** -- a real `git clone` of
+[google-research/timesfm](https://github.com/google-research/timesfm),
+`pip install -e`'d into the `tsrag` env (see setup below). Unlike `uni2ts`,
+this repo's base + `[torch]` extras (`numpy`, `huggingface_hub`,
+`safetensors`, `torch>=2.0.0` with no upper pin) don't conflict with anything
+already installed, so there was no need to hand-pick files.
+`TS-RAG/third_party/timesfm/` is gitignored (it's a live pip-editable-install
+target, not something we've reviewed file-by-file the way `uni2ts` was).
+
+Setup, if this directory is missing on a fresh checkout:
+```bash
+cd TS-RAG/third_party
+git clone https://github.com/google-research/timesfm.git
+cd timesfm && pip install -e ".[torch]"
+```
+
+`models/TimesFM25.py` loads `TimesFM_2p5_200M_torch` from
+`timesfm.timesfm_2p5.timesfm_2p5_torch`, checkpoint
+`google/timesfm-2.5-200m-pytorch`. This is deliberately **not** the
+HuggingFace `transformers` port (`transformers.TimesFm2_5ModelForPrediction`,
+checkpoint `google/timesfm-2.5-200m-transformers`) -- same architecture,
+different checkpoint repo and loading code; don't mix the two.

@@ -1,0 +1,13 @@
+=== [2026年 07月 30日 星期四 15:33:38 CST] PRETRAIN start: dismodeoutput_rho2_0_rhoout_0.01 ===
+=== [2026年 07月 30日 星期四 15:47:20 CST] PRETRAIN done: dismodeoutput_rho2_0_rhoout_0.01 (exit 0) ===
+=== [2026年 07月 30日 星期四 15:47:20 CST] ZEROSHOT start: dismodeoutput_rho2_0_rhoout_0.01 ===
+=== [2026年 07月 30日 星期四 16:05:11 CST] ZEROSHOT done: dismodeoutput_rho2_0_rhoout_0.01 (exit 0) ===
+=== [2026年 07月 30日 星期四 16:05:11 CST] PRETRAIN start: dismodeoutput_rho2_0_rhoout_0.1 ===
+=== [2026年 07月 30日 星期四 16:19:00 CST] PRETRAIN done: dismodeoutput_rho2_0_rhoout_0.1 (exit 0) ===
+=== [2026年 07月 30日 星期四 16:19:00 CST] ZEROSHOT start: dismodeoutput_rho2_0_rhoout_0.1 ===
+=== [2026年 07月 30日 星期四 16:36:50 CST] ZEROSHOT done: dismodeoutput_rho2_0_rhoout_0.1 (exit 0) ===
+=== [2026年 07月 30日 星期四 16:36:50 CST] PRETRAIN start: dismodeoutput_rho2_0_rhoout_1 ===
+=== [2026年 07月 30日 星期四 16:50:26 CST] PRETRAIN done: dismodeoutput_rho2_0_rhoout_1 (exit 0) ===
+=== [2026年 07月 30日 星期四 16:50:26 CST] ZEROSHOT start: dismodeoutput_rho2_0_rhoout_1 ===
+=== [2026年 07月 30日 星期四 17:08:15 CST] ZEROSHOT done: dismodeoutput_rho2_0_rhoout_1 (exit 0) ===
+=== [2026年 07月 30日 星期四 17:08:15 CST] PRETRAIN start: dismodeboth_rho2_0.01_rhoout_0.01 ===

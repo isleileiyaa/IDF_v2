@@ -1,0 +1,75 @@
+Launching TimesFM 2.5 RIDDE pretrain
+model_id=timesfm25_idf_clean_dis_512_pred64_lookback512_top10_lr0.000001_drop0.2_adamw_cosanneal_step10000_bs256
+wandb: Tracking run with wandb version 0.19.10
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+TimesFM25Retrieve model loaded
+Trainable parameters:
+encode_mlp.0.weight
+encode_mlp.0.bias
+encode_mlp.2.weight
+encode_mlp.2.bias
+ret_score_head.weight
+ret_score_head.bias
+fuse_gate.weight
+fuse_gate.bias
+routing_gate.weight
+routing_gate.bias
+inv_pred_head.weight
+inv_pred_head.bias
+dyn_pred_head_clean.weight
+dyn_pred_head_clean.bias
+final_pred_head.weight
+final_pred_head.bias
+  0%|          | 0/10000 [00:00<?, ?it/s]  0%|          | 0/10000 [00:10<?, ?it/s, total=57, f=57]  0%|          | 1/10000 [00:10<29:26:45, 10.60s/it, total=57, f=57]  0%|          | 1/10000 [00:10<29:57:12, 10.78s/it, total=57, f=57]
+Traceback (most recent call last):
+  File "/home/fenglei/TS-RAG-main/TS-RAG/pretrain.py", line 587, in <module>
+    outputs = model(context = batch['x'].float(),
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/fenglei/TS-RAG-main/TS-RAG/models/TimesFM25.py", line 246, in forward
+    q = self.get_query_repr(context)  # (B, d)
+  File "/home/fenglei/TS-RAG-main/TS-RAG/models/TimesFM25.py", line 132, in get_query_repr
+    (_, output_embeddings, _, _), _ = self.backbone(patches, masks, decode_caches=None)
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/fenglei/cross-rag/cross-rag/third_party/timesfm/src/timesfm/timesfm_2p5/timesfm_2p5_torch.py", line 106, in forward
+    output_quantile_spread = self.output_projection_quantiles(output_embeddings)
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/fenglei/cross-rag/cross-rag/third_party/timesfm/src/timesfm/torch/dense.py", line 54, in forward
+    return self.output_layer(
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 160.00 MiB. GPU 0 has a total capacity of 23.64 GiB of which 127.38 MiB is free. Process 3363980 has 21.57 GiB memory in use. Including non-PyTorch memory, this process has 1.93 GiB memory in use. Of the allocated memory 1.40 GiB is allocated by PyTorch, and 123.08 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+Traceback (most recent call last):
+  File "/home/fenglei/TS-RAG-main/TS-RAG/pretrain.py", line 587, in <module>
+    outputs = model(context = batch['x'].float(),
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/fenglei/TS-RAG-main/TS-RAG/models/TimesFM25.py", line 246, in forward
+    q = self.get_query_repr(context)  # (B, d)
+  File "/home/fenglei/TS-RAG-main/TS-RAG/models/TimesFM25.py", line 132, in get_query_repr
+    (_, output_embeddings, _, _), _ = self.backbone(patches, masks, decode_caches=None)
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/fenglei/cross-rag/cross-rag/third_party/timesfm/src/timesfm/timesfm_2p5/timesfm_2p5_torch.py", line 106, in forward
+    output_quantile_spread = self.output_projection_quantiles(output_embeddings)
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/fenglei/cross-rag/cross-rag/third_party/timesfm/src/timesfm/torch/dense.py", line 54, in forward
+    return self.output_layer(
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 160.00 MiB. GPU 0 has a total capacity of 23.64 GiB of which 127.38 MiB is free. Process 3363980 has 21.57 GiB memory in use. Including non-PyTorch memory, this process has 1.93 GiB memory in use. Of the allocated memory 1.40 GiB is allocated by PyTorch, and 123.08 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /home/fenglei/TS-RAG-main/TS-RAG/wandb/offline-run-20260728_134839-uyiedgs7[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/offline-run-20260728_134839-uyiedgs7/logs[0m

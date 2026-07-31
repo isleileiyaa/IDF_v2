@@ -17,6 +17,7 @@ from models.moment import MOMENTPipelineWithRetrieval
 from dataset import CustomPretrainDataset, Retriever_for_pretrain
 from models.ChronosBolt import ChronosBoltModelForForecasting, ChronosBoltModelForForecastingWithRetrieval
 from models.Moirai2 import Moirai2ModelForForecastingWithRetrieval, Moirai2MoEModelForForecastingWithRetrieval
+from models.TimesFM25 import TimesFM25ModelForForecastingWithRetrieval, TimesFM25MoEModelForForecastingWithRetrieval
     
 warnings.filterwarnings('ignore')
 
@@ -55,6 +56,13 @@ parser.add_argument('--rho1', type=float, default=0.0)
 parser.add_argument('--rho2', type=float, default=0.0)
 parser.add_argument('--rho3', type=float, default=0.0)
 parser.add_argument('--rho4', type=float, default=0.0)
+# output-level disentanglement ablation (idf_clean_dis / RIDDE only):
+# dis_mode selects which L_dis term(s) feed into the total loss.
+#   latent  -> only rho2 * L_dis(z_inv, z_dyn)              [original RIDDE / Table 4]
+#   output  -> only rho_dis_output * L_dis(y_hat_inv, y_hat_dyn)
+#   both    -> rho2 * L_dis(z_inv, z_dyn) + rho_dis_output * L_dis(y_hat_inv, y_hat_dyn)
+parser.add_argument('--dis_mode', type=str, default='latent', choices=['latent', 'output', 'both'])
+parser.add_argument('--rho_dis_output', type=float, default=0.0)
 parser.add_argument('--lambda1', type=float, default=0.0)
 parser.add_argument('--lambda2', type=float, default=0.0)
 parser.add_argument('--tau', type=float, default=0.1)
@@ -117,6 +125,8 @@ elif args.model == 'ChronosBoltRetrieve':
     model.rho2 = args.rho2
     model.rho3 = args.rho3
     model.rho4 = args.rho4
+    model.dis_mode = args.dis_mode
+    model.rho_dis_output = args.rho_dis_output
     model.lambda1 = args.lambda1
     model.lambda2 = args.lambda2
     model.tau = args.tau
@@ -275,8 +285,8 @@ elif args.model == 'Moirai2Retrieve':
     # model class itself (requires_grad=False set in __init__); no checkpoint
     # load / init_extra_weights needed here, unlike ChronosBoltRetrieve.
     # args.augment_mode selects which fusion head to attach on top of the
-    # frozen backbone -- both output a point forecast (L2 loss), unlike the
-    # Chronos-Bolt path's 9-quantile heads.
+    # frozen backbone -- both output a 9-quantile distribution (pinball loss),
+    # matching the original Chronos-Bolt path's output format.
     if args.augment_mode == 'idf_clean_dis':
         model = Moirai2ModelForForecastingWithRetrieval(
             context_length=args.context_length,
@@ -290,6 +300,24 @@ elif args.model == 'Moirai2Retrieve':
     else:
         raise ValueError(
             f"Moirai2Retrieve only supports augment_mode in ['idf_clean_dis', 'moe'], got {args.augment_mode!r}"
+        )
+elif args.model == 'TimesFM25Retrieve':
+    # Backbone (google/timesfm-2.5-200m-pytorch, native timesfm package) is
+    # loaded and frozen inside the model class itself; same 9-quantile /
+    # pinball-loss heads as Moirai2Retrieve, just wired to a different backbone.
+    if args.augment_mode == 'idf_clean_dis':
+        model = TimesFM25ModelForForecastingWithRetrieval(
+            context_length=args.context_length,
+            prediction_length=args.prediction_length,
+        )
+    elif args.augment_mode == 'moe':
+        model = TimesFM25MoEModelForForecastingWithRetrieval(
+            context_length=args.context_length,
+            prediction_length=args.prediction_length,
+        )
+    else:
+        raise ValueError(
+            f"TimesFM25Retrieve only supports augment_mode in ['idf_clean_dis', 'moe'], got {args.augment_mode!r}"
         )
 elif args.model == 'MOMENTRetrieve':
     MOMENT_MODEL_PATH = "AutonLab/MOMENT-1-large"
@@ -322,11 +350,11 @@ elif args.optimizer == 'adamw':
 # freeze params
 if args.freeze_chronos_bolt:
     layers_to_unfreeze = ['gate_layer', 'encode_mlp', 'mha', 'ffn']
-    if args.model == 'Moirai2Retrieve' and args.augment_mode == 'moe':
-        # Moirai2MoEModelForForecastingWithRetrieval adds its own quantile
-        # head (quantile_pred_head) instead of reusing a native backbone head,
-        # unlike the Chronos-Bolt 'moe' path -- the base layers_to_unfreeze
-        # list above doesn't cover it.
+    if args.model in ('Moirai2Retrieve', 'TimesFM25Retrieve') and args.augment_mode == 'moe':
+        # Moirai2MoEModelForForecastingWithRetrieval / TimesFM25MoEModelForForecastingWithRetrieval
+        # add their own quantile head (quantile_pred_head) instead of reusing a native backbone
+        # head, unlike the Chronos-Bolt 'moe' path -- the base layers_to_unfreeze list above
+        # doesn't cover it.
         layers_to_unfreeze.append('quantile_pred_head')
     if args.augment_mode == 'moe3':
         if args.model == 'ChronosBoltRetrieve':
@@ -564,6 +592,11 @@ for i, batch in pbar:
                         target = batch['y'].float(),
                         retrieved_seq = retrieved_seqs.float(),
                         distances = batch['distances'].float())                  # Moirai2RiddeOutput / Moirai2MoEOutput
+    elif args.model == 'TimesFM25Retrieve':
+        outputs = model(context = batch['x'].float(),
+                        target = batch['y'].float(),
+                        retrieved_seq = retrieved_seqs.float(),
+                        distances = batch['distances'].float())                  # TimesFM25RiddeOutput / TimesFM25MoEOutput
     elif args.model == 'MOMENTRetrieve':
         outputs = model(x_enc=batch['x'].float().unsqueeze(1), retrieved_seq=retrieved_seqs.float())
         outputs = outputs.forecast.squeeze(1)                                                     
@@ -581,6 +614,7 @@ for i, batch in pbar:
         loss_smooth = outputs.loss_smooth.mean() if outputs.loss_smooth is not None else loss.new_zeros(())
         loss_inv = outputs.loss_inv.mean() if outputs.loss_inv is not None else loss.new_zeros(())
         loss_dis = outputs.loss_dis.mean() if outputs.loss_dis is not None else loss.new_zeros(())
+        loss_dis_output = outputs.loss_dis_output.mean() if outputs.loss_dis_output is not None else loss.new_zeros(())
         loss_ret = outputs.loss_ret.mean() if outputs.loss_ret is not None else loss.new_zeros(())
         loss_dyn = outputs.loss_dyn.mean() if outputs.loss_dyn is not None else loss.new_zeros(())
         aux_loss_enabled = getattr(outputs, 'aux_loss_enabled', False)
@@ -590,6 +624,7 @@ for i, batch in pbar:
         loss_smooth = loss.new_zeros(())
         loss_inv = loss.new_zeros(())
         loss_dis = loss.new_zeros(())
+        loss_dis_output = loss.new_zeros(())
         loss_ret = loss.new_zeros(())
         loss_dyn = loss.new_zeros(())
         aux_loss_enabled = False
@@ -601,6 +636,7 @@ for i, batch in pbar:
             'loss_smooth': loss_smooth.item(),
             'loss_inv': loss_inv.item(),
             'loss_dis': loss_dis.item(),
+            'loss_dis_output': loss_dis_output.item(),
             'loss_ret': loss_ret.item(),
             'loss_dyn': loss_dyn.item(),
             'lr': model_optim.param_groups[0]['lr']
@@ -625,6 +661,7 @@ for i, batch in pbar:
                 'smooth': round(loss_smooth.item(), 4),
                 'inv': round(loss_inv.item(), 4),
                 'dis': round(loss_dis.item(), 4),
+                'dis_out': round(loss_dis_output.item(), 4),
                 'ret': round(loss_ret.item(), 4),
                 'dyn': round(loss_dyn.item(), 4),
             })

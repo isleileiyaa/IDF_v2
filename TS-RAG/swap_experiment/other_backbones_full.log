@@ -1,0 +1,182 @@
+2 (3392, 7)
+self.enc_in = 7
+self.data_x = (3392, 7)
+[ETTh1] bundle loaded in 0.4s, 34 pairs
+  loaded /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/moirai2_idf_clean_dis_512_pred64_lookback512_top10_lr0.000015_drop0.2_adamw_cosanneal_step10000_bs256_final.pth
+  missing=[] unexpected=[]
+  loaded backbone Moirai2
+  ETTh1: 34/34 pairs done
+  [ETTh1] Moirai2: 0.15s (4.44 ms/pair)
+  loaded /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/timesfm25_idf_clean_dis_512_pred64_lookback512_top10_lr0.000005_drop0.2_adamw_cosanneal_step10000_bs256_final.pth
+  missing=[] unexpected=[]
+  loaded backbone TimesFM2.5
+  ETTh1: 34/34 pairs done
+  [ETTh1] TimesFM2.5: 0.04s (1.30 ms/pair)
+2 (12032, 7)
+self.enc_in = 7
+self.data_x = (12032, 7)
+[ETTm1] bundle loaded in 1.6s, 496 pairs
+  ETTm1: 256/496 pairs done  ETTm1: 496/496 pairs done
+  [ETTm1] Moirai2: 0.29s (0.59 ms/pair)
+  ETTm1: 256/496 pairs done  ETTm1: 496/496 pairs done
+  [ETTm1] TimesFM2.5: 0.56s (1.13 ms/pair)
+2 (5772, 321)
+self.enc_in = 321
+self.data_x = (5772, 321)
+[electricity] bundle loaded in 58.6s, 1322 pairs
+  electricity: 256/1322 pairs done  electricity: 512/1322 pairs done  electricity: 768/1322 pairs done  electricity: 1024/1322 pairs done  electricity: 1280/1322 pairs done  electricity: 1322/1322 pairs done
+  [electricity] Moirai2: 0.81s (0.61 ms/pair)
+  electricity: 256/1322 pairs done  electricity: 512/1322 pairs done  electricity: 768/1322 pairs done  electricity: 1024/1322 pairs done  electricity: 1280/1322 pairs done  electricity: 1322/1322 pairs done
+  [electricity] TimesFM2.5: 1.50s (1.13 ms/pair)
+2 (3392, 7)
+self.enc_in = 7
+self.data_x = (3392, 7)
+[ETTh2] bundle loaded in 0.5s, 39 pairs
+  ETTh2: 39/39 pairs done
+  [ETTh2] Moirai2: 0.03s (0.71 ms/pair)
+  ETTh2: 39/39 pairs done
+  [ETTh2] TimesFM2.5: 0.05s (1.23 ms/pair)
+2 (12032, 7)
+self.enc_in = 7
+self.data_x = (12032, 7)
+[ETTm2] bundle loaded in 1.5s, 365 pairs
+  ETTm2: 256/365 pairs done  ETTm2: 365/365 pairs done
+  [ETTm2] Moirai2: 0.22s (0.61 ms/pair)
+  ETTm2: 256/365 pairs done  ETTm2: 365/365 pairs done
+  [ETTm2] TimesFM2.5: 0.41s (1.13 ms/pair)
+2 (11051, 21)
+self.enc_in = 21
+self.data_x = (11051, 21)
+[weather] bundle loaded in 2.7s, 1236 pairs
+  weather: 256/1236 pairs done  weather: 512/1236 pairs done  weather: 768/1236 pairs done  weather: 1024/1236 pairs done  weather: 1236/1236 pairs done
+  [weather] Moirai2: 0.74s (0.60 ms/pair)
+  weather: 256/1236 pairs done  weather: 512/1236 pairs done  weather: 768/1236 pairs done  weather: 1024/1236 pairs done  weather: 1236/1236 pairs done
+  [weather] TimesFM2.5: 1.39s (1.12 ms/pair)
+2 (2029, 8)
+self.enc_in = 8
+self.data_x = (2029, 8)
+[exchange_rate] bundle loaded in 0.1s, 42 pairs
+  exchange_rate: 42/42 pairs done
+  [exchange_rate] Moirai2: 0.03s (0.68 ms/pair)
+  exchange_rate: 42/42 pairs done
+  [exchange_rate] TimesFM2.5: 0.05s (1.23 ms/pair)
+2 (4020, 862)
+self.enc_in = 862
+self.data_x = (4020, 862)
+[traffic] bundle loaded in 169.1s, 7698 pairs
+  traffic: 256/7698 pairs done  traffic: 512/7698 pairs done  traffic: 768/7698 pairs done  traffic: 1024/7698 pairs done  traffic: 1280/7698 pairs done  traffic: 1536/7698 pairs done  traffic: 1792/7698 pairs done  traffic: 2048/7698 pairs done  traffic: 2304/7698 pairs done  traffic: 2560/7698 pairs done  traffic: 2816/7698 pairs done  traffic: 3072/7698 pairs done  traffic: 3328/7698 pairs done  traffic: 3584/7698 pairs done  traffic: 3840/7698 pairs done  traffic: 4096/7698 pairs done  traffic: 4352/7698 pairs done  traffic: 4608/7698 pairs done  traffic: 4864/7698 pairs done  traffic: 5120/7698 pairs done  traffic: 5376/7698 pairs done  traffic: 5632/7698 pairs done  traffic: 5888/7698 pairs done  traffic: 6144/7698 pairs done  traffic: 6400/7698 pairs done  traffic: 6656/7698 pairs done  traffic: 6912/7698 pairs done  traffic: 7168/7698 pairs done  traffic: 7424/7698 pairs done  traffic: 7680/7698 pairs done  traffic: 7698/7698 pairs done
+  [traffic] Moirai2: 4.70s (0.61 ms/pair)
+  traffic: 256/7698 pairs done  traffic: 512/7698 pairs done  traffic: 768/7698 pairs done  traffic: 1024/7698 pairs done  traffic: 1280/7698 pairs done  traffic: 1536/7698 pairs done  traffic: 1792/7698 pairs done  traffic: 2048/7698 pairs done  traffic: 2304/7698 pairs done  traffic: 2560/7698 pairs done  traffic: 2816/7698 pairs done  traffic: 3072/7698 pairs done  traffic: 3328/7698 pairs done  traffic: 3584/7698 pairs done  traffic: 3840/7698 pairs done  traffic: 4096/7698 pairs done  traffic: 4352/7698 pairs done  traffic: 4608/7698 pairs done  traffic: 4864/7698 pairs done  traffic: 5120/7698 pairs done  traffic: 5376/7698 pairs done  traffic: 5632/7698 pairs done  traffic: 5888/7698 pairs done  traffic: 6144/7698 pairs done  traffic: 6400/7698 pairs done  traffic: 6656/7698 pairs done  traffic: 6912/7698 pairs done  traffic: 7168/7698 pairs done  traffic: 7424/7698 pairs done  traffic: 7680/7698 pairs done  traffic: 7698/7698 pairs done
+  [traffic] TimesFM2.5: 8.71s (1.13 ms/pair)
+2 (11024, 137)
+self.enc_in = 137
+self.data_x = (11024, 137)
+[solar] bundle loaded in 27.2s, 6841 pairs
+  solar: 256/6841 pairs done  solar: 512/6841 pairs done  solar: 768/6841 pairs done  solar: 1024/6841 pairs done  solar: 1280/6841 pairs done  solar: 1536/6841 pairs done  solar: 1792/6841 pairs done  solar: 2048/6841 pairs done  solar: 2304/6841 pairs done  solar: 2560/6841 pairs done  solar: 2816/6841 pairs done  solar: 3072/6841 pairs done  solar: 3328/6841 pairs done  solar: 3584/6841 pairs done  solar: 3840/6841 pairs done  solar: 4096/6841 pairs done  solar: 4352/6841 pairs done  solar: 4608/6841 pairs done  solar: 4864/6841 pairs done  solar: 5120/6841 pairs done  solar: 5376/6841 pairs done  solar: 5632/6841 pairs done  solar: 5888/6841 pairs done  solar: 6144/6841 pairs done  solar: 6400/6841 pairs done  solar: 6656/6841 pairs done  solar: 6841/6841 pairs done
+  [solar] Moirai2: 4.08s (0.60 ms/pair)
+  solar: 256/6841 pairs done  solar: 512/6841 pairs done  solar: 768/6841 pairs done  solar: 1024/6841 pairs done  solar: 1280/6841 pairs done  solar: 1536/6841 pairs done  solar: 1792/6841 pairs done  solar: 2048/6841 pairs done  solar: 2304/6841 pairs done  solar: 2560/6841 pairs done  solar: 2816/6841 pairs done  solar: 3072/6841 pairs done  solar: 3328/6841 pairs done  solar: 3584/6841 pairs done  solar: 3840/6841 pairs done  solar: 4096/6841 pairs done  solar: 4352/6841 pairs done  solar: 4608/6841 pairs done  solar: 4864/6841 pairs done  solar: 5120/6841 pairs done  solar: 5376/6841 pairs done  solar: 5632/6841 pairs done  solar: 5888/6841 pairs done  solar: 6144/6841 pairs done  solar: 6400/6841 pairs done  solar: 6656/6841 pairs done  solar: 6841/6841 pairs done
+  [solar] TimesFM2.5: 7.74s (1.13 ms/pair)
+2 (4083, 170)
+self.enc_in = 170
+self.data_x = (4083, 170)
+[PEMS08] bundle loaded in 12.3s, 3614 pairs
+  PEMS08: 256/3614 pairs done  PEMS08: 512/3614 pairs done  PEMS08: 768/3614 pairs done  PEMS08: 1024/3614 pairs done  PEMS08: 1280/3614 pairs done  PEMS08: 1536/3614 pairs done  PEMS08: 1792/3614 pairs done  PEMS08: 2048/3614 pairs done  PEMS08: 2304/3614 pairs done  PEMS08: 2560/3614 pairs done  PEMS08: 2816/3614 pairs done  PEMS08: 3072/3614 pairs done  PEMS08: 3328/3614 pairs done  PEMS08: 3584/3614 pairs done  PEMS08: 3614/3614 pairs done
+  [PEMS08] Moirai2: 2.17s (0.60 ms/pair)
+  PEMS08: 256/3614 pairs done  PEMS08: 512/3614 pairs done  PEMS08: 768/3614 pairs done  PEMS08: 1024/3614 pairs done  PEMS08: 1280/3614 pairs done  PEMS08: 1536/3614 pairs done  PEMS08: 1792/3614 pairs done  PEMS08: 2048/3614 pairs done  PEMS08: 2304/3614 pairs done  PEMS08: 2560/3614 pairs done  PEMS08: 2816/3614 pairs done  PEMS08: 3072/3614 pairs done  PEMS08: 3328/3614 pairs done  PEMS08: 3584/3614 pairs done  PEMS08: 3614/3614 pairs done
+  [PEMS08] TimesFM2.5: 4.07s (1.13 ms/pair)
+2 (7524, 11)
+self.enc_in = 11
+self.data_x = (7524, 11)
+[AQWan] bundle loaded in 0.9s, 296 pairs
+  AQWan: 256/296 pairs done  AQWan: 296/296 pairs done
+  [AQWan] Moirai2: 0.18s (0.62 ms/pair)
+  AQWan: 256/296 pairs done  AQWan: 296/296 pairs done
+  [AQWan] TimesFM2.5: 0.34s (1.14 ms/pair)
+2 (10246, 7)
+self.enc_in = 7
+self.data_x = (10246, 7)
+[Wind] bundle loaded in 0.7s, 408 pairs
+  Wind: 256/408 pairs done  Wind: 408/408 pairs done
+  [Wind] Moirai2: 0.25s (0.60 ms/pair)
+  Wind: 256/408 pairs done  Wind: 408/408 pairs done
+  [Wind] TimesFM2.5: 0.46s (1.12 ms/pair)
+2 (4357, 11)
+self.enc_in = 11
+self.data_x = (4357, 11)
+[ZafNoo] bundle loaded in 0.5s, 81 pairs
+  ZafNoo: 81/81 pairs done
+  [ZafNoo] Moirai2: 0.05s (0.65 ms/pair)
+  ZafNoo: 81/81 pairs done
+  [ZafNoo] TimesFM2.5: 0.09s (1.13 ms/pair)
+2 (4498, 11)
+self.enc_in = 11
+self.data_x = (4498, 11)
+[CzeLan] bundle loaded in 0.6s, 242 pairs
+  CzeLan: 242/242 pairs done
+  [CzeLan] Moirai2: 0.15s (0.62 ms/pair)
+  CzeLan: 242/242 pairs done
+  [CzeLan] TimesFM2.5: 0.27s (1.13 ms/pair)
+
+
+=== Moirai2 / TimesFM2.5, all datasets, rho=0 ===
+  backbone       dataset               experiment     n  mean_d_A  mean_d_B  frac_closer_to_B  wilcoxon_p
+   Moirai2         ETTh1      main (swap dynamic)    34    0.2727    0.3214            0.5588      0.8527
+   Moirai2         ETTh1 control (swap invariant)    34    0.3049    0.2540            0.5000      0.3787
+   Moirai2         ETTm1      main (swap dynamic)   496    0.5518    0.5834            0.4375      0.0448
+   Moirai2         ETTm1 control (swap invariant)   496    0.5774    0.5811            0.4798      0.5898
+   Moirai2   electricity      main (swap dynamic)  1322    0.2280    0.2728            0.3979      0.0000
+   Moirai2   electricity control (swap invariant)  1322    0.2570    0.2672            0.4592      0.0037
+   Moirai2         ETTh2      main (swap dynamic)    39    0.3620    0.4397            0.4872      0.3222
+   Moirai2         ETTh2 control (swap invariant)    39    0.3479    0.3710            0.4615      0.6537
+   Moirai2         ETTm2      main (swap dynamic)   365    0.7138    0.7632            0.4247      0.0361
+   Moirai2         ETTm2 control (swap invariant)   365    0.7151    0.6968            0.5014      0.8976
+   Moirai2       weather      main (swap dynamic)  1236    1.1267    1.1852            0.4652      0.0014
+   Moirai2       weather control (swap invariant)  1236    1.1395    1.1628            0.4862      0.1481
+   Moirai2 exchange_rate      main (swap dynamic)    42    1.4384    1.3270            0.5238      0.5439
+   Moirai2 exchange_rate control (swap invariant)    42    1.4257    1.3165            0.4762      0.6030
+   Moirai2       traffic      main (swap dynamic)  7698    0.2505    0.3264            0.3683      0.0000
+   Moirai2       traffic control (swap invariant)  7698    0.3247    0.2529            0.5976      0.0000
+   Moirai2         solar      main (swap dynamic)  6841    0.4203    0.4868            0.3999      0.0000
+   Moirai2         solar control (swap invariant)  6841    0.4441    0.4617            0.5160      0.8006
+   Moirai2        PEMS08      main (swap dynamic)  3614    0.5920    0.5869            0.5108      0.2391
+   Moirai2        PEMS08 control (swap invariant)  3614    0.5740    0.5885            0.4759      0.0915
+   Moirai2         AQWan      main (swap dynamic)   296    0.4309    0.5498            0.4155      0.0001
+   Moirai2         AQWan control (swap invariant)   296    0.4890    0.4965            0.4764      0.4645
+   Moirai2          Wind      main (swap dynamic)   408    1.0610    1.0531            0.5147      0.8654
+   Moirai2          Wind control (swap invariant)   408    1.0805    1.0414            0.5319      0.2347
+   Moirai2        ZafNoo      main (swap dynamic)    81    0.4577    0.6932            0.3580      0.0035
+   Moirai2        ZafNoo control (swap invariant)    81    0.4844    0.6936            0.4074      0.0291
+   Moirai2        CzeLan      main (swap dynamic)   242    0.6311    0.6462            0.5165      0.9704
+   Moirai2        CzeLan control (swap invariant)   242    0.6611    0.6573            0.5248      0.5092
+   Moirai2      Combined      main (swap dynamic) 22714    0.4405    0.4951            0.4155      0.0000
+   Moirai2      Combined control (swap invariant) 22714    0.4744    0.4592            0.5306      0.0000
+TimesFM2.5         ETTh1      main (swap dynamic)    34    0.5942    0.6213            0.5000      0.9060
+TimesFM2.5         ETTh1 control (swap invariant)    34    0.6048    0.6086            0.5294      0.6853
+TimesFM2.5         ETTm1      main (swap dynamic)   496    1.0972    1.2231            0.4294      0.0001
+TimesFM2.5         ETTm1 control (swap invariant)   496    1.0952    1.1840            0.4476      0.0063
+TimesFM2.5   electricity      main (swap dynamic)  1322    0.3647    0.3605            0.4879      0.6841
+TimesFM2.5   electricity control (swap invariant)  1322    0.3680    0.3533            0.5287      0.0229
+TimesFM2.5         ETTh2      main (swap dynamic)    39    0.8886    0.9446            0.5385      0.4596
+TimesFM2.5         ETTh2 control (swap invariant)    39    0.8628    0.8986            0.5385      0.5854
+TimesFM2.5         ETTm2      main (swap dynamic)   365    1.4564    1.4289            0.5260      0.2941
+TimesFM2.5         ETTm2 control (swap invariant)   365    1.4477    1.4207            0.5233      0.3042
+TimesFM2.5       weather      main (swap dynamic)  1236    2.2782    2.2326            0.5194      0.0812
+TimesFM2.5       weather control (swap invariant)  1236    2.2908    2.2382            0.5186      0.0431
+TimesFM2.5 exchange_rate      main (swap dynamic)    42    2.6355    2.5944            0.5952      0.5439
+TimesFM2.5 exchange_rate control (swap invariant)    42    2.6969    2.6617            0.5476      0.6380
+TimesFM2.5       traffic      main (swap dynamic)  7698    0.1780    0.2324            0.3945      0.0000
+TimesFM2.5       traffic control (swap invariant)  7698    0.2176    0.1948            0.5469      0.0000
+TimesFM2.5         solar      main (swap dynamic)  6841    0.8957    0.9646            0.4597      0.0000
+TimesFM2.5         solar control (swap invariant)  6841    0.9072    0.9163            0.5034      0.5327
+TimesFM2.5        PEMS08      main (swap dynamic)  3614    1.2760    1.3013            0.4972      0.2287
+TimesFM2.5        PEMS08 control (swap invariant)  3614    1.2857    1.3080            0.5113      0.4692
+TimesFM2.5         AQWan      main (swap dynamic)   296    1.1400    1.1295            0.4831      0.8964
+TimesFM2.5         AQWan control (swap invariant)   296    1.1492    1.1276            0.4932      0.7176
+TimesFM2.5          Wind      main (swap dynamic)   408    1.9178    1.9756            0.4657      0.2074
+TimesFM2.5          Wind control (swap invariant)   408    1.9204    1.9715            0.4632      0.2783
+TimesFM2.5        ZafNoo      main (swap dynamic)    81    0.9786    1.2782            0.2469      0.0001
+TimesFM2.5        ZafNoo control (swap invariant)    81    0.9985    1.2684            0.3086      0.0006
+TimesFM2.5        CzeLan      main (swap dynamic)   242    1.1280    1.1254            0.4876      0.9309
+TimesFM2.5        CzeLan control (swap invariant)   242    1.0809    1.0724            0.4876      0.9587
+TimesFM2.5      Combined      main (swap dynamic) 22714    0.7977    0.8426            0.4493      0.0000
+TimesFM2.5      Combined control (swap invariant) 22714    0.8167    0.8146            0.5193      0.0001
