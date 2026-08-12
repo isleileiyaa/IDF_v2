@@ -63,6 +63,12 @@ parser.add_argument('--rho4', type=float, default=0.0)
 #   both    -> rho2 * L_dis(z_inv, z_dyn) + rho_dis_output * L_dis(y_hat_inv, y_hat_dyn)
 parser.add_argument('--dis_mode', type=str, default='latent', choices=['latent', 'output', 'both'])
 parser.add_argument('--rho_dis_output', type=float, default=0.0)
+# RIDDE "Training Objective ver 2.0" (idf_ridde_v2 only, paper Eq. 15-23):
+# L = L_pred + rho_sem*L_sem + rho_xcov*L_xcov + rho_ord*L_ord.
+parser.add_argument('--rho_sem', type=float, default=0.0)
+parser.add_argument('--rho_xcov', type=float, default=0.0)
+parser.add_argument('--rho_ord', type=float, default=0.0)
+parser.add_argument('--ord_margin', type=float, default=0.0)
 parser.add_argument('--lambda1', type=float, default=0.0)
 parser.add_argument('--lambda2', type=float, default=0.0)
 parser.add_argument('--tau', type=float, default=0.1)
@@ -127,6 +133,10 @@ elif args.model == 'ChronosBoltRetrieve':
     model.rho4 = args.rho4
     model.dis_mode = args.dis_mode
     model.rho_dis_output = args.rho_dis_output
+    model.rho_sem = args.rho_sem
+    model.rho_xcov = args.rho_xcov
+    model.rho_ord = args.rho_ord
+    model.ord_margin = args.ord_margin
     model.lambda1 = args.lambda1
     model.lambda2 = args.lambda2
     model.tau = args.tau
@@ -175,6 +185,16 @@ elif args.model == 'ChronosBoltRetrieve':
             model.final_pred_head,
             model.inv_aux_backproj,
             model.dyn_aux_backproj,
+        ])
+    if args.augment_mode == 'idf_ridde_v2':
+        model.init_extra_weights([
+            model.encode_mlp,
+            model.ret_score_head,
+            model.fuse_gate,
+            model.routing_gate,
+            model.inv_pred_head,
+            model.dyn_pred_head_clean,
+            model.final_pred_head,
         ])
     if args.augment_mode == 'idf_clean_dis_deepmlp':
         model.init_extra_weights([
@@ -407,6 +427,16 @@ if args.freeze_chronos_bolt:
             'dyn_pred_head_clean',
             'final_pred_head',
         ])
+    elif args.augment_mode == 'idf_ridde_v2':
+        layers_to_unfreeze.extend([
+            'encode_mlp',
+            'ret_score_head',
+            'fuse_gate',
+            'routing_gate',
+            'inv_pred_head',
+            'dyn_pred_head_clean',
+            'final_pred_head',
+        ])
     elif args.augment_mode == 'idf_clean_dis_deepmlp':
         layers_to_unfreeze.extend([
             'encode_mlp',
@@ -617,6 +647,15 @@ for i, batch in pbar:
         loss_dis_output = outputs.loss_dis_output.mean() if outputs.loss_dis_output is not None else loss.new_zeros(())
         loss_ret = outputs.loss_ret.mean() if outputs.loss_ret is not None else loss.new_zeros(())
         loss_dyn = outputs.loss_dyn.mean() if outputs.loss_dyn is not None else loss.new_zeros(())
+        loss_sem = outputs.loss_sem.mean() if outputs.loss_sem is not None else loss.new_zeros(())
+        loss_xcov = outputs.loss_xcov.mean() if outputs.loss_xcov is not None else loss.new_zeros(())
+        loss_ord = outputs.loss_ord.mean() if outputs.loss_ord is not None else loss.new_zeros(())
+        diag_cos_sim = outputs.diag_cos_sim.mean() if outputs.diag_cos_sim is not None else loss.new_zeros(())
+        diag_gamma_mean = outputs.diag_gamma_mean.mean() if outputs.diag_gamma_mean is not None else loss.new_zeros(())
+        diag_gamma_sat_frac = outputs.diag_gamma_sat_frac.mean() if outputs.diag_gamma_sat_frac is not None else loss.new_zeros(())
+        diag_roughness_inv = outputs.diag_roughness_inv.mean() if outputs.diag_roughness_inv is not None else loss.new_zeros(())
+        diag_roughness_dyn = outputs.diag_roughness_dyn.mean() if outputs.diag_roughness_dyn is not None else loss.new_zeros(())
+        diag_energy_share_inv = outputs.diag_energy_share_inv.mean() if outputs.diag_energy_share_inv is not None else loss.new_zeros(())
         aux_loss_enabled = getattr(outputs, 'aux_loss_enabled', False)
     else:
         loss_forecast = loss
@@ -627,6 +666,15 @@ for i, batch in pbar:
         loss_dis_output = loss.new_zeros(())
         loss_ret = loss.new_zeros(())
         loss_dyn = loss.new_zeros(())
+        loss_sem = loss.new_zeros(())
+        loss_xcov = loss.new_zeros(())
+        loss_ord = loss.new_zeros(())
+        diag_cos_sim = loss.new_zeros(())
+        diag_gamma_mean = loss.new_zeros(())
+        diag_gamma_sat_frac = loss.new_zeros(())
+        diag_roughness_inv = loss.new_zeros(())
+        diag_roughness_dyn = loss.new_zeros(())
+        diag_energy_share_inv = loss.new_zeros(())
         aux_loss_enabled = False
     if not torch.distributed.is_initialized() or torch.distributed.get_rank() == 0:
         log_payload = {
@@ -639,6 +687,15 @@ for i, batch in pbar:
             'loss_dis_output': loss_dis_output.item(),
             'loss_ret': loss_ret.item(),
             'loss_dyn': loss_dyn.item(),
+            'loss_sem': loss_sem.item(),
+            'loss_xcov': loss_xcov.item(),
+            'loss_ord': loss_ord.item(),
+            'diag_cos_sim': diag_cos_sim.item(),
+            'diag_gamma_mean': diag_gamma_mean.item(),
+            'diag_gamma_sat_frac': diag_gamma_sat_frac.item(),
+            'diag_roughness_inv': diag_roughness_inv.item(),
+            'diag_roughness_dyn': diag_roughness_dyn.item(),
+            'diag_energy_share_inv': diag_energy_share_inv.item(),
             'lr': model_optim.param_groups[0]['lr']
             }
         wandb.log(log_payload)
@@ -647,6 +704,15 @@ for i, batch in pbar:
         'total': round(loss.item(), 4),
         'f': round(loss_forecast.item(), 4),
     }
+    if args.augment_mode == 'idf_ridde_v2':
+        postfix.update({
+            'sem': round(loss_sem.item(), 4),
+            'xcov': round(loss_xcov.item(), 4),
+            'ord': round(loss_ord.item(), 4),
+            'cos': round(diag_cos_sim.item(), 4),
+            'g_mean': round(diag_gamma_mean.item(), 4),
+            'g_sat': round(diag_gamma_sat_frac.item(), 4),
+        })
     if aux_loss_enabled:
         if args.augment_mode in ['idf_dual_projector', 'idf_dual_projector_mlp']:
             postfix.update({

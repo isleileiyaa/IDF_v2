@@ -103,6 +103,12 @@ parser.add_argument('--eval_split', type=str, default='test', choices=['val', 't
 parser.add_argument('--rawx_norm', type=str, default='zscore', choices=['zscore', 'minmax'])
 parser.add_argument('--retrieval_mode', type=str, default=None, choices=['embedding', 'raw_x'])
 parser.add_argument('--tau', type=float, default=0.1)
+# RIDDE "Training Objective ver 2.0" (idf_ridde_v2 only); unused at inference
+# (target=None skips the loss branch) but kept for CLI/script parity with pretrain.py.
+parser.add_argument('--rho_sem', type=float, default=0.0)
+parser.add_argument('--rho_xcov', type=float, default=0.0)
+parser.add_argument('--rho_ord', type=float, default=0.0)
+parser.add_argument('--ord_margin', type=float, default=0.0)
 
 parser.add_argument('--checkpoint_model_path', type=str, default='None')
 parser.add_argument('--pretrained_model_path', type=str, default='./checkpoints/base')
@@ -253,6 +259,7 @@ elif args.model == 'ChronosBoltRetrieve':
     model.debug_shapes = args.debug_shapes
     model._debug_shapes_printed = False
     model.tau = args.tau
+    model.ord_margin = args.ord_margin
     if args.augment_mode != 'baseline':
         ckpt = torch.load(best_model_path, map_location="cpu")
         from collections import OrderedDict

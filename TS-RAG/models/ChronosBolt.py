@@ -44,6 +44,23 @@ class ChronosBoltOutput(ModelOutput):
     loss_dis_output: Optional[torch.Tensor] = None
     loss_ret: Optional[torch.Tensor] = None
     loss_dyn: Optional[torch.Tensor] = None
+    loss_sem: Optional[torch.Tensor] = None
+    loss_xcov: Optional[torch.Tensor] = None
+    loss_ord: Optional[torch.Tensor] = None
+    diag_cos_sim: Optional[torch.Tensor] = None
+    diag_gamma_mean: Optional[torch.Tensor] = None
+    diag_gamma_sat_frac: Optional[torch.Tensor] = None
+    diag_roughness_inv: Optional[torch.Tensor] = None
+    diag_roughness_dyn: Optional[torch.Tensor] = None
+    diag_energy_share_inv: Optional[torch.Tensor] = None
+    # Per-sample (B,) versions of the above, for post-hoc stratified analysis
+    # (e.g. c_i-quartile MSE/MAE breakdowns) that a batch-mean scalar can't support.
+    diag_c_i: Optional[torch.Tensor] = None
+    diag_gamma_per_sample: Optional[torch.Tensor] = None
+    diag_cos_sim_per_sample: Optional[torch.Tensor] = None
+    diag_roughness_inv_per_sample: Optional[torch.Tensor] = None
+    diag_roughness_dyn_per_sample: Optional[torch.Tensor] = None
+    diag_energy_share_per_sample: Optional[torch.Tensor] = None
     use_disentangle_aux_loss: Optional[bool] = None
     aux_loss_enabled: Optional[bool] = None
     quantile_preds: Optional[torch.Tensor] = None
@@ -734,6 +751,25 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             self.inv_aux_backproj = nn.Linear(pred_dim, config.d_model)
             self.dyn_aux_backproj = nn.Linear(pred_dim, config.d_model)
 
+        if self.augment == 'idf_ridde_v2':
+            # RIDDE "Training Objective ver 2.0" (paper Eq. 15-23): same retrieval /
+            # gating / decomposition architecture as idf_clean_dis, but trained with
+            # L_sem + L_xcov + L_ord instead of the ver1.0 orthogonality loss L_dis.
+            # No inv_aux_backproj/dyn_aux_backproj: those only feed the ver1.0-style
+            # auxiliary losses (loss_inv/loss_ret/loss_dyn), which ver2.0 does not use.
+            pred_dim = self.num_quantiles * self.chronos_config.prediction_length
+            self.encode_mlp = nn.Sequential(
+                nn.Linear(self.chronos_config.prediction_length, config.d_model),
+                nn.ReLU(),
+                nn.Linear(config.d_model, config.d_model),
+            )
+            self.ret_score_head = nn.Linear(config.d_model * 2, 1)
+            self.fuse_gate = nn.Linear(config.d_model * 2, config.d_model)
+            self.routing_gate = nn.Linear(config.d_model * 2, config.d_model)
+            self.inv_pred_head = nn.Linear(config.d_model, pred_dim)
+            self.dyn_pred_head_clean = nn.Linear(config.d_model, pred_dim)
+            self.final_pred_head = nn.Linear(pred_dim * 2, pred_dim)
+
         if self.augment == 'idf_clean_dis_deepmlp':
             pred_dim = self.num_quantiles * self.chronos_config.prediction_length
             self.encode_mlp = nn.Sequential(
@@ -1129,6 +1165,7 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
         aux_y_inv = None
         aux_y_dyn = None
         dual_projector_metrics = None
+        ridde_v2_metrics = None
 
         if self.augment == 'baseline':
             fused_quantile_preds = self.output_patch_embedding(sequence_output).view(*quantile_preds_shape)
@@ -1136,12 +1173,12 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             retrieved_seq, loc_scale_retrieved = self.instance_norm(retrieved_seq)
 
             # fuse retrieved sequence
-            if 'moe' not in self.augment and self.augment != 'idf_branch' and self.augment != 'idf_x' and self.augment != 'idf_clean_dis' and self.augment != 'idf_clean_dis_deepmlp' and self.augment != 'idf_clean_dis_ts3align' and self.augment != 'idf_h_linear_head' and self.augment != 'idf_h_native_head' and self.augment != 'idf_y_linear_head' and self.augment != 'idf_residual' and self.augment != 'idf_branch_gru' and self.augment != 'idf_branch_gru_q' and self.augment != 'idf_dual_direct_head' and self.augment != 'idf_dual_projector' and self.augment != 'idf_dual_projector_mlp':
+            if 'moe' not in self.augment and self.augment != 'idf_branch' and self.augment != 'idf_x' and self.augment != 'idf_clean_dis' and self.augment != 'idf_clean_dis_deepmlp' and self.augment != 'idf_clean_dis_ts3align' and self.augment != 'idf_ridde_v2' and self.augment != 'idf_h_linear_head' and self.augment != 'idf_h_native_head' and self.augment != 'idf_y_linear_head' and self.augment != 'idf_residual' and self.augment != 'idf_branch_gru' and self.augment != 'idf_branch_gru_q' and self.augment != 'idf_dual_direct_head' and self.augment != 'idf_dual_projector' and self.augment != 'idf_dual_projector_mlp':
                 weights = torch.softmax(-distances, dim=1)
                 retrieved_seq = (weights.unsqueeze(-1) * retrieved_seq).sum(dim=1)
                 retrieved_seq = retrieved_seq.unsqueeze(1)
             # B, L = target.shape
-            L = self.chronos_config.prediction_length if self.augment in ['idf_branch', 'idf_x', 'idf_clean_dis', 'idf_clean_dis_deepmlp', 'idf_clean_dis_ts3align', 'idf_h_linear_head', 'idf_h_native_head', 'idf_y_linear_head', 'idf_residual', 'idf_branch_gru', 'idf_branch_gru_q', 'idf_dual_direct_head', 'idf_dual_projector', 'idf_dual_projector_mlp'] else 64
+            L = self.chronos_config.prediction_length if self.augment in ['idf_branch', 'idf_x', 'idf_clean_dis', 'idf_clean_dis_deepmlp', 'idf_clean_dis_ts3align', 'idf_ridde_v2', 'idf_h_linear_head', 'idf_h_native_head', 'idf_y_linear_head', 'idf_residual', 'idf_branch_gru', 'idf_branch_gru_q', 'idf_dual_direct_head', 'idf_dual_projector', 'idf_dual_projector_mlp'] else 64
             r_B, r_M, r_L = retrieved_seq.shape
             assert r_L % 2 == 0, "L of retrieved_seq should be even"
             retrieved_x, retrieved_y = retrieved_seq.split((r_L-L, L), dim=2)
@@ -1295,6 +1332,55 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
                 aux_z_dyn = z_dyn
                 aux_y_inv = y_inv
                 aux_y_dyn = y_dyn
+
+            if self.augment == 'idf_ridde_v2':
+                retrieved_y_enc = []
+                for i in range(r_M):
+                    retrieved_y_enc.append(self.encode_mlp(retrieved_y[:, i, :]))
+                retrieved_y_enc = torch.stack(retrieved_y_enc, dim=1)
+
+                q = sequence_output.squeeze(1)
+                q_expand = q.unsqueeze(1).expand(-1, r_M, -1)
+                ret_score_in = torch.cat([q_expand, retrieved_y_enc], dim=-1)
+                alpha = F.softmax(self.ret_score_head(ret_score_in), dim=1)
+                h_ret = (alpha * retrieved_y_enc).sum(dim=1)
+
+                fuse_in = torch.cat([q, h_ret], dim=-1)
+                fuse_lambda = torch.sigmoid(self.fuse_gate(fuse_in))
+                h = fuse_lambda * q + (1 - fuse_lambda) * h_ret
+
+                route_in = torch.cat([h, h_ret], dim=-1)
+                gamma = torch.sigmoid(self.routing_gate(route_in))
+                z_inv = gamma * h
+                z_dyn = (1 - gamma) * h
+
+                y_inv = self.inv_pred_head(z_inv).view(*quantile_preds_shape)
+                y_dyn = self.dyn_pred_head_clean(z_dyn).view(*quantile_preds_shape)
+
+                final_in = torch.cat([y_inv.reshape(batch_size, -1), y_dyn.reshape(batch_size, -1)], dim=-1)
+                fused_quantile_preds = self.final_pred_head(final_in).view(*quantile_preds_shape)
+
+                # Eq.17: aggregate retrieved future horizons using the SAME attention
+                # weights `alpha` as h_ret. retrieved_y was normalized with its own
+                # per-sample loc_scale_retrieved (line ~1165 above), a different scale
+                # than target/y_inv/y_dyn (normalized with the query's loc_scale) --
+                # L_sem/L_ord/c_i all compare these directly, so first re-express each
+                # retrieved y_r_k on the query's normalization scale.
+                raw_retrieved_y = self.instance_norm.inverse(retrieved_y, loc_scale_retrieved)
+                loc_q, scale_q = loc_scale
+                retrieved_y_qframe = (raw_retrieved_y - loc_q.unsqueeze(1)) / scale_q.unsqueeze(1)
+                y_bar_r = (alpha * retrieved_y_qframe).sum(dim=1)  # (batch, L)
+
+                ridde_v2_metrics = {
+                    "gamma": gamma,
+                    "z_inv": z_inv,
+                    "z_dyn": z_dyn,
+                    "y_inv": y_inv,
+                    "y_dyn": y_dyn,
+                    "alpha": alpha,
+                    "retrieved_y_qframe": retrieved_y_qframe,
+                    "y_bar_r": y_bar_r,
+                }
 
             if self.augment == 'idf_clean_dis_ts3align':
                 retrieved_y_enc = []
@@ -1625,6 +1711,21 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
         loss_dis = None
         loss_ret = None
         loss_dyn = None
+        loss_sem = None
+        loss_xcov = None
+        loss_ord = None
+        diag_cos_sim = None
+        diag_gamma_mean = None
+        diag_gamma_sat_frac = None
+        diag_roughness_inv = None
+        diag_roughness_dyn = None
+        diag_energy_share_inv = None
+        diag_c_i = None
+        diag_gamma_per_sample = None
+        diag_cos_sim_per_sample = None
+        diag_roughness_inv_per_sample = None
+        diag_roughness_dyn_per_sample = None
+        diag_energy_share_per_sample = None
         use_disentangle_aux_loss = False
         aux_loss_enabled = False
         if target is not None:
@@ -1665,6 +1766,87 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             loss_dis_output = self._zero_loss_like(loss_forecast)
             loss_ret = self._zero_loss_like(loss_forecast)
             loss_dyn = self._zero_loss_like(loss_forecast)
+            loss_sem = self._zero_loss_like(loss_forecast)
+            loss_xcov = self._zero_loss_like(loss_forecast)
+            loss_ord = self._zero_loss_like(loss_forecast)
+            diag_cos_sim = self._zero_loss_like(loss_forecast)
+            diag_gamma_mean = self._zero_loss_like(loss_forecast)
+            diag_gamma_sat_frac = self._zero_loss_like(loss_forecast)
+            diag_roughness_inv = self._zero_loss_like(loss_forecast)
+            diag_roughness_dyn = self._zero_loss_like(loss_forecast)
+            diag_energy_share_inv = self._zero_loss_like(loss_forecast)
+
+            if self.augment == 'idf_ridde_v2':
+                assert ridde_v2_metrics is not None, "idf_ridde_v2 metrics should be populated during forward"
+                m = ridde_v2_metrics
+                target_sq = target.squeeze(1)  # (B, L), query-frame normalized
+
+                # Eq.18: residual of ground truth vs. retrieval consensus
+                r_i = target_sq - m["y_bar_r"]  # (B, L)
+
+                # Eq.19: retrieval-confidence score c_i (not learnable, no grad)
+                diff_k = m["retrieved_y_qframe"] - m["y_bar_r"].unsqueeze(1)  # (B, r_M, L)
+                u_num = (m["alpha"].squeeze(-1) * diff_k.pow(2).sum(dim=-1)).sum(dim=1)  # (B,)
+                ybar_mean = m["y_bar_r"].mean(dim=-1, keepdim=True)
+                u_den = (m["y_bar_r"] - ybar_mean).pow(2).sum(dim=-1) + 1e-8
+                tau = max(float(getattr(self, "tau", 0.1)), 1e-6)
+                c_i = torch.exp(-(u_num / u_den) / tau).detach()  # (B,)
+
+                # Eq.20: semantic anchoring loss (broadcast retrieval targets over
+                # the quantile dimension, mirroring how the pinball loss above
+                # broadcasts `target` against all quantiles)
+                y_bar_r_b = m["y_bar_r"].unsqueeze(1).detach()  # (B,1,L)
+                r_i_b = r_i.unsqueeze(1).detach()
+                sem_inv = (m["y_inv"] - y_bar_r_b).pow(2).mean(dim=(1, 2))
+                sem_dyn = (m["y_dyn"] - r_i_b).pow(2).mean(dim=(1, 2))
+                loss_sem = (c_i * (sem_inv + sem_dyn)).mean()
+
+                # Eq.21: batch-level de-correlation (single-batch degenerate form,
+                # per the ablation checklist's resolution of the M_b ambiguity)
+                z_inv_c = m["z_inv"] - m["z_inv"].mean(dim=0, keepdim=True)
+                z_dyn_c = m["z_dyn"] - m["z_dyn"].mean(dim=0, keepdim=True)
+                B = z_inv_c.shape[0]
+                xcov = (z_inv_c.t() @ z_dyn_c) / max(B - 1, 1)
+                loss_xcov = xcov.pow(2).sum()
+
+                # Eq.22-23: relative smoothness ranking (dynamic branch should be
+                # rougher than the invariant branch by at least `ord_margin`)
+                ord_margin = float(getattr(self, "ord_margin", 0.0))
+
+                def _roughness(y):  # y: (B, Q, L) -> (B, Q)
+                    d2 = y[..., 2:] - 2 * y[..., 1:-1] + y[..., :-2]
+                    return torch.log(d2.var(dim=-1) + 1e-8)
+
+                R_inv = _roughness(m["y_inv"]).mean(dim=1)  # (B,)
+                R_dyn = _roughness(m["y_dyn"]).mean(dim=1)
+                loss_ord = (c_i * torch.clamp(R_inv - R_dyn + ord_margin, min=0.0)).mean()
+
+                rho_sem = float(getattr(self, "rho_sem", 0.0))
+                rho_xcov = float(getattr(self, "rho_xcov", 0.0))
+                rho_ord = float(getattr(self, "rho_ord", 0.0))
+                loss = loss_forecast + rho_sem * loss_sem + rho_xcov * loss_xcov + rho_ord * loss_ord
+
+                # Diagnostics (cheap, reuse tensors already computed above). Both a
+                # batch-mean scalar (for cheap per-step wandb logging) and the raw
+                # per-sample (B,) tensor (for post-hoc stratified analysis, e.g.
+                # ridde_v2_diagnostics.py's c_i-quartile MSE/MAE breakdown) are kept.
+                with torch.no_grad():
+                    z_inv_n = F.normalize(m["z_inv"], dim=-1)
+                    z_dyn_n = F.normalize(m["z_dyn"], dim=-1)
+                    diag_cos_sim_per_sample = (z_inv_n * z_dyn_n).sum(dim=-1).abs()
+                    diag_cos_sim = diag_cos_sim_per_sample.mean()
+                    diag_gamma_per_sample = m["gamma"].mean(dim=-1)
+                    diag_gamma_mean = diag_gamma_per_sample.mean()
+                    diag_gamma_sat_frac = ((m["gamma"] < 0.1) | (m["gamma"] > 0.9)).float().mean()
+                    diag_roughness_inv_per_sample = R_inv
+                    diag_roughness_dyn_per_sample = R_dyn
+                    diag_roughness_inv = R_inv.mean()
+                    diag_roughness_dyn = R_dyn.mean()
+                    var_inv = m["y_inv"].var(dim=-1).mean(dim=1)  # (B,)
+                    var_dyn = m["y_dyn"].var(dim=-1).mean(dim=1)
+                    diag_energy_share_per_sample = var_inv / (var_inv + var_dyn + 1e-8)
+                    diag_energy_share_inv = diag_energy_share_per_sample.mean()
+                    diag_c_i = c_i
 
             if self.augment in ['idf_dual_projector', 'idf_dual_projector_mlp']:
                 assert dual_projector_metrics is not None, "idf_dual_projector metrics should be populated during forward"
@@ -1775,6 +1957,21 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             loss_dis_output=loss_dis_output,
             loss_ret=loss_ret,
             loss_dyn=loss_dyn,
+            loss_sem=loss_sem,
+            loss_xcov=loss_xcov,
+            loss_ord=loss_ord,
+            diag_cos_sim=diag_cos_sim,
+            diag_gamma_mean=diag_gamma_mean,
+            diag_gamma_sat_frac=diag_gamma_sat_frac,
+            diag_roughness_inv=diag_roughness_inv,
+            diag_roughness_dyn=diag_roughness_dyn,
+            diag_energy_share_inv=diag_energy_share_inv,
+            diag_c_i=diag_c_i,
+            diag_gamma_per_sample=diag_gamma_per_sample,
+            diag_cos_sim_per_sample=diag_cos_sim_per_sample,
+            diag_roughness_inv_per_sample=diag_roughness_inv_per_sample,
+            diag_roughness_dyn_per_sample=diag_roughness_dyn_per_sample,
+            diag_energy_share_per_sample=diag_energy_share_per_sample,
             use_disentangle_aux_loss=use_disentangle_aux_loss,
             aux_loss_enabled=aux_loss_enabled,
             quantile_preds=fused_quantile_preds,
