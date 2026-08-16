@@ -1,6 +1,6 @@
 # RIDDE Training Objective ver2.0 — 正则项消融探索总结报告
 
-日期:2026-08-13 ~ 2026-08-14
+日期:2026-08-11 ~ 2026-08-16
 范围:`idf_ridde_v2`(ChronosBoltRetrieve,backbone 冻结),`L = L_pred + ρ_sem·L_sem + ρ_xcov·L_xcov + ρ_ord·L_ord`(论文 Eq.15)及两个衍生正则项 `L_cos`/`L_gbal`
 详细数据见四份分报告:[sem](RIDDE_ver2.0_sem消融实验报告.md) / [xcov](RIDDE_ver2.0_xcov消融实验报告.md) / [cos_gbal](RIDDE_ver2.0_cos_gbal消融实验报告.md) / [ord](RIDDE_ver2.0_ord消融实验报告.md)
 
