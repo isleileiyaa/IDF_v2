@@ -1,0 +1,46 @@
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.1040, std:0.0000 ---- mae:0.2336, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.3235, std:0.0000 ---- mae:0.3864, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.0573, std:0.0000 ---- mae:0.1766, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.0731, std:0.0000 ---- mae:0.1961, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.1197, std:0.0000 ---- mae:0.2464, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.6171, std:0.0000 ---- mae:0.4805, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.1022, std:0.0000 ---- mae:0.2324, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.3162, std:0.0000 ---- mae:0.3772, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.0570, std:0.0000 ---- mae:0.1757, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.0554, std:0.0000 ---- mae:0.1738, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.1152, std:0.0000 ---- mae:0.2387, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.6155, std:0.0000 ---- mae:0.4807, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.1054, std:0.0000 ---- mae:0.2361, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.3228, std:0.0000 ---- mae:0.3865, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.0591, std:0.0000 ---- mae:0.1796, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.0536, std:0.0000 ---- mae:0.1717, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.1094, std:0.0000 ---- mae:0.2320, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.6106, std:0.0000 ---- mae:0.4752, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.0982, std:0.0000 ---- mae:0.2272, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.3212, std:0.0000 ---- mae:0.3840, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.0563, std:0.0000 ---- mae:0.1738, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.0560, std:0.0000 ---- mae:0.1738, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+mse:0.1098, std:0.0000 ---- mae:0.2332, std:0.0000

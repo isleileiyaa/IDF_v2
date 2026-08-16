@@ -32,7 +32,7 @@ def str2bool(value):
         return False
     raise argparse.ArgumentTypeError(f'Invalid boolean value: {value}')
 
-fix_seed = 2021
+fix_seed = int(os.environ.get('PRETRAIN_SEED', 2021))
 random.seed(fix_seed)
 torch.manual_seed(fix_seed)
 np.random.seed(fix_seed)
@@ -69,6 +69,12 @@ parser.add_argument('--rho_sem', type=float, default=0.0)
 parser.add_argument('--rho_xcov', type=float, default=0.0)
 parser.add_argument('--rho_ord', type=float, default=0.0)
 parser.add_argument('--ord_margin', type=float, default=0.0)
+# Alternative/complementary decorrelation terms proposed after the L_xcov
+# ablation (RIDDE_ver2.0_xcov消融实验报告.md): rho_cos penalizes within-sample
+# cos_sim(z_inv, z_dyn) directly; rho_gbal penalizes gamma's global mean
+# drifting away from 0.5 (anti-collapse). Both idf_ridde_v2-only.
+parser.add_argument('--rho_cos', type=float, default=0.0)
+parser.add_argument('--rho_gbal', type=float, default=0.0)
 parser.add_argument('--lambda1', type=float, default=0.0)
 parser.add_argument('--lambda2', type=float, default=0.0)
 parser.add_argument('--tau', type=float, default=0.1)
@@ -137,6 +143,8 @@ elif args.model == 'ChronosBoltRetrieve':
     model.rho_xcov = args.rho_xcov
     model.rho_ord = args.rho_ord
     model.ord_margin = args.ord_margin
+    model.rho_cos = args.rho_cos
+    model.rho_gbal = args.rho_gbal
     model.lambda1 = args.lambda1
     model.lambda2 = args.lambda2
     model.tau = args.tau
@@ -650,6 +658,8 @@ for i, batch in pbar:
         loss_sem = outputs.loss_sem.mean() if outputs.loss_sem is not None else loss.new_zeros(())
         loss_xcov = outputs.loss_xcov.mean() if outputs.loss_xcov is not None else loss.new_zeros(())
         loss_ord = outputs.loss_ord.mean() if outputs.loss_ord is not None else loss.new_zeros(())
+        loss_cos = outputs.loss_cos.mean() if outputs.loss_cos is not None else loss.new_zeros(())
+        loss_gbal = outputs.loss_gbal.mean() if outputs.loss_gbal is not None else loss.new_zeros(())
         diag_cos_sim = outputs.diag_cos_sim.mean() if outputs.diag_cos_sim is not None else loss.new_zeros(())
         diag_gamma_mean = outputs.diag_gamma_mean.mean() if outputs.diag_gamma_mean is not None else loss.new_zeros(())
         diag_gamma_sat_frac = outputs.diag_gamma_sat_frac.mean() if outputs.diag_gamma_sat_frac is not None else loss.new_zeros(())
@@ -669,6 +679,8 @@ for i, batch in pbar:
         loss_sem = loss.new_zeros(())
         loss_xcov = loss.new_zeros(())
         loss_ord = loss.new_zeros(())
+        loss_cos = loss.new_zeros(())
+        loss_gbal = loss.new_zeros(())
         diag_cos_sim = loss.new_zeros(())
         diag_gamma_mean = loss.new_zeros(())
         diag_gamma_sat_frac = loss.new_zeros(())
@@ -690,6 +702,8 @@ for i, batch in pbar:
             'loss_sem': loss_sem.item(),
             'loss_xcov': loss_xcov.item(),
             'loss_ord': loss_ord.item(),
+            'loss_cos': loss_cos.item(),
+            'loss_gbal': loss_gbal.item(),
             'diag_cos_sim': diag_cos_sim.item(),
             'diag_gamma_mean': diag_gamma_mean.item(),
             'diag_gamma_sat_frac': diag_gamma_sat_frac.item(),
@@ -709,6 +723,8 @@ for i, batch in pbar:
             'sem': round(loss_sem.item(), 4),
             'xcov': round(loss_xcov.item(), 4),
             'ord': round(loss_ord.item(), 4),
+            'l_cos': round(loss_cos.item(), 4),
+            'l_gbal': round(loss_gbal.item(), 4),
             'cos': round(diag_cos_sim.item(), 4),
             'g_mean': round(diag_gamma_mean.item(), 4),
             'g_sat': round(diag_gamma_sat_frac.item(), 4),

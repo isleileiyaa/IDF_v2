@@ -1,0 +1,41 @@
+=== [19:37:20] TRAIN sem0.2 (sem=0.2 xcov=0 ord=0) ===
+=== [19:50:50] ZEROSHOT sem0.2 on ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate ===
+--- results for sem0.2 ---
+ETTh1 mse:0.3528, std:0.0000 ---- mae:0.3664, std:0.0000
+ETTh2 mse:0.2393, std:0.0000 ---- mae:0.2977, std:0.0000
+ETTm1 mse:0.2945, std:0.0000 ---- mae:0.3175, std:0.0000
+ETTm2 mse:0.1483, std:0.0000 ---- mae:0.2277, std:0.0000
+weather mse:0.1482, std:0.0000 ---- mae:0.1829, std:0.0000
+exchange_rate mse:0.0816, std:0.0000 ---- mae:0.1939, std:0.0000
+
+=== [19:54:39] TRAIN sem0.3 (sem=0.3 xcov=0 ord=0) ===
+=== [20:08:11] ZEROSHOT sem0.3 on ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate ===
+--- results for sem0.3 ---
+ETTh1 mse:0.3547, std:0.0000 ---- mae:0.3678, std:0.0000
+ETTh2 mse:0.2406, std:0.0000 ---- mae:0.2992, std:0.0000
+ETTm1 mse:0.2952, std:0.0000 ---- mae:0.3177, std:0.0000
+ETTm2 mse:0.1472, std:0.0000 ---- mae:0.2273, std:0.0000
+weather mse:0.1490, std:0.0000 ---- mae:0.1838, std:0.0000
+exchange_rate mse:0.0829, std:0.0000 ---- mae:0.1961, std:0.0000
+
+=== [20:11:59] TRAIN sem0.5 (sem=0.5 xcov=0 ord=0) ===
+=== [20:25:32] ZEROSHOT sem0.5 on ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate ===
+--- results for sem0.5 ---
+ETTh1 mse:0.3666, std:0.0000 ---- mae:0.3719, std:0.0000
+ETTh2 mse:0.2568, std:0.0000 ---- mae:0.3103, std:0.0000
+ETTm1 mse:0.5125, std:0.0000 ---- mae:0.3850, std:0.0000
+ETTm2 mse:0.1708, std:0.0000 ---- mae:0.2487, std:0.0000
+weather mse:0.1667, std:0.0000 ---- mae:0.2056, std:0.0000
+exchange_rate mse:0.1010, std:0.0000 ---- mae:0.2185, std:0.0000
+
+=== [20:29:21] TRAIN sem0.7 (sem=0.7 xcov=0 ord=0) ===
+=== [20:43:03] ZEROSHOT sem0.7 on ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate ===
+--- results for sem0.7 ---
+ETTh1 mse:0.3705, std:0.0000 ---- mae:0.3813, std:0.0000
+ETTh2 mse:0.2625, std:0.0000 ---- mae:0.3187, std:0.0000
+ETTm1 mse:0.7217, std:0.0000 ---- mae:0.4540, std:0.0000
+ETTm2 mse:0.1890, std:0.0000 ---- mae:0.2597, std:0.0000
+weather mse:0.1787, std:0.0000 ---- mae:0.2164, std:0.0000
+exchange_rate mse:0.1049, std:0.0000 ---- mae:0.2276, std:0.0000
+
+=== ALL DONE [20:46:51] ===

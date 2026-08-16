@@ -1,0 +1,254 @@
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.6113, std:0.0000 ---- mae:0.4808, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.6113, std:0.0000 ---- mae:0.4808, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1032, std:0.0000 ---- mae:0.2332, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.3176, std:0.0000 ---- mae:0.3818, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0572, std:0.0000 ---- mae:0.1757, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0627, std:0.0000 ---- mae:0.1837, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1174, std:0.0000 ---- mae:0.2420, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.6166, std:0.0000 ---- mae:0.4847, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1018, std:0.0000 ---- mae:0.2311, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.3188, std:0.0000 ---- mae:0.3819, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0566, std:0.0000 ---- mae:0.1748, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0581, std:0.0000 ---- mae:0.1771, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1182, std:0.0000 ---- mae:0.2417, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.6246, std:0.0000 ---- mae:0.4918, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1057, std:0.0000 ---- mae:0.2365, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.3188, std:0.0000 ---- mae:0.3817, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0576, std:0.0000 ---- mae:0.1764, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0580, std:0.0000 ---- mae:0.1763, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1160, std:0.0000 ---- mae:0.2398, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.6557, std:0.0000 ---- mae:0.5070, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1105, std:0.0000 ---- mae:0.2429, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:2.6170, std:0.0000 ---- mae:0.9910, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1197, std:0.0000 ---- mae:0.2281, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0574, std:0.0000 ---- mae:0.1815, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1080, std:0.0000 ---- mae:0.2367, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.6150, std:0.0000 ---- mae:0.4794, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1158, std:0.0000 ---- mae:0.2460, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.3188, std:0.0000 ---- mae:0.3835, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0609, std:0.0000 ---- mae:0.1839, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0616, std:0.0000 ---- mae:0.1842, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1193, std:0.0000 ---- mae:0.2432, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.6199, std:0.0000 ---- mae:0.4838, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1008, std:0.0000 ---- mae:0.2323, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.3092, std:0.0000 ---- mae:0.3799, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0574, std:0.0000 ---- mae:0.1772, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0611, std:0.0000 ---- mae:0.1805, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1155, std:0.0000 ---- mae:0.2379, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.6228, std:0.0000 ---- mae:0.4838, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1007, std:0.0000 ---- mae:0.2304, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.3200, std:0.0000 ---- mae:0.3857, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0562, std:0.0000 ---- mae:0.1740, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0548, std:0.0000 ---- mae:0.1747, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1120, std:0.0000 ---- mae:0.2356, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.6149, std:0.0000 ---- mae:0.4821, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1018, std:0.0000 ---- mae:0.2309, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.3151, std:0.0000 ---- mae:0.3807, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0564, std:0.0000 ---- mae:0.1745, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0590, std:0.0000 ---- mae:0.1788, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1166, std:0.0000 ---- mae:0.2412, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.6134, std:0.0000 ---- mae:0.4845, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1059, std:0.0000 ---- mae:0.2369, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.3144, std:0.0000 ---- mae:0.3819, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0585, std:0.0000 ---- mae:0.1785, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0574, std:0.0000 ---- mae:0.1769, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1117, std:0.0000 ---- mae:0.2354, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.6114, std:0.0000 ---- mae:0.4800, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0991, std:0.0000 ---- mae:0.2281, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.3230, std:0.0000 ---- mae:0.3837, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0563, std:0.0000 ---- mae:0.1743, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0547, std:0.0000 ---- mae:0.1725, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1105, std:0.0000 ---- mae:0.2336, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.6135, std:0.0000 ---- mae:0.4825, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1051, std:0.0000 ---- mae:0.2349, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.3176, std:0.0000 ---- mae:0.3836, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0579, std:0.0000 ---- mae:0.1773, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0615, std:0.0000 ---- mae:0.1822, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1148, std:0.0000 ---- mae:0.2419, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.6119, std:0.0000 ---- mae:0.4805, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1065, std:0.0000 ---- mae:0.2371, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.3220, std:0.0000 ---- mae:0.3840, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0580, std:0.0000 ---- mae:0.1771, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0698, std:0.0000 ---- mae:0.1933, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1187, std:0.0000 ---- mae:0.2443, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.6152, std:0.0000 ---- mae:0.4844, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1042, std:0.0000 ---- mae:0.2349, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.3192, std:0.0000 ---- mae:0.3811, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0579, std:0.0000 ---- mae:0.1777, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0602, std:0.0000 ---- mae:0.1812, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1190, std:0.0000 ---- mae:0.2431, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.6105, std:0.0000 ---- mae:0.4767, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1023, std:0.0000 ---- mae:0.2316, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.3216, std:0.0000 ---- mae:0.3815, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0570, std:0.0000 ---- mae:0.1753, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0639, std:0.0000 ---- mae:0.1837, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1150, std:0.0000 ---- mae:0.2389, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.6151, std:0.0000 ---- mae:0.4850, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1042, std:0.0000 ---- mae:0.2338, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.3259, std:0.0000 ---- mae:0.3861, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0575, std:0.0000 ---- mae:0.1764, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0722, std:0.0000 ---- mae:0.1927, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1304, std:0.0000 ---- mae:0.2549, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.6089, std:0.0000 ---- mae:0.4789, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1070, std:0.0000 ---- mae:0.2371, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.3197, std:0.0000 ---- mae:0.3808, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0584, std:0.0000 ---- mae:0.1784, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0679, std:0.0000 ---- mae:0.1926, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1229, std:0.0000 ---- mae:0.2483, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.6170, std:0.0000 ---- mae:0.4859, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1051, std:0.0000 ---- mae:0.2351, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.3267, std:0.0000 ---- mae:0.3856, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0567, std:0.0000 ---- mae:0.1754, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0683, std:0.0000 ---- mae:0.1912, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1236, std:0.0000 ---- mae:0.2489, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.6177, std:0.0000 ---- mae:0.4836, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1004, std:0.0000 ---- mae:0.2313, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.3256, std:0.0000 ---- mae:0.3906, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0573, std:0.0000 ---- mae:0.1766, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0631, std:0.0000 ---- mae:0.1825, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1172, std:0.0000 ---- mae:0.2404, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.6199, std:0.0000 ---- mae:0.4865, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1067, std:0.0000 ---- mae:0.2374, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.3181, std:0.0000 ---- mae:0.3855, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0582, std:0.0000 ---- mae:0.1779, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0561, std:0.0000 ---- mae:0.1750, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1129, std:0.0000 ---- mae:0.2370, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.6105, std:0.0000 ---- mae:0.4801, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1023, std:0.0000 ---- mae:0.2323, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.3251, std:0.0000 ---- mae:0.3826, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0580, std:0.0000 ---- mae:0.1773, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0731, std:0.0000 ---- mae:0.1925, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1392, std:0.0000 ---- mae:0.2588, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.6151, std:0.0000 ---- mae:0.4850, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1042, std:0.0000 ---- mae:0.2338, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.3259, std:0.0000 ---- mae:0.3861, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0575, std:0.0000 ---- mae:0.1764, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.0722, std:0.0000 ---- mae:0.1927, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+mse:0.1304, std:0.0000 ---- mae:0.2549, std:0.0000

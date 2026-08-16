@@ -149,6 +149,8 @@ CHECKPOINT_MODEL_PATH = os.environ.get('CHECKPOINT_MODEL_PATH', DEFAULT_CKPT)
 TAU = os.environ.get('TAU', '0.1')
 ORD_MARGIN = os.environ.get('ORD_MARGIN', '0.0')
 BATCH_SIZE = os.environ.get('EVAL_BATCH_SIZE', '32')
+GPU_LOC = os.environ.get('GPU_LOC', '1')
+TAG = os.environ.get('TAG', os.path.basename(CHECKPOINT_MODEL_PATH).replace('.pth', ''))
 
 sys.argv = [
     'zeroshot.py',
@@ -169,7 +171,7 @@ sys.argv = [
     '--freq', '0',
     '--percent', '100',
     '--model', 'ChronosBoltRetrieve',
-    '--gpu_loc', '0',
+    '--gpu_loc', GPU_LOC,
     '--tmax', '20',
     '--cos', '1',
     '--save_file_name', 'ridde_v2_diagnostics_tmp.txt',
@@ -219,7 +221,9 @@ if c_i.size:
 else:
     print('\n(no diag_* fields captured -- checkpoint/augment_mode is not idf_ridde_v2?)')
 
-out_path = f'/tmp/ridde_v2_diagnostics_{DATASET}.npz'
+npz_dir = os.environ.get('NPZ_DIR', 'results/ridde_v2_diagnostics_npz')
+os.makedirs(npz_dir, exist_ok=True)
+out_path = os.path.join(npz_dir, f'{DATASET}_{TAG}.npz')
 np.savez(
     out_path,
     mse=mse, mae=mae, c_i=c_i,
@@ -230,3 +234,33 @@ np.savez(
     y_hat_vis=CAPTURED['y_hat_vis'], true_vis=CAPTURED['true_vis'],
 )
 print(f'\nSaved raw arrays + a few sample curves to {out_path}')
+
+if CAPTURED['y_inv_vis'] is not None:
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+
+    y_inv_vis = CAPTURED['y_inv_vis']
+    y_dyn_vis = CAPTURED['y_dyn_vis']
+    y_hat_vis = CAPTURED['y_hat_vis']
+    true_vis = CAPTURED['true_vis']
+    n_vis = y_inv_vis.shape[0]
+
+    fig, axes = plt.subplots(n_vis, 1, figsize=(9, 2.6 * n_vis), squeeze=False)
+    for i in range(n_vis):
+        ax = axes[i, 0]
+        ax.plot(true_vis[i], label='true', color='black', linewidth=1.2)
+        ax.plot(y_hat_vis[i], label='y_hat (fused)', color='tab:purple', linestyle='--', linewidth=1.0)
+        ax.plot(y_inv_vis[i], label='y_inv', color='tab:blue', linewidth=1.2)
+        ax.plot(y_dyn_vis[i], label='y_dyn', color='tab:orange', linewidth=1.2)
+        ax.set_title(f'sample {i}')
+        if i == 0:
+            ax.legend(loc='upper right', fontsize=8)
+    fig.suptitle(f'{DATASET} | {TAG}')
+    fig.tight_layout()
+    plot_dir = os.environ.get('PLOT_DIR', 'results/ridde_v2_diagnostics_plots')
+    os.makedirs(plot_dir, exist_ok=True)
+    plot_path = os.path.join(plot_dir, f'{DATASET}_{TAG}.png')
+    fig.savefig(plot_path, dpi=120)
+    plt.close(fig)
+    print(f'Saved y_inv/y_dyn visualization to {plot_path}')

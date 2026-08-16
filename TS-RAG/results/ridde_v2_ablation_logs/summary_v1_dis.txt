@@ -1,0 +1,41 @@
+=== [12:48:47] TRAIN v1dis_rho2_0 (rho2=0, rho1=rho3=rho4=0) ===
+=== [13:02:07] ZEROSHOT v1dis_rho2_0 on ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate ===
+--- results for v1dis_rho2_0 ---
+ETTh1 mse:0.3548, std:0.0000 ---- mae:0.3680, std:0.0000
+ETTh2 mse:0.2374, std:0.0000 ---- mae:0.2977, std:0.0000
+ETTm1 mse:0.2948, std:0.0000 ---- mae:0.3179, std:0.0000
+ETTm2 mse:0.1482, std:0.0000 ---- mae:0.2283, std:0.0000
+weather mse:0.1486, std:0.0000 ---- mae:0.1837, std:0.0000
+exchange_rate mse:0.0860, std:0.0000 ---- mae:0.1993, std:0.0000
+
+=== [13:05:55] TRAIN v1dis_rho2_0.01 (rho2=0.01, rho1=rho3=rho4=0) ===
+=== [13:19:26] ZEROSHOT v1dis_rho2_0.01 on ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate ===
+--- results for v1dis_rho2_0.01 ---
+ETTh1 mse:0.3526, std:0.0000 ---- mae:0.3659, std:0.0000
+ETTh2 mse:0.2391, std:0.0000 ---- mae:0.2974, std:0.0000
+ETTm1 mse:0.2926, std:0.0000 ---- mae:0.3156, std:0.0000
+ETTm2 mse:0.1472, std:0.0000 ---- mae:0.2265, std:0.0000
+weather mse:0.1476, std:0.0000 ---- mae:0.1820, std:0.0000
+exchange_rate mse:0.0757, std:0.0000 ---- mae:0.1868, std:0.0000
+
+=== [13:23:16] TRAIN v1dis_rho2_0.1 (rho2=0.1, rho1=rho3=rho4=0) ===
+=== [13:36:42] ZEROSHOT v1dis_rho2_0.1 on ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate ===
+--- results for v1dis_rho2_0.1 ---
+ETTh1 mse:0.3523, std:0.0000 ---- mae:0.3656, std:0.0000
+ETTh2 mse:0.2413, std:0.0000 ---- mae:0.2997, std:0.0000
+ETTm1 mse:0.2933, std:0.0000 ---- mae:0.3174, std:0.0000
+ETTm2 mse:0.1480, std:0.0000 ---- mae:0.2282, std:0.0000
+weather mse:0.1484, std:0.0000 ---- mae:0.1831, std:0.0000
+exchange_rate mse:0.0736, std:0.0000 ---- mae:0.1851, std:0.0000
+
+=== [13:40:31] TRAIN v1dis_rho2_1 (rho2=1, rho1=rho3=rho4=0) ===
+=== [13:54:07] ZEROSHOT v1dis_rho2_1 on ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate ===
+--- results for v1dis_rho2_1 ---
+ETTh1 mse:0.3521, std:0.0000 ---- mae:0.3641, std:0.0000
+ETTh2 mse:0.2397, std:0.0000 ---- mae:0.2972, std:0.0000
+ETTm1 mse:0.2942, std:0.0000 ---- mae:0.3160, std:0.0000
+ETTm2 mse:0.1471, std:0.0000 ---- mae:0.2256, std:0.0000
+weather mse:0.1478, std:0.0000 ---- mae:0.1819, std:0.0000
+exchange_rate mse:0.0749, std:0.0000 ---- mae:0.1870, std:0.0000
+
+=== ALL DONE [13:57:55] ===

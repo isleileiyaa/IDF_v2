@@ -14,13 +14,18 @@ top_k=10
 rho_sem=${1:-${RHO_SEM:-0}}
 rho_xcov=${2:-${RHO_XCOV:-0}}
 rho_ord=${3:-${RHO_ORD:-0}}
+rho_cos=${RHO_COS:-0}
+rho_gbal=${RHO_GBAL:-0}
+extra_suffix=""
+if [ "$rho_cos" != "0" ]; then extra_suffix="${extra_suffix}_cos${rho_cos}"; fi
+if [ "$rho_gbal" != "0" ]; then extra_suffix="${extra_suffix}_gbal${rho_gbal}"; fi
 
 batch_size=256
 retrieval_database_dir="/home/fenglei/TS-RAG-main/retrieval_database/"
 ett_root_path="${ETT_ROOT_PATH:-/home/fenglei/TS-RAG-main/datasets/ETT-small/}"
 custom_datasets_root="${CUSTOM_DATASETS_ROOT:-/home/fenglei/TS-RAG-main/datasets/}"
 pretrained_model_path="/home/fenglei/TS-RAG-main/TS-RAG/checkpoints/base/"
-default_checkpoint_model_path="/home/fenglei/TS-RAG-main/TS-RAG/checkpoints/data50m_idf_ridde_v2_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_sem${rho_sem}_xcov${rho_xcov}_ord${rho_ord}_final.pth"
+default_checkpoint_model_path="/home/fenglei/TS-RAG-main/TS-RAG/checkpoints/data50m_idf_ridde_v2_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_sem${rho_sem}_xcov${rho_xcov}_ord${rho_ord}${extra_suffix}_final.pth"
 checkpoint_model_path="${CHECKPOINT_MODEL_PATH:-$default_checkpoint_model_path}"
 echo "Using zeroshot (rho_sem, rho_xcov, rho_ord)=($rho_sem, $rho_xcov, $rho_ord)"
 echo "checkpoint_model_path=$checkpoint_model_path"

@@ -1,0 +1,169 @@
+=== [14:00:46] diagnostics v1dis_rho2_0 on ETTh1 ===
+--- v1dis_rho2_0 / ETTh1 ---
+mean=0.4806  saturation_frac(<0.1 or >0.9)=0.7799
+mean=0.1179  std=0.0110
+R(y_inv) mean=-0.6434  R(y_dyn) mean=-0.4073  R(y_dyn)-R(y_inv) mean=0.2361 (want > 0)
+mean=0.4512
+
+=== [14:00:50] diagnostics v1dis_rho2_0 on ETTh2 ===
+--- v1dis_rho2_0 / ETTh2 ---
+mean=0.4827  saturation_frac(<0.1 or >0.9)=0.7340
+mean=0.1283  std=0.0364
+R(y_inv) mean=-1.5629  R(y_dyn) mean=-1.4124  R(y_dyn)-R(y_inv) mean=0.1505 (want > 0)
+mean=0.4663
+
+=== [14:00:55] diagnostics v1dis_rho2_0 on ETTm1 ===
+--- v1dis_rho2_0 / ETTm1 ---
+mean=0.4833  saturation_frac(<0.1 or >0.9)=0.8045
+mean=0.0633  std=0.0288
+R(y_inv) mean=-0.5650  R(y_dyn) mean=-0.1857  R(y_dyn)-R(y_inv) mean=0.3793 (want > 0)
+mean=0.4203
+
+=== [14:01:00] diagnostics v1dis_rho2_0 on ETTm2 ===
+--- v1dis_rho2_0 / ETTm2 ---
+mean=0.4834  saturation_frac(<0.1 or >0.9)=0.7642
+mean=0.0881  std=0.0302
+R(y_inv) mean=-1.1583  R(y_dyn) mean=-0.8966  R(y_dyn)-R(y_inv) mean=0.2618 (want > 0)
+mean=0.4382
+
+=== [14:01:05] diagnostics v1dis_rho2_0 on weather ===
+--- v1dis_rho2_0 / weather ---
+mean=0.4820  saturation_frac(<0.1 or >0.9)=0.6804
+mean=0.1331  std=0.0532
+R(y_inv) mean=-1.0979  R(y_dyn) mean=-1.0511  R(y_dyn)-R(y_inv) mean=0.0468 (want > 0)
+mean=0.4832
+
+=== [14:01:12] diagnostics v1dis_rho2_0 on exchange_rate ===
+--- v1dis_rho2_0 / exchange_rate ---
+mean=0.4805  saturation_frac(<0.1 or >0.9)=0.6620
+mean=0.1536  std=0.0547
+R(y_inv) mean=-1.0515  R(y_dyn) mean=-0.9626  R(y_dyn)-R(y_inv) mean=0.0890 (want > 0)
+mean=0.4798
+
+=== [14:01:16] diagnostics v1dis_rho2_0.01 on ETTh1 ===
+--- v1dis_rho2_0.01 / ETTh1 ---
+mean=0.4948  saturation_frac(<0.1 or >0.9)=0.8456
+mean=0.0783  std=0.0134
+R(y_inv) mean=-0.5731  R(y_dyn) mean=-0.4523  R(y_dyn)-R(y_inv) mean=0.1208 (want > 0)
+mean=0.4817
+
+=== [14:01:20] diagnostics v1dis_rho2_0.01 on ETTh2 ===
+--- v1dis_rho2_0.01 / ETTh2 ---
+mean=0.4973  saturation_frac(<0.1 or >0.9)=0.8107
+mean=0.0905  std=0.0273
+R(y_inv) mean=-1.5278  R(y_dyn) mean=-1.4425  R(y_dyn)-R(y_inv) mean=0.0853 (want > 0)
+mean=0.4845
+
+=== [14:01:25] diagnostics v1dis_rho2_0.01 on ETTm1 ===
+--- v1dis_rho2_0.01 / ETTm1 ---
+mean=0.4969  saturation_frac(<0.1 or >0.9)=0.8596
+mean=0.0497  std=0.0225
+R(y_inv) mean=-0.5389  R(y_dyn) mean=-0.2334  R(y_dyn)-R(y_inv) mean=0.3055 (want > 0)
+mean=0.4383
+
+=== [14:01:30] diagnostics v1dis_rho2_0.01 on ETTm2 ===
+--- v1dis_rho2_0.01 / ETTm2 ---
+mean=0.4978  saturation_frac(<0.1 or >0.9)=0.8398
+mean=0.0654  std=0.0267
+R(y_inv) mean=-1.1153  R(y_dyn) mean=-0.9722  R(y_dyn)-R(y_inv) mean=0.1431 (want > 0)
+mean=0.4693
+
+=== [14:01:35] diagnostics v1dis_rho2_0.01 on weather ===
+--- v1dis_rho2_0.01 / weather ---
+mean=0.4955  saturation_frac(<0.1 or >0.9)=0.7479
+mean=0.1146  std=0.0425
+R(y_inv) mean=-1.1565  R(y_dyn) mean=-1.0168  R(y_dyn)-R(y_inv) mean=0.1397 (want > 0)
+mean=0.4654
+
+=== [14:01:41] diagnostics v1dis_rho2_0.01 on exchange_rate ===
+--- v1dis_rho2_0.01 / exchange_rate ---
+mean=0.4937  saturation_frac(<0.1 or >0.9)=0.7286
+mean=0.1365  std=0.0539
+R(y_inv) mean=-1.0662  R(y_dyn) mean=-0.9137  R(y_dyn)-R(y_inv) mean=0.1525 (want > 0)
+mean=0.4625
+
+=== [14:01:45] diagnostics v1dis_rho2_0.1 on ETTh1 ===
+--- v1dis_rho2_0.1 / ETTh1 ---
+mean=0.5021  saturation_frac(<0.1 or >0.9)=0.9633
+mean=0.0143  std=0.0062
+R(y_inv) mean=-0.4701  R(y_dyn) mean=-0.4749  R(y_dyn)-R(y_inv) mean=-0.0048 (want > 0)
+mean=0.5117
+
+=== [14:01:49] diagnostics v1dis_rho2_0.1 on ETTh2 ===
+--- v1dis_rho2_0.1 / ETTh2 ---
+mean=0.5026  saturation_frac(<0.1 or >0.9)=0.9543
+mean=0.0161  std=0.0065
+R(y_inv) mean=-1.4566  R(y_dyn) mean=-1.4579  R(y_dyn)-R(y_inv) mean=-0.0013 (want > 0)
+mean=0.5040
+
+=== [14:01:54] diagnostics v1dis_rho2_0.1 on ETTm1 ===
+--- v1dis_rho2_0.1 / ETTm1 ---
+mean=0.5059  saturation_frac(<0.1 or >0.9)=0.9421
+mean=0.0217  std=0.0143
+R(y_inv) mean=-0.4735  R(y_dyn) mean=-0.2565  R(y_dyn)-R(y_inv) mean=0.2170 (want > 0)
+mean=0.4540
+
+=== [14:01:59] diagnostics v1dis_rho2_0.1 on ETTm2 ===
+--- v1dis_rho2_0.1 / ETTm2 ---
+mean=0.5050  saturation_frac(<0.1 or >0.9)=0.9520
+mean=0.0171  std=0.0085
+R(y_inv) mean=-1.0510  R(y_dyn) mean=-0.9845  R(y_dyn)-R(y_inv) mean=0.0665 (want > 0)
+mean=0.4836
+
+=== [14:02:04] diagnostics v1dis_rho2_0.1 on weather ===
+--- v1dis_rho2_0.1 / weather ---
+mean=0.5051  saturation_frac(<0.1 or >0.9)=0.9347
+mean=0.0227  std=0.0106
+R(y_inv) mean=-1.0506  R(y_dyn) mean=-0.9388  R(y_dyn)-R(y_inv) mean=0.1118 (want > 0)
+mean=0.4794
+
+=== [14:02:11] diagnostics v1dis_rho2_0.1 on exchange_rate ===
+--- v1dis_rho2_0.1 / exchange_rate ---
+mean=0.5049  saturation_frac(<0.1 or >0.9)=0.9275
+mean=0.0276  std=0.0134
+R(y_inv) mean=-1.0577  R(y_dyn) mean=-0.8666  R(y_dyn)-R(y_inv) mean=0.1911 (want > 0)
+mean=0.4605
+
+=== [14:02:15] diagnostics v1dis_rho2_1 on ETTh1 ===
+--- v1dis_rho2_1 / ETTh1 ---
+mean=0.5056  saturation_frac(<0.1 or >0.9)=0.9871
+mean=0.0000  std=0.0000
+R(y_inv) mean=-0.4623  R(y_dyn) mean=-0.5669  R(y_dyn)-R(y_inv) mean=-0.1046 (want > 0)
+mean=0.5392
+
+=== [14:02:19] diagnostics v1dis_rho2_1 on ETTh2 ===
+--- v1dis_rho2_1 / ETTh2 ---
+mean=0.5064  saturation_frac(<0.1 or >0.9)=0.9836
+mean=0.0001  std=0.0002
+R(y_inv) mean=-1.4840  R(y_dyn) mean=-1.4864  R(y_dyn)-R(y_inv) mean=-0.0023 (want > 0)
+mean=0.5108
+
+=== [14:02:23] diagnostics v1dis_rho2_1 on ETTm1 ===
+--- v1dis_rho2_1 / ETTm1 ---
+mean=0.5041  saturation_frac(<0.1 or >0.9)=0.9902
+mean=0.0001  std=0.0001
+R(y_inv) mean=-0.4162  R(y_dyn) mean=-0.3490  R(y_dyn)-R(y_inv) mean=0.0672 (want > 0)
+mean=0.4930
+
+=== [14:02:29] diagnostics v1dis_rho2_1 on ETTm2 ===
+--- v1dis_rho2_1 / ETTm2 ---
+mean=0.5054  saturation_frac(<0.1 or >0.9)=0.9888
+mean=0.0002  std=0.0003
+R(y_inv) mean=-1.0588  R(y_dyn) mean=-1.0360  R(y_dyn)-R(y_inv) mean=0.0228 (want > 0)
+mean=0.5002
+
+=== [14:02:34] diagnostics v1dis_rho2_1 on weather ===
+--- v1dis_rho2_1 / weather ---
+mean=0.5045  saturation_frac(<0.1 or >0.9)=0.9927
+mean=0.0006  std=0.0011
+R(y_inv) mean=-1.0148  R(y_dyn) mean=-1.0777  R(y_dyn)-R(y_inv) mean=-0.0629 (want > 0)
+mean=0.5194
+
+=== [14:02:40] diagnostics v1dis_rho2_1 on exchange_rate ===
+--- v1dis_rho2_1 / exchange_rate ---
+mean=0.5048  saturation_frac(<0.1 or >0.9)=0.9916
+mean=0.0011  std=0.0027
+R(y_inv) mean=-0.9340  R(y_dyn) mean=-1.0777  R(y_dyn)-R(y_inv) mean=-0.1437 (want > 0)
+mean=0.5410
+
+=== ALL DIAGNOSTICS DONE [14:02:44] ===

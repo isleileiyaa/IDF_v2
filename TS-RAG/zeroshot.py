@@ -109,6 +109,8 @@ parser.add_argument('--rho_sem', type=float, default=0.0)
 parser.add_argument('--rho_xcov', type=float, default=0.0)
 parser.add_argument('--rho_ord', type=float, default=0.0)
 parser.add_argument('--ord_margin', type=float, default=0.0)
+parser.add_argument('--rho_cos', type=float, default=0.0)
+parser.add_argument('--rho_gbal', type=float, default=0.0)
 
 parser.add_argument('--checkpoint_model_path', type=str, default='None')
 parser.add_argument('--pretrained_model_path', type=str, default='./checkpoints/base')

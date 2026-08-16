@@ -1,0 +1,169 @@
+=== [16:10:10] diagnostics sem0_xcov0_ord0 on ETTh1 ===
+--- sem0_xcov0_ord0 / ETTh1 ---
+mean=0.5159  saturation_frac(<0.1 or >0.9)=0.8066
+mean=0.1085  std=0.0127
+R(y_inv) mean=-0.5074  R(y_dyn) mean=-0.5163  R(y_dyn)-R(y_inv) mean=-0.0090 (want > 0)
+mean=0.4953
+
+=== [16:10:15] diagnostics sem0_xcov0_ord0 on ETTh2 ===
+--- sem0_xcov0_ord0 / ETTh2 ---
+mean=0.5150  saturation_frac(<0.1 or >0.9)=0.7820
+mean=0.1079  std=0.0274
+R(y_inv) mean=-1.5518  R(y_dyn) mean=-1.3970  R(y_dyn)-R(y_inv) mean=0.1548 (want > 0)
+mean=0.4760
+
+=== [16:10:19] diagnostics sem0_xcov0_ord0 on ETTm1 ===
+--- sem0_xcov0_ord0 / ETTm1 ---
+mean=0.5175  saturation_frac(<0.1 or >0.9)=0.8193
+mean=0.0728  std=0.0349
+R(y_inv) mean=-0.4009  R(y_dyn) mean=-0.2660  R(y_dyn)-R(y_inv) mean=0.1349 (want > 0)
+mean=0.4791
+
+=== [16:10:25] diagnostics sem0_xcov0_ord0 on ETTm2 ===
+--- sem0_xcov0_ord0 / ETTm2 ---
+mean=0.5149  saturation_frac(<0.1 or >0.9)=0.8001
+mean=0.0802  std=0.0290
+R(y_inv) mean=-1.0874  R(y_dyn) mean=-0.9052  R(y_dyn)-R(y_inv) mean=0.1822 (want > 0)
+mean=0.4694
+
+=== [16:10:31] diagnostics sem0_xcov0_ord0 on weather ===
+--- sem0_xcov0_ord0 / weather ---
+mean=0.5118  saturation_frac(<0.1 or >0.9)=0.7212
+mean=0.1463  std=0.0524
+R(y_inv) mean=-1.2277  R(y_dyn) mean=-0.7183  R(y_dyn)-R(y_inv) mean=0.5094 (want > 0)
+mean=0.3966
+
+=== [16:10:38] diagnostics sem0_xcov0_ord0 on exchange_rate ===
+--- sem0_xcov0_ord0 / exchange_rate ---
+mean=0.5103  saturation_frac(<0.1 or >0.9)=0.7040
+mean=0.1539  std=0.0507
+R(y_inv) mean=-1.2059  R(y_dyn) mean=-0.6876  R(y_dyn)-R(y_inv) mean=0.5184 (want > 0)
+mean=0.3983
+
+=== [16:10:43] diagnostics sem0.01_xcov0_ord0 on ETTh1 ===
+--- sem0.01_xcov0_ord0 / ETTh1 ---
+mean=0.5240  saturation_frac(<0.1 or >0.9)=0.8132
+mean=0.1095  std=0.0140
+R(y_inv) mean=-0.4757  R(y_dyn) mean=-0.5448  R(y_dyn)-R(y_inv) mean=-0.0691 (want > 0)
+mean=0.5128
+
+=== [16:10:47] diagnostics sem0.01_xcov0_ord0 on ETTh2 ===
+--- sem0.01_xcov0_ord0 / ETTh2 ---
+mean=0.5236  saturation_frac(<0.1 or >0.9)=0.7767
+mean=0.1133  std=0.0251
+R(y_inv) mean=-1.4884  R(y_dyn) mean=-1.4381  R(y_dyn)-R(y_inv) mean=0.0503 (want > 0)
+mean=0.5032
+
+=== [16:10:52] diagnostics sem0.01_xcov0_ord0 on ETTm1 ===
+--- sem0.01_xcov0_ord0 / ETTm1 ---
+mean=0.5264  saturation_frac(<0.1 or >0.9)=0.8303
+mean=0.0705  std=0.0294
+R(y_inv) mean=-0.3960  R(y_dyn) mean=-0.2955  R(y_dyn)-R(y_inv) mean=0.1005 (want > 0)
+mean=0.4919
+
+=== [16:10:58] diagnostics sem0.01_xcov0_ord0 on ETTm2 ===
+--- sem0.01_xcov0_ord0 / ETTm2 ---
+mean=0.5259  saturation_frac(<0.1 or >0.9)=0.8042
+mean=0.0843  std=0.0247
+R(y_inv) mean=-1.0114  R(y_dyn) mean=-0.9674  R(y_dyn)-R(y_inv) mean=0.0440 (want > 0)
+mean=0.5049
+
+=== [16:11:04] diagnostics sem0.01_xcov0_ord0 on weather ===
+--- sem0.01_xcov0_ord0 / weather ---
+mean=0.5245  saturation_frac(<0.1 or >0.9)=0.7119
+mean=0.1321  std=0.0508
+R(y_inv) mean=-1.1862  R(y_dyn) mean=-0.8349  R(y_dyn)-R(y_inv) mean=0.3513 (want > 0)
+mean=0.4343
+
+=== [16:11:11] diagnostics sem0.01_xcov0_ord0 on exchange_rate ===
+--- sem0.01_xcov0_ord0 / exchange_rate ---
+mean=0.5209  saturation_frac(<0.1 or >0.9)=0.6913
+mean=0.1459  std=0.0510
+R(y_inv) mean=-1.1822  R(y_dyn) mean=-0.7156  R(y_dyn)-R(y_inv) mean=0.4666 (want > 0)
+mean=0.4079
+
+=== [16:11:16] diagnostics sem0.1_xcov0_ord0 on ETTh1 ===
+--- sem0.1_xcov0_ord0 / ETTh1 ---
+mean=0.5146  saturation_frac(<0.1 or >0.9)=0.8181
+mean=0.1092  std=0.0135
+R(y_inv) mean=-0.5232  R(y_dyn) mean=-0.5122  R(y_dyn)-R(y_inv) mean=0.0110 (want > 0)
+mean=0.4983
+
+=== [16:11:20] diagnostics sem0.1_xcov0_ord0 on ETTh2 ===
+--- sem0.1_xcov0_ord0 / ETTh2 ---
+mean=0.5112  saturation_frac(<0.1 or >0.9)=0.7754
+mean=0.1235  std=0.0290
+R(y_inv) mean=-1.5321  R(y_dyn) mean=-1.4481  R(y_dyn)-R(y_inv) mean=0.0840 (want > 0)
+mean=0.4935
+
+=== [16:11:25] diagnostics sem0.1_xcov0_ord0 on ETTm1 ===
+--- sem0.1_xcov0_ord0 / ETTm1 ---
+mean=0.5164  saturation_frac(<0.1 or >0.9)=0.8277
+mean=0.0687  std=0.0285
+R(y_inv) mean=-0.4411  R(y_dyn) mean=-0.2278  R(y_dyn)-R(y_inv) mean=0.2132 (want > 0)
+mean=0.4622
+
+=== [16:11:34] diagnostics sem0.1_xcov0_ord0 on ETTm2 ===
+--- sem0.1_xcov0_ord0 / ETTm2 ---
+mean=0.5108  saturation_frac(<0.1 or >0.9)=0.8007
+mean=0.0954  std=0.0221
+R(y_inv) mean=-1.1089  R(y_dyn) mean=-0.8994  R(y_dyn)-R(y_inv) mean=0.2095 (want > 0)
+mean=0.4642
+
+=== [16:11:41] diagnostics sem0.1_xcov0_ord0 on weather ===
+--- sem0.1_xcov0_ord0 / weather ---
+mean=0.5277  saturation_frac(<0.1 or >0.9)=0.7375
+mean=0.1363  std=0.0492
+R(y_inv) mean=-1.2658  R(y_dyn) mean=-0.7021  R(y_dyn)-R(y_inv) mean=0.5637 (want > 0)
+mean=0.3963
+
+=== [16:11:52] diagnostics sem0.1_xcov0_ord0 on exchange_rate ===
+--- sem0.1_xcov0_ord0 / exchange_rate ---
+mean=0.5202  saturation_frac(<0.1 or >0.9)=0.7114
+mean=0.1493  std=0.0533
+R(y_inv) mean=-1.3234  R(y_dyn) mean=-0.5741  R(y_dyn)-R(y_inv) mean=0.7493 (want > 0)
+mean=0.3517
+
+=== [16:11:56] diagnostics sem1_xcov0_ord0 on ETTh1 ===
+--- sem1_xcov0_ord0 / ETTh1 ---
+mean=0.5764  saturation_frac(<0.1 or >0.9)=0.9160
+mean=0.0362  std=0.0332
+R(y_inv) mean=-0.0603  R(y_dyn) mean=-0.4966  R(y_dyn)-R(y_inv) mean=-0.4363 (want > 0)
+mean=0.6994
+
+=== [16:12:01] diagnostics sem1_xcov0_ord0 on ETTh2 ===
+--- sem1_xcov0_ord0 / ETTh2 ---
+mean=0.5803  saturation_frac(<0.1 or >0.9)=0.9221
+mean=0.0314  std=0.0551
+R(y_inv) mean=-0.2514  R(y_dyn) mean=-0.5521  R(y_dyn)-R(y_inv) mean=-0.3008 (want > 0)
+mean=0.5765
+
+=== [16:12:05] diagnostics sem1_xcov0_ord0 on ETTm1 ===
+--- sem1_xcov0_ord0 / ETTm1 ---
+mean=0.5824  saturation_frac(<0.1 or >0.9)=0.9538
+mean=0.0171  std=0.0376
+R(y_inv) mean=2.1551  R(y_dyn) mean=1.9546  R(y_dyn)-R(y_inv) mean=-0.2005 (want > 0)
+mean=0.6478
+
+=== [16:12:11] diagnostics sem1_xcov0_ord0 on ETTm2 ===
+--- sem1_xcov0_ord0 / ETTm2 ---
+mean=0.5798  saturation_frac(<0.1 or >0.9)=0.9546
+mean=0.0112  std=0.0181
+R(y_inv) mean=0.6906  R(y_dyn) mean=0.5499  R(y_dyn)-R(y_inv) mean=-0.1407 (want > 0)
+mean=0.5749
+
+=== [16:12:16] diagnostics sem1_xcov0_ord0 on weather ===
+--- sem1_xcov0_ord0 / weather ---
+mean=0.5898  saturation_frac(<0.1 or >0.9)=0.9788
+mean=0.0027  std=0.0123
+R(y_inv) mean=0.7897  R(y_dyn) mean=0.7136  R(y_dyn)-R(y_inv) mean=-0.0760 (want > 0)
+mean=0.5438
+
+=== [16:12:23] diagnostics sem1_xcov0_ord0 on exchange_rate ===
+--- sem1_xcov0_ord0 / exchange_rate ---
+mean=0.5823  saturation_frac(<0.1 or >0.9)=0.9335
+mean=0.0200  std=0.0353
+R(y_inv) mean=-0.0491  R(y_dyn) mean=0.1759  R(y_dyn)-R(y_inv) mean=0.2251 (want > 0)
+mean=0.5570
+
+=== ALL DIAGNOSTICS DONE [16:12:28] ===

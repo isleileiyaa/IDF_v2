@@ -1,0 +1,61 @@
+=== [15:32:14] TRAIN baseline_seed42 (sem=0 xcov=0 ord=0 seed=42) ===
+=== [15:45:51] ZEROSHOT baseline_seed42 on ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate ===
+--- results for baseline_seed42 ---
+ETTh1 mse:0.3510, std:0.0000 ---- mae:0.3658, std:0.0000
+ETTh2 mse:0.2396, std:0.0000 ---- mae:0.2982, std:0.0000
+ETTm1 mse:0.2911, std:0.0000 ---- mae:0.3161, std:0.0000
+ETTm2 mse:0.1478, std:0.0000 ---- mae:0.2273, std:0.0000
+weather mse:0.1484, std:0.0000 ---- mae:0.1836, std:0.0000
+exchange_rate mse:0.0789, std:0.0000 ---- mae:0.1911, std:0.0000
+
+=== [15:49:39] TRAIN baseline_seed123 (sem=0 xcov=0 ord=0 seed=123) ===
+=== [16:03:12] ZEROSHOT baseline_seed123 on ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate ===
+--- results for baseline_seed123 ---
+ETTh1 mse:0.3522, std:0.0000 ---- mae:0.3676, std:0.0000
+ETTh2 mse:0.2373, std:0.0000 ---- mae:0.2976, std:0.0000
+ETTm1 mse:0.2909, std:0.0000 ---- mae:0.3169, std:0.0000
+ETTm2 mse:0.1485, std:0.0000 ---- mae:0.2285, std:0.0000
+weather mse:0.1482, std:0.0000 ---- mae:0.1840, std:0.0000
+exchange_rate mse:0.0803, std:0.0000 ---- mae:0.1925, std:0.0000
+
+=== [16:07:02] TRAIN sem0.01_seed42 (sem=0.01 xcov=0 ord=0 seed=42) ===
+=== [16:21:17] ZEROSHOT sem0.01_seed42 on ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate ===
+--- results for sem0.01_seed42 ---
+ETTh1 mse:0.3532, std:0.0000 ---- mae:0.3664, std:0.0000
+ETTh2 mse:0.2384, std:0.0000 ---- mae:0.2978, std:0.0000
+ETTm1 mse:0.2928, std:0.0000 ---- mae:0.3170, std:0.0000
+ETTm2 mse:0.1496, std:0.0000 ---- mae:0.2282, std:0.0000
+weather mse:0.1492, std:0.0000 ---- mae:0.1845, std:0.0000
+exchange_rate mse:0.0815, std:0.0000 ---- mae:0.1937, std:0.0000
+
+=== [16:25:04] TRAIN sem0.01_seed123 (sem=0.01 xcov=0 ord=0 seed=123) ===
+=== [16:38:47] ZEROSHOT sem0.01_seed123 on ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate ===
+--- results for sem0.01_seed123 ---
+ETTh1 mse:0.3523, std:0.0000 ---- mae:0.3676, std:0.0000
+ETTh2 mse:0.2366, std:0.0000 ---- mae:0.2974, std:0.0000
+ETTm1 mse:0.2926, std:0.0000 ---- mae:0.3171, std:0.0000
+ETTm2 mse:0.1479, std:0.0000 ---- mae:0.2278, std:0.0000
+weather mse:0.1482, std:0.0000 ---- mae:0.1838, std:0.0000
+exchange_rate mse:0.0857, std:0.0000 ---- mae:0.1968, std:0.0000
+
+=== [16:42:37] TRAIN sem0.1_seed42 (sem=0.1 xcov=0 ord=0 seed=42) ===
+=== [16:56:08] ZEROSHOT sem0.1_seed42 on ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate ===
+--- results for sem0.1_seed42 ---
+ETTh1 mse:0.3523, std:0.0000 ---- mae:0.3659, std:0.0000
+ETTh2 mse:0.2383, std:0.0000 ---- mae:0.2976, std:0.0000
+ETTm1 mse:0.2931, std:0.0000 ---- mae:0.3172, std:0.0000
+ETTm2 mse:0.1489, std:0.0000 ---- mae:0.2280, std:0.0000
+weather mse:0.1492, std:0.0000 ---- mae:0.1845, std:0.0000
+exchange_rate mse:0.0852, std:0.0000 ---- mae:0.1975, std:0.0000
+
+=== [16:59:58] TRAIN sem0.1_seed123 (sem=0.1 xcov=0 ord=0 seed=123) ===
+=== [17:13:32] ZEROSHOT sem0.1_seed123 on ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate ===
+--- results for sem0.1_seed123 ---
+ETTh1 mse:0.3520, std:0.0000 ---- mae:0.3674, std:0.0000
+ETTh2 mse:0.2371, std:0.0000 ---- mae:0.2980, std:0.0000
+ETTm1 mse:0.2951, std:0.0000 ---- mae:0.3190, std:0.0000
+ETTm2 mse:0.1486, std:0.0000 ---- mae:0.2285, std:0.0000
+weather mse:0.1482, std:0.0000 ---- mae:0.1841, std:0.0000
+exchange_rate mse:0.0839, std:0.0000 ---- mae:0.1961, std:0.0000
+
+=== ALL DONE [17:17:20] ===
