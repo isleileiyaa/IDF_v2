@@ -1,6 +1,6 @@
 # RIDDE Training Objective ver2.0 — L_sem 消融实验报告
 
-日期:2026-08-13
+日期:2026-08-12
 范围:`idf_ridde_v2`(ChronosBoltRetrieve)阶段2,只开 `L_sem`,`L_xcov`/`L_ord` 保持为 0
 参考:`RIDDE_正则项消融实验清单.md`(阶段2 监测项 1/2/3)
 
