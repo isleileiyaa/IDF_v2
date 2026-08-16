@@ -26,9 +26,21 @@ rho_xcov=${2:-${RHO_XCOV:-0}}
 rho_ord=${3:-${RHO_ORD:-0}}
 tau=${TAU:-0.1}
 ord_margin=${ORD_MARGIN:-0.0}
+# Alternative/complementary decorrelation terms (RIDDE_ver2.0_xcov消融实验报告.md):
+# rho_cos penalizes within-sample cos_sim(z_inv,z_dyn) directly; rho_gbal
+# penalizes gamma's global mean drifting from 0.5 (anti-collapse). Env-var
+# only (not positional) to avoid disturbing existing rho_sem/xcov/ord callers.
+rho_cos=${RHO_COS:-0}
+rho_gbal=${RHO_GBAL:-0}
+seed=${PRETRAIN_SEED:-2021}
+seed_suffix=""
+if [ "$seed" != "2021" ]; then seed_suffix="_seed${seed}"; fi
+extra_suffix=""
+if [ "$rho_cos" != "0" ]; then extra_suffix="${extra_suffix}_cos${rho_cos}"; fi
+if [ "$rho_gbal" != "0" ]; then extra_suffix="${extra_suffix}_gbal${rho_gbal}"; fi
 
-model_id="data50m_${augment_mode}_${context_length}_pred${prediction_length}_lookback${retrieve_lookback_length}_top${top_k}_lr${lr}_drop${drop_prob}_${optimizer}_cosanneal_step${train_steps}_bs${batch_size}_no_embeddingtuning_sem${rho_sem}_xcov${rho_xcov}_ord${rho_ord}"
-echo "Launching pretrain with (rho_sem, rho_xcov, rho_ord)=($rho_sem, $rho_xcov, $rho_ord)"
+model_id="data50m_${augment_mode}_${context_length}_pred${prediction_length}_lookback${retrieve_lookback_length}_top${top_k}_lr${lr}_drop${drop_prob}_${optimizer}_cosanneal_step${train_steps}_bs${batch_size}_no_embeddingtuning_sem${rho_sem}_xcov${rho_xcov}_ord${rho_ord}${extra_suffix}${seed_suffix}"
+echo "Launching pretrain with (rho_sem, rho_xcov, rho_ord, rho_cos, rho_gbal)=($rho_sem, $rho_xcov, $rho_ord, $rho_cos, $rho_gbal)"
 echo "model_id=$model_id"
 python $run_file \
     --model_id $model_id \
@@ -54,6 +66,8 @@ python $run_file \
     --rho_sem $rho_sem \
     --rho_xcov $rho_xcov \
     --rho_ord $rho_ord \
+    --rho_cos $rho_cos \
+    --rho_gbal $rho_gbal \
     --tau $tau \
     --ord_margin $ord_margin \
     --freeze_chronos_bolt \

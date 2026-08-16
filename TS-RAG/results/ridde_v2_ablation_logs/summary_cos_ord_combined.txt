@@ -1,0 +1,54 @@
+=== [15:38:16] TRAIN cos1_ord1 (rho_cos=1 rho_ord=1) ===
+=== [15:51:42] ZEROSHOT cos1_ord1 on ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate ===
+--- results for cos1_ord1 ---
+ETTh1 mse:0.3538, std:0.0000 ---- mae:0.3668, std:0.0000
+ETTh2 mse:0.2366, std:0.0000 ---- mae:0.2968, std:0.0000
+ETTm1 mse:0.2946, std:0.0000 ---- mae:0.3184, std:0.0000
+ETTm2 mse:0.1477, std:0.0000 ---- mae:0.2273, std:0.0000
+weather mse:0.1477, std:0.0000 ---- mae:0.1828, std:0.0000
+exchange_rate mse:0.0817, std:0.0000 ---- mae:0.1941, std:0.0000
+
+=== [15:55:31] DIAGNOSTICS cos1_ord1 ===
+--- cos1_ord1 / ETTh1 ---
+mean=0.4505  saturation_frac(<0.1 or >0.9)=0.9856
+mean=0.0004  std=0.0007
+R(y_inv) mean=-0.9575  R(y_dyn) mean=-0.1144  R(y_dyn)-R(y_inv) mean=0.8431 (want > 0)
+mean=0.3180
+mean=0.0151  median=0.0031  min=0.0000  max=0.2146
+
+--- cos1_ord1 / ETTh2 ---
+mean=0.4517  saturation_frac(<0.1 or >0.9)=0.9852
+mean=0.0004  std=0.0005
+R(y_inv) mean=-1.8308  R(y_dyn) mean=-1.1705  R(y_dyn)-R(y_inv) mean=0.6602 (want > 0)
+mean=0.3700
+mean=0.0000  median=0.0000  min=0.0000  max=0.0011
+
+--- cos1_ord1 / ETTm1 ---
+mean=0.4516  saturation_frac(<0.1 or >0.9)=0.9881
+mean=0.0004  std=0.0004
+R(y_inv) mean=-0.4977  R(y_dyn) mean=-0.2063  R(y_dyn)-R(y_inv) mean=0.2915 (want > 0)
+mean=0.4717
+mean=0.1213  median=0.0051  min=0.0000  max=0.8974
+
+--- cos1_ord1 / ETTm2 ---
+mean=0.4516  saturation_frac(<0.1 or >0.9)=0.9869
+mean=0.0005  std=0.0006
+R(y_inv) mean=-1.1953  R(y_dyn) mean=-0.8201  R(y_dyn)-R(y_inv) mean=0.3752 (want > 0)
+mean=0.4434
+mean=0.0000  median=0.0000  min=0.0000  max=0.0006
+
+--- cos1_ord1 / weather ---
+mean=0.4510  saturation_frac(<0.1 or >0.9)=0.9904
+mean=0.0002  std=0.0004
+R(y_inv) mean=-1.1746  R(y_dyn) mean=-0.8822  R(y_dyn)-R(y_inv) mean=0.2924 (want > 0)
+mean=0.4758
+mean=0.0028  median=0.0000  min=0.0000  max=0.3731
+
+--- cos1_ord1 / exchange_rate ---
+mean=0.4520  saturation_frac(<0.1 or >0.9)=0.9897
+mean=0.0008  std=0.0022
+R(y_inv) mean=-1.1290  R(y_dyn) mean=-0.7959  R(y_dyn)-R(y_inv) mean=0.3331 (want > 0)
+mean=0.4622
+mean=0.0000  median=0.0000  min=0.0000  max=0.0000
+
+=== ALL DONE [15:56:00] ===

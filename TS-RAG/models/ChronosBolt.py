@@ -47,6 +47,8 @@ class ChronosBoltOutput(ModelOutput):
     loss_sem: Optional[torch.Tensor] = None
     loss_xcov: Optional[torch.Tensor] = None
     loss_ord: Optional[torch.Tensor] = None
+    loss_cos: Optional[torch.Tensor] = None
+    loss_gbal: Optional[torch.Tensor] = None
     diag_cos_sim: Optional[torch.Tensor] = None
     diag_gamma_mean: Optional[torch.Tensor] = None
     diag_gamma_sat_frac: Optional[torch.Tensor] = None
@@ -1714,6 +1716,8 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
         loss_sem = None
         loss_xcov = None
         loss_ord = None
+        loss_cos = None
+        loss_gbal = None
         diag_cos_sim = None
         diag_gamma_mean = None
         diag_gamma_sat_frac = None
@@ -1769,6 +1773,8 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             loss_sem = self._zero_loss_like(loss_forecast)
             loss_xcov = self._zero_loss_like(loss_forecast)
             loss_ord = self._zero_loss_like(loss_forecast)
+            loss_cos = self._zero_loss_like(loss_forecast)
+            loss_gbal = self._zero_loss_like(loss_forecast)
             diag_cos_sim = self._zero_loss_like(loss_forecast)
             diag_gamma_mean = self._zero_loss_like(loss_forecast)
             diag_gamma_sat_frac = self._zero_loss_like(loss_forecast)
@@ -1821,10 +1827,32 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
                 R_dyn = _roughness(m["y_dyn"]).mean(dim=1)
                 loss_ord = (c_i * torch.clamp(R_inv - R_dyn + ord_margin, min=0.0)).mean()
 
+                # Alternative/complementary decorrelation losses (see
+                # RIDDE_ver2.0_xcov消融实验报告.md's recommendations): L_xcov's
+                # batch-covariance form was found to be gameable by collapsing
+                # gamma toward 0 uniformly (z_inv -> a batch-constant, which
+                # trivially zeroes the batch covariance without any real
+                # within-sample decorrelation). These two terms target that
+                # failure mode directly instead.
+                #
+                # loss_cos: penalizes within-sample cos_sim(z_inv, z_dyn)
+                # directly (this quantity is provably >= 0, see xcov report
+                # sec.4, so no abs/square needed).
+                cos_sim_sample = F.cosine_similarity(m["z_inv"], m["z_dyn"], dim=-1)  # (B,)
+                loss_cos = cos_sim_sample.mean()
+
+                # loss_gbal: penalizes gamma's global mean drifting away from
+                # 0.5, discouraging the routing gate from collapsing nearly
+                # all mass onto one branch.
+                loss_gbal = (m["gamma"].mean() - 0.5) ** 2
+
                 rho_sem = float(getattr(self, "rho_sem", 0.0))
                 rho_xcov = float(getattr(self, "rho_xcov", 0.0))
                 rho_ord = float(getattr(self, "rho_ord", 0.0))
-                loss = loss_forecast + rho_sem * loss_sem + rho_xcov * loss_xcov + rho_ord * loss_ord
+                rho_cos = float(getattr(self, "rho_cos", 0.0))
+                rho_gbal = float(getattr(self, "rho_gbal", 0.0))
+                loss = (loss_forecast + rho_sem * loss_sem + rho_xcov * loss_xcov + rho_ord * loss_ord
+                        + rho_cos * loss_cos + rho_gbal * loss_gbal)
 
                 # Diagnostics (cheap, reuse tensors already computed above). Both a
                 # batch-mean scalar (for cheap per-step wandb logging) and the raw
@@ -1960,6 +1988,8 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             loss_sem=loss_sem,
             loss_xcov=loss_xcov,
             loss_ord=loss_ord,
+            loss_cos=loss_cos,
+            loss_gbal=loss_gbal,
             diag_cos_sim=diag_cos_sim,
             diag_gamma_mean=diag_gamma_mean,
             diag_gamma_sat_frac=diag_gamma_sat_frac,

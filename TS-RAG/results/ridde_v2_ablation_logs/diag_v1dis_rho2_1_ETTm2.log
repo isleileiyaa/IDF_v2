@@ -1,0 +1,41 @@
+Some weights of ChronosBoltModelForForecastingWithRetrieval were not initialized from the model checkpoint at /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/base/ and are newly initialized: ['dyn_aux_backproj.bias', 'dyn_aux_backproj.weight', 'dyn_pred_head_clean.bias', 'dyn_pred_head_clean.weight', 'encode_mlp.0.bias', 'encode_mlp.0.weight', 'encode_mlp.2.bias', 'encode_mlp.2.weight', 'final_pred_head.bias', 'final_pred_head.weight', 'fuse_gate.bias', 'fuse_gate.weight', 'inv_aux_backproj.bias', 'inv_aux_backproj.weight', 'inv_pred_head.bias', 'inv_pred_head.weight', 'ret_score_head.bias', 'ret_score_head.weight', 'routing_gate.bias', 'routing_gate.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Passing a tuple of `past_key_values` is deprecated and will be removed in Transformers v4.48.0. You should pass an instance of `EncoderDecoderCache` instead, e.g. `past_key_values=EncoderDecoderCache.from_legacy_cache(past_key_values)`.
+使用设备: cuda:0
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics
+augment_mode=idf_clean_dis, retrieval_mode=embedding
+best_model_path: /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/data50m_idf_clean_dis_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_rho0_1_0_0_final.pth
+----------retrieval for ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_diagnostics has done!!----------
+retrieved_data_path = /home/fenglei/TS-RAG-main/datasets/ETT-small/ETTm2_retrieve_ETTm2_512_only_self_train_None.csv
+2 (12032, 7)
+self.enc_in = 7
+self.data_x = (12032, 7)
+eval_split = test
+Loaded IDF checkpoint: /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/data50m_idf_clean_dis_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_rho0_1_0_0_final.pth
+Missing keys: []
+Unexpected keys: []
+------------------------------------
+mse_mean = 0.0563, mse_std = 0.0000
+mae_mean = 0.1738, mae_std = 0.0000
+MSE: 0.0563
+MAE: 0.1738
+v1_dis_diagnostics_tmp.txt
+
+=== v1 L_dis diagnostics: dataset=ETTm2, checkpoint=/home/fenglei/TS-RAG-main/TS-RAG/checkpoints/data50m_idf_clean_dis_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_rho0_1_0_0_final.pth ===
+n_samples=640
+overall MSE=0.056258  MAE=0.173794
+
+--- gamma (routing gate) ---
+mean=0.5054  saturation_frac(<0.1 or >0.9)=0.9888
+
+--- |cos_sim(z_inv, z_dyn)| ---
+mean=0.0002  std=0.0003
+
+--- roughness ratio R(y) = log(Var(delta2 y) + eps) ---
+R(y_inv) mean=-1.0588  R(y_dyn) mean=-1.0360  R(y_dyn)-R(y_inv) mean=0.0228 (want > 0)
+
+--- branch energy share Var(y_inv)/(Var(y_inv)+Var(y_dyn)) ---
+mean=0.5002
+
+Saved raw arrays + a few sample curves to results/ridde_v2_diagnostics_npz/ETTm2_v1dis_rho2_1.npz
+Saved y_inv/y_dyn visualization to results/ridde_v2_diagnostics_plots/ETTm2_v1dis_rho2_1.png

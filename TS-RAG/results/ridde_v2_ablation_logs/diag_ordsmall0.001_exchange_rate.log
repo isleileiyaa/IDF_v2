@@ -1,0 +1,48 @@
+Some weights of ChronosBoltModelForForecastingWithRetrieval were not initialized from the model checkpoint at /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/base/ and are newly initialized: ['dyn_pred_head_clean.bias', 'dyn_pred_head_clean.weight', 'encode_mlp.0.bias', 'encode_mlp.0.weight', 'encode_mlp.2.bias', 'encode_mlp.2.weight', 'final_pred_head.bias', 'final_pred_head.weight', 'fuse_gate.bias', 'fuse_gate.weight', 'inv_pred_head.bias', 'inv_pred_head.weight', 'ret_score_head.bias', 'ret_score_head.weight', 'routing_gate.bias', 'routing_gate.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Passing a tuple of `past_key_values` is deprecated and will be removed in Transformers v4.48.0. You should pass an instance of `EncoderDecoderCache` instead, e.g. `past_key_values=EncoderDecoderCache.from_legacy_cache(past_key_values)`.
+使用设备: cuda:0
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics
+augment_mode=idf_ridde_v2, retrieval_mode=embedding
+best_model_path: checkpoints/data50m_idf_ridde_v2_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_sem0_xcov0_ord0.001_final.pth
+----------retrieval for exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_ridde_v2_diagnostics has done!!----------
+retrieved_data_path = /home/fenglei/TS-RAG-main/datasets/exchange_rate/exchange_rate_retrieve_exchange_rate_512_only_self_train_None.csv
+2 (2029, 8)
+self.enc_in = 8
+self.data_x = (2029, 8)
+eval_split = test
+Loaded IDF checkpoint: checkpoints/data50m_idf_ridde_v2_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_sem0_xcov0_ord0.001_final.pth
+Missing keys: []
+Unexpected keys: []
+------------------------------------
+mse_mean = 0.1392, mse_std = 0.0000
+mae_mean = 0.2588, mae_std = 0.0000
+MSE: 0.1392
+MAE: 0.2588
+ridde_v2_diagnostics_tmp.txt
+
+=== RIDDE ver2.0 diagnostics: dataset=exchange_rate, checkpoint=checkpoints/data50m_idf_ridde_v2_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_sem0_xcov0_ord0.001_final.pth ===
+n_samples=640
+overall MSE=0.139185  MAE=0.258844
+
+--- gamma (routing gate) ---
+mean=0.5193  saturation_frac(<0.1 or >0.9)=0.6719
+
+--- |cos_sim(z_inv, z_dyn)| ---
+mean=0.1446  std=0.0478
+
+--- roughness ratio R(y) = log(Var(delta2 y) + eps) ---
+R(y_inv) mean=-1.2192  R(y_dyn) mean=-0.7559  R(y_dyn)-R(y_inv) mean=0.4632 (want > 0)
+
+--- branch energy share Var(y_inv)/(Var(y_inv)+Var(y_dyn)) ---
+mean=0.4116
+
+--- retrieval-confidence c_i (paper Eq.19) ---
+mean=0.0000  median=0.0000  min=0.0000  max=0.0000
+
+--- MSE/MAE stratified by c_i (median split) ---
+high c_i (n=640): MSE=0.139185  MAE=0.258844
+low  c_i (n=0):  MSE=nan  MAE=nan
+
+Saved raw arrays + a few sample curves to results/ridde_v2_diagnostics_npz/exchange_rate_ordsmall0.001.npz
+Saved y_inv/y_dyn visualization to results/ridde_v2_diagnostics_plots/exchange_rate_ordsmall0.001.png
