@@ -100,6 +100,14 @@ parser.add_argument('--drop_prob', type=float, default=0.2)
 parser.add_argument('--batch_size', type=int, default=256)
 parser.add_argument('--shuffle_buffer_length', type=int, default=100_000)
 parser.add_argument('--grad_clip_value', type=float, default=1.0)
+# Base-arm ablation: keep the exact idf_clean_dis architecture, freeze list and
+# training budget, but shuffle retrieved_seq across the batch dimension so each
+# query is paired with someone else's retrieved neighbors instead of its own.
+# This isolates "value of real retrieval content" from "value of having a
+# trained fusion head at all" -- a plain augment_mode='baseline' run has no
+# trainable fusion head to begin with, so it is not a fair matched control.
+parser.add_argument('--kill_retrieval', action='store_true',
+                     help='shuffle retrieved_seq across the batch dim so retrieval carries no real signal')
 
 # gpu
 parser.add_argument('--devices', type=str, default='0,1,2,3', help='device ids of multile gpus')
@@ -614,7 +622,15 @@ for i, batch in pbar:
     iter_count += 1
     model_optim.zero_grad()
     retrieved_seqs = torch.tensor(retriever.whole_seq[batch['indices']])
-    
+    if args.kill_retrieval:
+        # Break the query<->neighbor correspondence while keeping retrieved_seqs
+        # on-distribution (still real windows from the same KB, just not this
+        # query's actual nearest neighbors). Zeroing instead would feed the
+        # fusion head an input it never saw during real idf_clean_dis training,
+        # which is a confound of its own.
+        perm = torch.randperm(retrieved_seqs.shape[0])
+        retrieved_seqs = retrieved_seqs[perm]
+
     if not args.use_multi_gpu:
         batch['x'] = batch['x'].float().to(device)
         batch['y'] = batch['y'].float().to(device)
