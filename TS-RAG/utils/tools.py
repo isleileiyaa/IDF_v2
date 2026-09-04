@@ -393,11 +393,14 @@ def test_retrieve(model, test_data, test_loader, args, device):
             batch_y = batch_y.float().to(device).squeeze()
             retrieved_seqs = retrieved_seqs.float().to(device)
             distances = distances.float().to(device)
+            if getattr(args, 'kill_retrieval', False):
+                perm = torch.randperm(retrieved_seqs.shape[0])
+                retrieved_seqs = retrieved_seqs[perm]
 
             if args.model == 'ChronosBoltRetrieve':
                 outputs = model(context = batch_x,
                                 target = batch_y,
-                                retrieved_seq = retrieved_seqs, 
+                                retrieved_seq = retrieved_seqs,
                                 distances = distances)                  # ChronosBoltOutput
                 outputs = outputs.quantile_preds.to(batch_x)
                 central_idx = torch.abs(torch.tensor(quantiles) - 0.5).argmin()
@@ -422,7 +425,7 @@ def test_retrieve(model, test_data, test_loader, args, device):
 
             pred = outputs.detach().cpu()
             true = batch_y.detach().cpu()
-            
+
             preds.append(pred)
             trues.append(true)
 
@@ -432,7 +435,12 @@ def test_retrieve(model, test_data, test_loader, args, device):
     preds = preds.reshape(-1, preds.shape[-2], preds.shape[-1])
     trues = trues.reshape(-1, trues.shape[-2], trues.shape[-1])
     print('test shape:', preds.shape, trues.shape)
-    
+
+    oracle_tag = 'base' if getattr(args, 'kill_retrieval', False) else 'rag'
+    dataset_name = args.model_id.split('_')[0]
+    os.makedirs('results/oracle_cache', exist_ok=True)
+    np.savez(f'results/oracle_cache/{dataset_name}_{oracle_tag}.npz', preds=preds, trues=trues)
+
     mae, mse, rmse, mape, mspe, smape, nd = metric(preds, trues)
     print('mae:{:.4f}, mse:{:.4f}, rmse:{:.4f}, smape:{:.4f}'.format(mae, mse, rmse, smape))
 

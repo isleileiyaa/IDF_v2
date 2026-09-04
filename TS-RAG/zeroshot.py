@@ -100,6 +100,8 @@ parser.add_argument('--lookback_length', type=int, default=512)
 parser.add_argument('--augment_mode', type=str, default='moe2')
 parser.add_argument('--debug_shapes', action='store_true', help='print key tensor shapes once for debug')
 parser.add_argument('--eval_split', type=str, default='test', choices=['val', 'test'])
+parser.add_argument('--kill_retrieval', action='store_true',
+                     help='shuffle retrieved_seq across the batch dim at eval time (pair with a --kill_retrieval-trained checkpoint)')
 parser.add_argument('--rawx_norm', type=str, default='zscore', choices=['zscore', 'minmax'])
 parser.add_argument('--retrieval_mode', type=str, default=None, choices=['embedding', 'raw_x'])
 parser.add_argument('--tau', type=float, default=0.1)
