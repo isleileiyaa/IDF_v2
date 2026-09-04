@@ -6,7 +6,7 @@ gpu_loc=0
 run_file="/home/fenglei/TS-RAG-main/TS-RAG/zeroshot.py"
 seq_len=512
 pred_len=64
-datasets="${DATASETS:-ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate}"
+datasets="${DATASETS:-ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate electricity}"
 lookback_length=512
 augment_mode=idf_clean_dis
 top_k=10
@@ -28,7 +28,7 @@ if [ "$dataset" = 'ETTm1' ] || [ "$dataset" = 'ETTm2' ]; then
     data='ett_m_retrieve'; metadata_frequency='minute'; root_path="$ett_root_path"
 elif [ "$dataset" = 'ETTh1' ] || [ "$dataset" = 'ETTh2' ]; then
     data='ett_h_retrieve'; metadata_frequency='hour'; root_path="$ett_root_path"
-elif [ "$dataset" = 'exchange_rate' ]; then
+elif [ "$dataset" = 'exchange_rate' ] || [ "$dataset" = 'electricity' ]; then
     data='custom_retrieve'; metadata_frequency='hour'; root_path="${custom_datasets_root}/${dataset}/"
 elif [ "$dataset" = 'weather' ]; then
     data='custom_retrieve'; metadata_frequency='10minutes'; root_path="${custom_datasets_root}/${dataset}/"
