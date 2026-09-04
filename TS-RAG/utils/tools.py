@@ -437,7 +437,10 @@ def test_retrieve(model, test_data, test_loader, args, device):
     print('test shape:', preds.shape, trues.shape)
 
     oracle_tag = 'base' if getattr(args, 'kill_retrieval', False) else 'rag'
-    dataset_name = args.model_id.split('_')[0]
+    # model_id is "{dataset}_zeroshot_...": split on '_zeroshot' rather than
+    # the first '_' so dataset names containing underscores (e.g. exchange_rate)
+    # survive intact.
+    dataset_name = args.model_id.split('_zeroshot')[0]
     os.makedirs('results/oracle_cache', exist_ok=True)
     np.savez(f'results/oracle_cache/{dataset_name}_{oracle_tag}.npz', preds=preds, trues=trues)
 
