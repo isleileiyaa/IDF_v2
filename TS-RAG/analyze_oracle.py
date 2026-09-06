@@ -52,6 +52,28 @@ def band_losses(pred, true, low, mid):
     return out
 
 
+def _to_2d(arr, name):
+    """Normalize a cached preds/trues array to plain (N, L).
+
+    utils.tools.test_retrieve's own reshape line (`preds.reshape(-1,
+    preds.shape[-2], preds.shape[-1])`) is a no-op for most model paths but,
+    for ChronosBoltRetrieve specifically, `pred` per batch is already 2D
+    (batch, pred_len) -- so by the time that line runs on the *already
+    concatenated* (N, L) array, `shape[-2]`/`shape[-1]` are N and L (its own
+    two axes), and reshape(-1, N, L) collapses the leading dim to 1, giving
+    (1, N, L) instead of (N, L). Confirmed by reproducing that exact line on
+    a (500, 64) array -- it comes out (1, 500, 64). Handle that case (and any
+    other stray singleton leading dims) here rather than assuming (N, L).
+    """
+    arr = np.asarray(arr)
+    while arr.ndim > 2 and arr.shape[0] == 1:
+        arr = arr[0]
+    if arr.ndim != 2:
+        raise ValueError(f'{name}: expected a 2D (N, L) array after squeezing leading '
+                          f'singleton dims, got shape {arr.shape} -- inspect the .npz directly.')
+    return arr
+
+
 def analyze_one(dataset, cache_dir, low, mid):
     base_path = os.path.join(cache_dir, f'{dataset}_base.npz')
     rag_path = os.path.join(cache_dir, f'{dataset}_rag.npz')
@@ -61,8 +83,10 @@ def analyze_one(dataset, cache_dir, low, mid):
 
     b = np.load(base_path)
     r = np.load(rag_path)
-    pred_b, true_b = b['preds'], b['trues']
-    pred_r, true_r = r['preds'], r['trues']
+    pred_b = _to_2d(b['preds'], f'{dataset} base preds')
+    true_b = _to_2d(b['trues'], f'{dataset} base trues')
+    pred_r = _to_2d(r['preds'], f'{dataset} rag preds')
+    true_r = _to_2d(r['trues'], f'{dataset} rag trues')
 
     if pred_b.shape != pred_r.shape:
         print(f'[{dataset}] WARNING: base shape {pred_b.shape} != rag shape {pred_r.shape}, '
