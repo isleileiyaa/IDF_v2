@@ -264,7 +264,13 @@ elif args.model == 'ChronosBoltRetrieve':
     model._debug_shapes_printed = False
     model.tau = args.tau
     model.ord_margin = args.ord_margin
-    if args.augment_mode != 'baseline':
+    # augment_mode='baseline' 以前永远跳过 checkpoint 加载(纯 zero-shot 用法,比如
+    # channel_quartile_analysis.py)。现在 pretrain.py 可以真正训练 baseline 分支了
+    # (只放开 output_patch_embedding),所以判断条件改成"是否给了真实存在的 checkpoint
+    # 路径",而不是"augment_mode 是不是 baseline"。checkpoint_model_path 默认值是字符串
+    # 'None',所以老的纯 zero-shot 调用方式(不传这个参数)行为不受影响。
+    have_checkpoint = best_model_path not in (None, 'None', '') and os.path.exists(best_model_path)
+    if have_checkpoint:
         ckpt = torch.load(best_model_path, map_location="cpu")
         from collections import OrderedDict
         new_state_dict = OrderedDict()
@@ -272,11 +278,11 @@ elif args.model == 'ChronosBoltRetrieve':
             new_key = key.replace("module.", "")
             new_state_dict[new_key] = value
         msg = model.load_state_dict(new_state_dict, strict=False)
-        print("Loaded IDF checkpoint:", best_model_path)
+        print("Loaded checkpoint:", best_model_path)
         print("Missing keys:", msg.missing_keys[:10])
         print("Unexpected keys:", msg.unexpected_keys[:10])
     else:
-        print("Running baseline without retrieval checkpoint.")
+        print("Running baseline without retrieval checkpoint (pure zero-shot).")
     model.to(device)
 elif args.model == 'Moirai2Retrieve':
     # Backbone (Salesforce/moirai-2.0-R-small) is loaded and frozen inside the

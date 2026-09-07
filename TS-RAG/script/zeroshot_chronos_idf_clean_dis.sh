@@ -25,6 +25,8 @@ default_checkpoint_model_path="/home/fenglei/TS-RAG-main/TS-RAG/checkpoints/data
 checkpoint_model_path="${CHECKPOINT_MODEL_PATH:-$default_checkpoint_model_path}"
 echo "Using zeroshot rho=($rho1, $rho2, $rho3, $rho4)"
 echo "checkpoint_model_path=$checkpoint_model_path"
+eval_split="${EVAL_SPLIT:-test}"
+echo "eval_split=$eval_split"
 
 for dataset in $datasets;
 do
@@ -111,6 +113,7 @@ python $run_file \
     --embedding_model_type chronos \
     --metadata_frequency $metadata_frequency \
     --metadata_database_name $retrieve_database_name \
-    --augment_mode $augment_mode
+    --augment_mode $augment_mode \
+    --eval_split "$eval_split"
 
 done

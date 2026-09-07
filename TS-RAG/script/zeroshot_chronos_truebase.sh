@@ -1,6 +1,6 @@
 export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
 
-filename="${SAVE_FILE_NAME:-zeroshot_chronos_idf_clean_dis_baseablation.txt}"
+filename="${SAVE_FILE_NAME:-zeroshot_chronos_truebase.txt}"
 model=ChronosBoltRetrieve
 gpu_loc=0
 run_file="/home/fenglei/TS-RAG-main/TS-RAG/zeroshot.py"
@@ -8,7 +8,7 @@ seq_len=512
 pred_len=64
 datasets="${DATASETS:-ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate electricity}"
 lookback_length=512
-augment_mode=idf_clean_dis
+augment_mode=baseline
 top_k=10
 
 batch_size=256
@@ -16,9 +16,11 @@ retrieval_database_dir="/home/fenglei/TS-RAG-main/retrieval_database/"
 ett_root_path="${ETT_ROOT_PATH:-/home/fenglei/TS-RAG-main/datasets/ETT-small/}"
 custom_datasets_root="${CUSTOM_DATASETS_ROOT:-/home/fenglei/TS-RAG-main/datasets/}"
 pretrained_model_path="/home/fenglei/TS-RAG-main/TS-RAG/checkpoints/base/"
-# 换成你实际训出来的 baseablation checkpoint 路径
-checkpoint_model_path="${CHECKPOINT_MODEL_PATH:-/home/fenglei/TS-RAG-main/TS-RAG/checkpoints/data50m_idf_clean_dis_baseablation_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_seed2021_final.pth}"
+# 换成 pretrain_truebase.sh 训出来的实际 checkpoint 路径(注意 seed 要和上面一致)
+checkpoint_model_path="${CHECKPOINT_MODEL_PATH:-/home/fenglei/TS-RAG-main/TS-RAG/checkpoints/data50m_baseline_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_seed2021_final.pth}"
 echo "checkpoint_model_path=$checkpoint_model_path"
+eval_split="${EVAL_SPLIT:-test}"
+echo "eval_split=$eval_split"
 
 for dataset in $datasets;
 do
@@ -39,7 +41,7 @@ fi
 python $run_file \
     --root_path "$root_path" \
     --data_path "${dataset}.csv" \
-    --model_id "${dataset}_zeroshot_${seq_len}_pred_${pred_len}_${lookback_length}_retrieve_${pred_len}_idf_clean_dis_baseablation" \
+    --model_id "${dataset}_zeroshot_${seq_len}_pred_${pred_len}_${lookback_length}_retrieve_${pred_len}_truebase" \
     --data $data \
     --top_k $top_k \
     --checkpoint_model_path $checkpoint_model_path \
@@ -64,6 +66,6 @@ python $run_file \
     --metadata_frequency $metadata_frequency \
     --metadata_database_name $retrieve_database_name \
     --augment_mode $augment_mode \
-    --kill_retrieval
+    --eval_split "$eval_split"
 
 done

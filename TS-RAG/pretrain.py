@@ -555,6 +555,15 @@ if args.freeze_chronos_bolt:
             'f_inv',
             'f_dyn',
         ])
+    elif args.augment_mode == 'baseline':
+        # No-Retrieval Base(方案C):augment_mode='baseline' 的前向传播完全不碰检索,
+        # 只是把 output_patch_embedding(sequence_output) 作为原生 Chronos-Bolt 预测头
+        # 跑一遍。如果只用默认的 layers_to_unfreeze(gate_layer/encode_mlp/mha/ffn ——
+        # 这条代码路径里一个都不存在),这个分支可训练参数为零,等于一个从没在这个
+        # 数据集上微调过的纯 zero-shot 预测器,而 idf_clean_dis 的融合头是训练过的 ——
+        # 这不公平。只放开 output_patch_embedding,让它享受和 RAG 融合头一样的训练机会
+        # (同样的数据、步数、学习率、优化器,冻结主干),只是不给检索输入。
+        layers_to_unfreeze.append('output_patch_embedding')
 
     for param in model.parameters():
         param.requires_grad = False
