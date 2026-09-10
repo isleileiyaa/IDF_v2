@@ -565,6 +565,12 @@ def test_retrieve(model, test_data, test_loader, args, device):
     elif getattr(args, 'augment_mode', None) == 'baseline':
         ckpt_path = getattr(args, 'checkpoint_model_path', 'None')
         oracle_tag = 'truebase' if ckpt_path not in (None, 'None', '') and os.path.exists(ckpt_path) else None
+    elif getattr(args, 'augment_mode', None) == 'idf_trr_dualpath':
+        # 新方案(RIDDE_新版目标函数与最终实验方案) Stage 3 双路径模型的缓存必须用
+        # 自己独立的 tag —— 不能落进下面的 else 分支变成 'rag'，那样会直接覆盖
+        # 掉 idf_clean_dis 现有的 {dataset}_rag.npz（Probe/D-RACS 阶段线好几轮
+        # 实验都在用的那份缓存），是绝对不能碰的东西。
+        oracle_tag = 'idf_trr_dualpath'
     else:
         oracle_tag = 'rag'
 

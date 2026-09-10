@@ -7,14 +7,21 @@ import argparse
 import warnings
 import numpy as np
 import torch.nn as nn
+import torch.nn.functional as F
 
+from pathlib import Path
 from tqdm import tqdm
 from transformers import AutoConfig
 from torch.utils.data import DataLoader
 from torch.nn.utils import clip_grad_norm_
 
 from models.moment import MOMENTPipelineWithRetrieval
-from dataset import CustomPretrainDataset, Retriever_for_pretrain
+from dataset import (
+    CustomPretrainDataset,
+    EnvironmentBalancedPretrainDataset,
+    STAGE4_TINY_CHUNK_BASENAMES,
+    Retriever_for_pretrain,
+)
 from models.ChronosBolt import ChronosBoltModelForForecasting, ChronosBoltModelForForecastingWithRetrieval
 from models.Moirai2 import Moirai2ModelForForecastingWithRetrieval, Moirai2MoEModelForForecastingWithRetrieval
 from models.TimesFM25 import TimesFM25ModelForForecastingWithRetrieval, TimesFM25MoEModelForForecastingWithRetrieval
@@ -77,6 +84,31 @@ parser.add_argument('--rho_cos', type=float, default=0.0)
 parser.add_argument('--rho_gbal', type=float, default=0.0)
 parser.add_argument('--lambda1', type=float, default=0.0)
 parser.add_argument('--lambda2', type=float, default=0.0)
+# RIDDE_新版目标函数与最终实验方案 Stage 3 (idf_trr_dualpath only): L_sep =
+# L_xcov + beta_var*L_var, weighted into the total loss by lambda_sep.
+# gamma0_var 是防塌缩方差下界里那个 gamma_0 阈值(文档4.5节)。L_TRR/CVaR还
+# 没接(下一步Stage 4才加)，所以这里没有 lambda_trr/cvar_alpha 这些flag。
+parser.add_argument('--lambda_sep', type=float, default=0.0)
+parser.add_argument('--beta_var', type=float, default=1.0)
+parser.add_argument('--gamma0_var', type=float, default=0.1)
+# RIDDE_新版目标函数与最终实验方案 Stage 4 (idf_trr_dualpath only): L_TRR/CVaR
+# (文档4.2-4.6节)。lambda_trr=0(默认)时完全不影响 Stage 3 的行为——不会构造
+# model_B、不会切换成环境平衡采样、不会新增 nu_tilde 参数，训练循环跟之前
+# 完全一样。只有显式传 --lambda_trr > 0 时才会启用下面这一整套逻辑。
+parser.add_argument('--lambda_trr', type=float, default=0.0)
+parser.add_argument('--cvar_alpha', type=float, default=0.6)
+parser.add_argument('--trr_reference_model_path', type=str, default=None,
+                     help='Query-only 参考模型(方案文档4.2节模型B)的 state_dict 路径，'
+                          '仅在 --lambda_trr > 0 时需要，必须是配方对齐(同backbone/数据/'
+                          '步数/优化器)、augment_mode=baseline 训出来的 checkpoint。')
+parser.add_argument('--env_group_size', type=int, default=8,
+                     help='方案文档5.3节的 G：每个 step 从多少个环境里抽样')
+parser.add_argument('--env_batch_size', type=int, default=32,
+                     help='方案文档5.3节的 m：每个环境每个 step 抽取的样本数')
+parser.add_argument('--env_shuffle_buffer_length', type=int, default=2000,
+                     help='每个环境自己的局部shuffle缓冲区大小(环境数多，单个不宜设太大)')
+parser.add_argument('--nu_init', type=float, default=0.0,
+                     help='nu_tilde 的初始值(softplus之前)，默认softplus(0)=log(2)=0.693起步')
 parser.add_argument('--tau', type=float, default=0.1)
 parser.add_argument('--dyn_margin', type=float, default=1.0)
 parser.add_argument('--aux_loss_detach_ret', type=str2bool, default=True)
@@ -155,6 +187,9 @@ elif args.model == 'ChronosBoltRetrieve':
     model.rho_gbal = args.rho_gbal
     model.lambda1 = args.lambda1
     model.lambda2 = args.lambda2
+    model.lambda_sep = args.lambda_sep
+    model.beta_var = args.beta_var
+    model.gamma0_var = args.gamma0_var
     model.tau = args.tau
     model.dyn_margin = args.dyn_margin
     model.aux_loss_detach_ret = args.aux_loss_detach_ret
@@ -211,6 +246,15 @@ elif args.model == 'ChronosBoltRetrieve':
             model.inv_pred_head,
             model.dyn_pred_head_clean,
             model.final_pred_head,
+        ])
+    if args.augment_mode == 'idf_trr_dualpath':
+        model.init_extra_weights([
+            model.encode_mlp,
+            model.ret_score_head,
+            model.P_inv,
+            model.P_dyn,
+            model.f_inv,
+            model.f_dyn,
         ])
     if args.augment_mode == 'idf_clean_dis_deepmlp':
         model.init_extra_weights([
@@ -375,8 +419,40 @@ model.to(device)
 if args.use_multi_gpu:
     args.devices = [int(i) for i in args.devices.split(',')]
     model = nn.DataParallel(model, device_ids=args.devices)
-    
-params = model.parameters()
+
+# RIDDE_新版目标函数与最终实验方案 Stage 4：Query-only 参考模型 B(文档4.2节)。
+# B 是完全独立、推理时永不更新的一个模型实例——直接加载已经训练好、配方对齐的
+# augment_mode='baseline' checkpoint(不走 autogluon_model.pth + init_extra_weights
+# 那套"从头初始化训练"的流程，因为 B 不需要在这里训练，只需要产出冻结的参考预测)。
+model_B = None
+nu_tilde = None
+if args.lambda_trr > 0:
+    assert args.model == 'ChronosBoltRetrieve', \
+        "Stage 4 的 L_TRR 目前只接了 ChronosBoltRetrieve 这条路径"
+    assert args.trr_reference_model_path, \
+        "--lambda_trr > 0 时必须提供 --trr_reference_model_path(Query-only 参考模型B的checkpoint)"
+    config_B = AutoConfig.from_pretrained(args.pretrained_model_path)
+    if hasattr(config_B, "chronos_config"):
+        config_B.chronos_config["context_length"] = args.context_length
+        config_B.chronos_config["prediction_length"] = args.prediction_length
+    model_B = ChronosBoltModelForForecastingWithRetrieval(config=config_B, augment='baseline')
+    model_B.debug_shapes = False
+    model_B._debug_shapes_printed = True
+    b_state_dict = torch.load(args.trr_reference_model_path, map_location='cpu')
+    missing, unexpected = model_B.load_state_dict(b_state_dict, strict=False)
+    print(f"[Stage4] 参考模型B从 {args.trr_reference_model_path} 加载完成 "
+          f"(missing={len(missing)}, unexpected={len(unexpected)})")
+    model_B.to(device)
+    model_B.eval()
+    for p in model_B.parameters():
+        p.requires_grad = False
+    # nu_tilde 是方案文档4.3节 CVaR 的分位变量 nu 的 softplus 前参数化，是一个跟
+    # model 参数完全独立的标量，需要手动加进优化器的参数列表(不在 model.parameters()里)。
+    nu_tilde = nn.Parameter(torch.tensor(float(args.nu_init), dtype=torch.float32, device=device))
+
+params = list(model.parameters())
+if nu_tilde is not None:
+    params = params + [nu_tilde]
 
 if args.optimizer == 'adam':
     model_optim = torch.optim.Adam(params, lr=args.learning_rate, weight_decay=args.weight_decay)
@@ -555,6 +631,15 @@ if args.freeze_chronos_bolt:
             'f_inv',
             'f_dyn',
         ])
+    elif args.augment_mode == 'idf_trr_dualpath':
+        layers_to_unfreeze.extend([
+            'encode_mlp',
+            'ret_score_head',
+            'P_inv',
+            'P_dyn',
+            'f_inv',
+            'f_dyn',
+        ])
     elif args.augment_mode == 'baseline':
         # No-Retrieval Base(方案C):augment_mode='baseline' 的前向传播完全不碰检索,
         # 只是把 output_patch_embedding(sequence_output) 作为原生 Chronos-Bolt 预测头
@@ -601,18 +686,52 @@ retriever = Retriever_for_pretrain(
 retriever.build_index()
 
 ## load data
-dataset = CustomPretrainDataset(
-    args.data_path, 
-    retriever=retriever, 
-    mode='training',
-    drop_prob=args.drop_prob,
-    context_length=args.context_length,
-    prediction_length=args.prediction_length,
-    retrieve_lookback_length=args.retrieve_lookback_length,
-    top_k=args.top_k,
-).shuffle(shuffle_buffer_length=args.shuffle_buffer_length)
-
-train_loader = DataLoader(dataset, batch_size=args.batch_size, num_workers=0)
+if args.lambda_trr > 0:
+    # RIDDE_新版目标函数与最终实验方案 Stage 4 (5.2/5.3节)：环境平衡采样。
+    # !!!环境定义说明(2026-09-09 更新：重叠窗口泄露诊断结果，细节见 dataset.py 里
+    # EnvironmentBalancedPretrainDataset 类的 docstring)：现有 pretrain_pairs_ctx512/
+    # 下的30个parquet分片每一行的 start 字段都是统一的1970-01-01占位值，没有真实
+    # 时间戳也没有item_id，无法构造方案5.2节字面要求的"连续时间块"环境。但抽样诊断
+    # (chunk内部滑窗重合比例99.3%~100%、6个chunk间样本级重叠数=0)证实这30个分片是
+    # 按原始序列/来源对象切分的，不存在重叠窗口跨环境泄露——"环境"是干净的序列/来源
+    # 对象级固定分组，不是方案文档7.5节的"random blocks"随机负对照，但也还不是
+    # "chronological blocks"完整方法(chunk之间没有已知时间顺序)。这次结果可以作为
+    # "环境定义为序列/来源对象级(非时间连续)"的正式CVaR结果去汇报。
+    all_chunk_files = sorted(Path(args.data_path).glob('*.parquet'))
+    env_files = [f for f in all_chunk_files if f.name not in STAGE4_TINY_CHUNK_BASENAMES]
+    print(f"[Stage4] 环境(序列/来源对象级固定分组=parquet分片)数量: {len(env_files)} "
+          f"(已排除小分片: {sorted(STAGE4_TINY_CHUNK_BASENAMES)})")
+    effective_batch_size = args.env_group_size * args.env_batch_size
+    if effective_batch_size != args.batch_size:
+        print(f"[Stage4] 注意：env_group_size({args.env_group_size}) * "
+              f"env_batch_size({args.env_batch_size}) = {effective_batch_size}，"
+              f"跟 --batch_size={args.batch_size} 不一致。实际训练用的 batch size "
+              f"以 env_group_size*env_batch_size 为准(每个batch必须严格是G组m个连续"
+              f"同环境样本，DataLoader 的 batch_size 强制改成这个值)，--batch_size "
+              f"这个参数在 Stage 4 下只影响 model_id 里的命名，不影响实际训练。")
+    dataset = EnvironmentBalancedPretrainDataset(
+        env_files=env_files,
+        drop_prob=args.drop_prob,
+        context_length=args.context_length,
+        prediction_length=args.prediction_length,
+        top_k=args.top_k,
+        env_group_size=args.env_group_size,
+        env_batch_size=args.env_batch_size,
+        env_shuffle_buffer_length=args.env_shuffle_buffer_length,
+    )
+    train_loader = DataLoader(dataset, batch_size=effective_batch_size, num_workers=0)
+else:
+    dataset = CustomPretrainDataset(
+        args.data_path,
+        retriever=retriever,
+        mode='training',
+        drop_prob=args.drop_prob,
+        context_length=args.context_length,
+        prediction_length=args.prediction_length,
+        retrieve_lookback_length=args.retrieve_lookback_length,
+        top_k=args.top_k,
+    ).shuffle(shuffle_buffer_length=args.shuffle_buffer_length)
+    train_loader = DataLoader(dataset, batch_size=args.batch_size, num_workers=0)
 
 
 ## train
@@ -671,6 +790,49 @@ for i, batch in pbar:
     else:
         loss = outputs.loss
     loss = loss.mean()
+
+    # RIDDE_新版目标函数与最终实验方案 Stage 4 (4.2-4.6节)：L_TRR/CVaR。lambda_trr=0
+    # (Stage 3 及更早的所有 augment_mode)完全跳过这一段，行为跟改动前一模一样。
+    # 这里的 loss 到这一步为止(对 idf_trr_dualpath 来说)已经是模型内部算好的
+    # L_pred + lambda_sep*L_sep(方案文档4.6节的前两项+第三项)，下面只需要再加上
+    # lambda_trr*L_TRR 这一项，不需要改模型内部任何东西。
+    loss_trr = loss.new_zeros(())
+    nu_value = loss.new_zeros(())
+    r_e_mean = loss.new_zeros(())
+    r_e_max = loss.new_zeros(())
+    if args.lambda_trr > 0:
+        assert 'env_id' in batch, \
+            "lambda_trr>0 时训练数据必须来自 EnvironmentBalancedPretrainDataset(带env_id字段)"
+        assert outputs.loss_forecast_per_sample is not None, \
+            "主模型没有返回 loss_forecast_per_sample，检查 ChronosBolt.py 的改动是否生效"
+        with torch.no_grad():
+            outputs_B = model_B(
+                context=batch['x'].float(),
+                target=batch['y'].float(),
+                retrieved_seq=retrieved_seqs.float(),
+                distances=batch['distances'].float(),
+            )
+        per_sample_ret = outputs.loss_forecast_per_sample          # (Batch,) 保留计算图，用于反传到Θ
+        per_sample_ref = outputs_B.loss_forecast_per_sample.detach()  # B 冻结，双重保险再 detach 一次
+        env_id = batch['env_id'].to(device)
+        eps_trr = 1e-4
+        r_e_list = []
+        for e in torch.unique(env_id):
+            mask = (env_id == e)
+            R_e_ret = per_sample_ret[mask].mean()
+            R_e_0 = per_sample_ref[mask].mean()
+            delta_e = torch.log((R_e_ret + eps_trr) / (R_e_0 + eps_trr))
+            r_e_list.append(torch.clamp(delta_e, min=0.0))
+        r_e_stack = torch.stack(r_e_list)  # (实际到场的环境数,) 正常应等于 env_group_size
+        nu_value = F.softplus(nu_tilde)
+        loss_trr = nu_value + (
+            1.0 / ((1.0 - args.cvar_alpha) * r_e_stack.shape[0])
+        ) * torch.clamp(r_e_stack - nu_value, min=0.0).sum()
+        with torch.no_grad():
+            r_e_mean = r_e_stack.mean()
+            r_e_max = r_e_stack.max()
+        loss = loss + args.lambda_trr * loss_trr
+
     if args.model == 'ChronosBoltRetrieve':
         loss_forecast = outputs.loss_forecast.mean() if outputs.loss_forecast is not None else loss
         loss_cons = outputs.loss_cons.mean() if outputs.loss_cons is not None else loss.new_zeros(())
@@ -737,12 +899,25 @@ for i, batch in pbar:
             'diag_energy_share_inv': diag_energy_share_inv.item(),
             'lr': model_optim.param_groups[0]['lr']
             }
+        if args.lambda_trr > 0:
+            log_payload.update({
+                'loss_trr': loss_trr.item(),
+                'nu': nu_value.item(),
+                'r_e_mean': r_e_mean.item(),
+                'r_e_max': r_e_max.item(),
+            })
         wandb.log(log_payload)
 
     postfix = {
         'total': round(loss.item(), 4),
         'f': round(loss_forecast.item(), 4),
     }
+    if args.lambda_trr > 0:
+        postfix.update({
+            'trr': round(loss_trr.item(), 4),
+            'nu': round(nu_value.item(), 4),
+            'r_max': round(r_e_max.item(), 4),
+        })
     if args.augment_mode == 'idf_ridde_v2':
         postfix.update({
             'sem': round(loss_sem.item(), 4),
@@ -790,15 +965,24 @@ for i, batch in pbar:
                 os.makedirs(save_path)
             torch.save(model.state_dict(), os.path.join(save_path,f'model_steps{i}.pth'))
             torch.save(model_optim.state_dict(), os.path.join(save_path, f'optim_steps{i}.pth'))
+            if nu_tilde is not None:
+                # nu_tilde 不在 model.state_dict() 里(是外部单独的Parameter)，方案文档
+                # 第9节要求记录 nu，这里单独存一份，方便复现/续训时对齐 CVaR 的分位变量。
+                torch.save({'nu_tilde': nu_tilde.detach().cpu()},
+                           os.path.join(save_path, f'nu_tilde_steps{i}.pth'))
 
         # adjust learning rate
         scheduler.step()
         print("lr = {:.10f}".format(model_optim.param_groups[0]['lr']))
 
     loss.backward()
-    clip_grad_norm_(model.parameters(), args.grad_clip_value)
+    clip_grad_norm_(params, args.grad_clip_value)
     model_optim.step()
 save_path = os.path.join(args.checkpoints, f"{args.model_id}_final.pth")
 torch.save(model.state_dict(), save_path)
 print(f"✅ IDF checkpoint saved to {save_path}")
+if nu_tilde is not None:
+    nu_save_path = os.path.join(args.checkpoints, f"{args.model_id}_nu_final.pth")
+    torch.save({'nu_tilde': nu_tilde.detach().cpu(), 'nu': F.softplus(nu_tilde).detach().cpu()}, nu_save_path)
+    print(f"✅ nu_tilde/nu saved to {nu_save_path}")
                 

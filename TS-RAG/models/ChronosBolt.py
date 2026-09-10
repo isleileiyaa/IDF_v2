@@ -37,6 +37,12 @@ class ChronosBoltOutput(ModelOutput):
     loss: Optional[torch.Tensor] = None
     total_loss: Optional[torch.Tensor] = None
     loss_forecast: Optional[torch.Tensor] = None
+    # RIDDE_新版目标函数与最终实验方案 Stage 4 (L_TRR/CVaR)：每个样本自己的预测损失
+    # (batch内reduce之前那一步)，形状 (batch_size,)，训练图完整保留(不 detach)。
+    # 这是在 loss_forecast(对batch取mean之后的标量) 之前多存一份，供外面按环境分组
+    # 算 R_e^ret/R_e^0 用；对已有的 loss/loss_forecast 数值和所有旧 augment_mode
+    # 完全没有影响，纯增量字段。
+    loss_forecast_per_sample: Optional[torch.Tensor] = None
     loss_cons: Optional[torch.Tensor] = None
     loss_smooth: Optional[torch.Tensor] = None
     loss_inv: Optional[torch.Tensor] = None
@@ -49,6 +55,10 @@ class ChronosBoltOutput(ModelOutput):
     loss_ord: Optional[torch.Tensor] = None
     loss_cos: Optional[torch.Tensor] = None
     loss_gbal: Optional[torch.Tensor] = None
+    # RIDDE_新版目标函数与最终实验方案 Stage 3 (Dual+ERM): L_sep = L_xcov + beta_var*L_var
+    # (loss_xcov above is reused; loss_var is the new anti-collapse variance-floor term).
+    loss_var: Optional[torch.Tensor] = None
+    loss_sep: Optional[torch.Tensor] = None
     diag_cos_sim: Optional[torch.Tensor] = None
     diag_gamma_mean: Optional[torch.Tensor] = None
     diag_gamma_sat_frac: Optional[torch.Tensor] = None
@@ -813,6 +823,40 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             self.inv_aux_backproj = nn.Linear(pred_dim, config.d_model)
             self.dyn_aux_backproj = nn.Linear(pred_dim, config.d_model)
 
+        if self.augment == 'idf_trr_dualpath':
+            # RIDDE_新版目标函数与最终实验方案 Stage 3 (Dual+ERM，对应文档第3节结构 +
+            # 第7.3节 2x2 表格的 "Dual path x ERM" 格子)。先只搭双路径结构本身
+            # (两个独立投影器 P_inv/P_dyn + 加法重构) 和 L_sep（xcov+方差下限），
+            # 不接 L_TRR/CVaR —— 那是下一步(Stage 4)才加，等这一步先确认双路径
+            # 结构本身能训得动、两条路径不会有一条直接塌缩。
+            pred_dim = self.num_quantiles * self.chronos_config.prediction_length
+            self.encode_mlp = nn.Sequential(
+                nn.Linear(self.chronos_config.prediction_length, config.d_model),
+                nn.ReLU(),
+                nn.Linear(config.d_model, config.d_model),
+            )
+            self.ret_score_head = nn.Linear(config.d_model * 2, 1)
+            # Stage 4 前的清理：诊断分支里试过给 e_q/h_r 加 LayerNorm(v1)/BatchNorm1d(v2)
+            # 做尺度对齐，结果三个版本(无归一化/LayerNorm/BatchNorm1d)的 z_inv 塌缩比例
+            # 是 90.76%/87.76%/93.75%，跟尺度对齐程度(0.65%/12.66%/110%)完全不单调，
+            # BatchNorm1d 对齐最好但塌缩最严重——证明尺度不匹配不是塌缩的根因，遂放弃
+            # 这个方向(留档见项目里的诊断记录)。Stage 4 接 CVaR 时退回方案文档3.1节的
+            # 原始结构，不带任何归一化层，避免把未验证的改动和 CVaR 的效果混在一起。
+            # P_inv([e_q; h_r; e_q*h_r; |e_q-h_r|]) -> 输入维度 4*d_model
+            self.P_inv = nn.Sequential(
+                nn.Linear(config.d_model * 4, config.d_model),
+                nn.ReLU(),
+                nn.Linear(config.d_model, config.d_model),
+            )
+            # P_dyn([e_q; e_q-h_r]) -> 输入维度 2*d_model
+            self.P_dyn = nn.Sequential(
+                nn.Linear(config.d_model * 2, config.d_model),
+                nn.ReLU(),
+                nn.Linear(config.d_model, config.d_model),
+            )
+            self.f_inv = nn.Linear(config.d_model, pred_dim)
+            self.f_dyn = nn.Linear(config.d_model, pred_dim)
+
         if self.augment == 'idf_h_linear_head':
             pred_dim = self.num_quantiles * self.chronos_config.prediction_length
             self.encode_mlp = nn.Sequential(
@@ -1168,6 +1212,11 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
         aux_y_dyn = None
         dual_projector_metrics = None
         ridde_v2_metrics = None
+        # RIDDE_新版目标函数与最终实验方案 Stage 3 (Dual+ERM)：z_inv/z_dyn 单独存一份，
+        # 不复用 aux_z_inv/aux_z_dyn（那两个是给 ver1.0 disentangle 家族的
+        # use_disentangle_aux_loss 分支用的，公式和这里完全不同，混用会互相干扰）。
+        aux_z_inv_trr = None
+        aux_z_dyn_trr = None
 
         if self.augment == 'baseline':
             fused_quantile_preds = self.output_patch_embedding(sequence_output).view(*quantile_preds_shape)
@@ -1175,12 +1224,12 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             retrieved_seq, loc_scale_retrieved = self.instance_norm(retrieved_seq)
 
             # fuse retrieved sequence
-            if 'moe' not in self.augment and self.augment != 'idf_branch' and self.augment != 'idf_x' and self.augment != 'idf_clean_dis' and self.augment != 'idf_clean_dis_deepmlp' and self.augment != 'idf_clean_dis_ts3align' and self.augment != 'idf_ridde_v2' and self.augment != 'idf_h_linear_head' and self.augment != 'idf_h_native_head' and self.augment != 'idf_y_linear_head' and self.augment != 'idf_residual' and self.augment != 'idf_branch_gru' and self.augment != 'idf_branch_gru_q' and self.augment != 'idf_dual_direct_head' and self.augment != 'idf_dual_projector' and self.augment != 'idf_dual_projector_mlp':
+            if 'moe' not in self.augment and self.augment != 'idf_branch' and self.augment != 'idf_x' and self.augment != 'idf_clean_dis' and self.augment != 'idf_clean_dis_deepmlp' and self.augment != 'idf_clean_dis_ts3align' and self.augment != 'idf_ridde_v2' and self.augment != 'idf_h_linear_head' and self.augment != 'idf_h_native_head' and self.augment != 'idf_y_linear_head' and self.augment != 'idf_residual' and self.augment != 'idf_branch_gru' and self.augment != 'idf_branch_gru_q' and self.augment != 'idf_dual_direct_head' and self.augment != 'idf_dual_projector' and self.augment != 'idf_dual_projector_mlp' and self.augment != 'idf_trr_dualpath':
                 weights = torch.softmax(-distances, dim=1)
                 retrieved_seq = (weights.unsqueeze(-1) * retrieved_seq).sum(dim=1)
                 retrieved_seq = retrieved_seq.unsqueeze(1)
             # B, L = target.shape
-            L = self.chronos_config.prediction_length if self.augment in ['idf_branch', 'idf_x', 'idf_clean_dis', 'idf_clean_dis_deepmlp', 'idf_clean_dis_ts3align', 'idf_ridde_v2', 'idf_h_linear_head', 'idf_h_native_head', 'idf_y_linear_head', 'idf_residual', 'idf_branch_gru', 'idf_branch_gru_q', 'idf_dual_direct_head', 'idf_dual_projector', 'idf_dual_projector_mlp'] else 64
+            L = self.chronos_config.prediction_length if self.augment in ['idf_branch', 'idf_x', 'idf_clean_dis', 'idf_clean_dis_deepmlp', 'idf_clean_dis_ts3align', 'idf_ridde_v2', 'idf_h_linear_head', 'idf_h_native_head', 'idf_y_linear_head', 'idf_residual', 'idf_branch_gru', 'idf_branch_gru_q', 'idf_dual_direct_head', 'idf_dual_projector', 'idf_dual_projector_mlp', 'idf_trr_dualpath'] else 64
             r_B, r_M, r_L = retrieved_seq.shape
             assert r_L % 2 == 0, "L of retrieved_seq should be even"
             retrieved_x, retrieved_y = retrieved_seq.split((r_L-L, L), dim=2)
@@ -1691,6 +1740,39 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
 
                 self._debug_print_dual_projector_shapes(**dual_projector_metrics)
 
+            if self.augment == 'idf_trr_dualpath':
+                # h_r 的聚合方式复用 idf_clean_dis 那一套（对应方案文档第2节
+                # h_i^r = sum_k omega_i,k * e_hat_k^r，omega 是对 query/检索未来
+                # 相似度做 softmax），跟 idf_dual_projector 系列不同的是：那边
+                # 是编码 retrieved_x（近邻的历史），这里按文档要求编码
+                # retrieved_y（近邻的未来），并且不经过任何 gate 把 e_q 和 h_r
+                # 混合成一个 h —— 两条路径的输入分别直接由 e_q 和 h_r 拼出来。
+                retrieved_y_enc = []
+                for i in range(r_M):
+                    retrieved_y_enc.append(self.encode_mlp(retrieved_y[:, i, :]))
+                retrieved_y_enc = torch.stack(retrieved_y_enc, dim=1)
+
+                e_q = sequence_output.squeeze(1)
+                q_expand = e_q.unsqueeze(1).expand(-1, r_M, -1)
+                ret_score_in = torch.cat([q_expand, retrieved_y_enc], dim=-1)
+                omega = F.softmax(self.ret_score_head(ret_score_in), dim=1)
+                h_r = (omega * retrieved_y_enc).sum(dim=1)
+
+                # Stage 4：退回方案文档3.1节的原始拼接方式，不做归一化(诊断分支的
+                # eq_norm/hr_norm 已确认跟塌缩比例没有单调关系，见上面 __init__ 里的说明)。
+                z_inv_in = torch.cat([e_q, h_r, e_q * h_r, torch.abs(e_q - h_r)], dim=-1)
+                z_dyn_in = torch.cat([e_q, e_q - h_r], dim=-1)
+                z_inv = self.P_inv(z_inv_in)
+                z_dyn = self.P_dyn(z_dyn_in)
+
+                y_inv = self.f_inv(z_inv).view(*quantile_preds_shape)
+                y_dyn = self.f_dyn(z_dyn).view(*quantile_preds_shape)
+                # 加法重构（方案文档第3.2节）：不用任何融合解码器重新混合两条路径。
+                fused_quantile_preds = y_inv + y_dyn
+
+                aux_z_inv_trr = z_inv
+                aux_z_dyn_trr = z_dyn
+
             if self.augment == 'gate':
                 # Step 1
                 retrieved_y = retrieved_y.repeat(1, self.num_quantiles, 1)
@@ -1718,6 +1800,8 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
         loss_ord = None
         loss_cos = None
         loss_gbal = None
+        loss_var = None
+        loss_sep = None
         diag_cos_sim = None
         diag_gamma_mean = None
         diag_gamma_sat_frac = None
@@ -1760,6 +1844,11 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             )
             loss = loss.mean(dim=-2)  # Mean over prediction horizon
             loss = loss.sum(dim=-1)  # Sum over quantile levels
+            # Stage 4 (L_TRR/CVaR) 需要的逐样本损失，在对 batch 取 mean 之前存一份，
+            # 保留计算图(不 detach)，这样主模型的 R_e^ret 按环境分组重新聚合之后
+            # 仍然可以正常反传到 Θ。跟下面 loss=loss.mean() 之后的标量 loss_forecast
+            # 是同一份数据的两种聚合方式，互不影响。
+            loss_forecast_per_sample = loss
             loss = loss.mean()  # Mean over batch
 
             loss_forecast = loss
@@ -1781,6 +1870,45 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             diag_roughness_inv = self._zero_loss_like(loss_forecast)
             diag_roughness_dyn = self._zero_loss_like(loss_forecast)
             diag_energy_share_inv = self._zero_loss_like(loss_forecast)
+            loss_var = self._zero_loss_like(loss_forecast)
+            loss_sep = self._zero_loss_like(loss_forecast)
+
+            if self.augment == 'idf_trr_dualpath':
+                assert aux_z_inv_trr is not None and aux_z_dyn_trr is not None, \
+                    "idf_trr_dualpath 的 z_inv/z_dyn 应该在 forward 里已经算好了"
+                z_inv, z_dyn = aux_z_inv_trr, aux_z_dyn_trr
+
+                # L_xcov（方案文档4.4节 Eq: 交叉协方差的 Frobenius 范数）：
+                # 复用已有的 loss_xcov 字段，公式跟 idf_ridde_v2 的 xcov 一样，
+                # 只是这里的 z_inv/z_dyn 来自双路径投影器而不是 gamma 门控切分。
+                z_inv_c = z_inv - z_inv.mean(dim=0, keepdim=True)
+                z_dyn_c = z_dyn - z_dyn.mean(dim=0, keepdim=True)
+                Bsz = z_inv_c.shape[0]
+                xcov = (z_inv_c.t() @ z_dyn_c) / max(Bsz - 1, 1)
+                d_inv, d_dyn = z_inv.shape[-1], z_dyn.shape[-1]
+                loss_xcov = xcov.pow(2).sum() / (d_inv * d_dyn)
+
+                # L_var（方案文档4.5节 防塌缩方差下界）：任何一条路径的某个维度，
+                # 如果在这个 batch 里方差掉到 gamma_0 以下，就惩罚它，防止
+                # xcov 项通过"让某条路径塌缩成batch常数"来偷懒把协方差压到0。
+                gamma0_var = float(getattr(self, "gamma0_var", 0.1))
+
+                def _var_floor(z):
+                    std = torch.sqrt(z.var(dim=0) + 1e-8)
+                    return torch.clamp(gamma0_var - std, min=0.0).mean()
+
+                loss_var = _var_floor(z_inv) + _var_floor(z_dyn)
+                beta_var = float(getattr(self, "beta_var", 1.0))
+                loss_sep = loss_xcov + beta_var * loss_var
+
+                lambda_sep = float(getattr(self, "lambda_sep", 0.0))
+                # Stage 3: 先不接 L_TRR，只用 L_pred + lambda_sep*L_sep。
+                loss = loss_forecast + lambda_sep * loss_sep
+
+                with torch.no_grad():
+                    var_inv_mean = z_inv.var(dim=0).mean()
+                    var_dyn_mean = z_dyn.var(dim=0).mean()
+                    diag_energy_share_inv = var_inv_mean / (var_inv_mean + var_dyn_mean + 1e-8)
 
             if self.augment == 'idf_ridde_v2':
                 assert ridde_v2_metrics is not None, "idf_ridde_v2 metrics should be populated during forward"
@@ -1978,6 +2106,7 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             loss=loss,
             total_loss=loss,
             loss_forecast=loss_forecast,
+            loss_forecast_per_sample=loss_forecast_per_sample,
             loss_cons=loss_cons,
             loss_smooth=loss_smooth,
             loss_inv=loss_inv,
@@ -1990,6 +2119,8 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             loss_ord=loss_ord,
             loss_cos=loss_cos,
             loss_gbal=loss_gbal,
+            loss_var=loss_var,
+            loss_sep=loss_sep,
             diag_cos_sim=diag_cos_sim,
             diag_gamma_mean=diag_gamma_mean,
             diag_gamma_sat_frac=diag_gamma_sat_frac,
