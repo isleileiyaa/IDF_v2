@@ -14,7 +14,7 @@ seq_len=512
 pred_len=64
 datasets="${DATASETS:-ETTh1}"
 lookback_length=512
-augment_mode=idf_trr_dualpath
+augment_mode=${AUGMENT_MODE:-idf_trr_dualpath}
 top_k=10
 lambda_sep=${LAMBDA_SEP:-0.01}
 
@@ -28,7 +28,7 @@ pretrained_model_path="/home/fenglei/TS-RAG-main/TS-RAG/checkpoints/base/"
 # train_steps_in_ckpt/lambda_sep，要么直接用 CHECKPOINT_MODEL_PATH 手动指定
 # 实际的 checkpoint 路径(更保险，推荐这么做)。
 train_steps_in_ckpt=${TRAIN_STEPS_IN_CKPT:-10000}
-default_checkpoint_model_path="/home/fenglei/TS-RAG-main/TS-RAG/checkpoints/data50m_idf_trr_dualpath_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step${train_steps_in_ckpt}_bs256_no_embeddingtuning_lambdasep${lambda_sep}_final.pth"
+default_checkpoint_model_path="/home/fenglei/TS-RAG-main/TS-RAG/checkpoints/data50m_${augment_mode}_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step${train_steps_in_ckpt}_bs256_no_embeddingtuning_lambdasep${lambda_sep}_final.pth"
 checkpoint_model_path="${CHECKPOINT_MODEL_PATH:-$default_checkpoint_model_path}"
 echo "checkpoint_model_path=$checkpoint_model_path"
 eval_split="${EVAL_SPLIT:-test}"
@@ -53,7 +53,7 @@ fi
 python $run_file \
     --root_path "$root_path" \
     --data_path "${dataset}.csv" \
-    --model_id "${dataset}_zeroshot_${seq_len}_pred_${pred_len}_${lookback_length}_retrieve_${pred_len}_idf_trr_dualpath" \
+    --model_id "${dataset}_zeroshot_${seq_len}_pred_${pred_len}_${lookback_length}_retrieve_${pred_len}_${augment_mode}" \
     --data $data \
     --top_k $top_k \
     --checkpoint_model_path $checkpoint_model_path \
