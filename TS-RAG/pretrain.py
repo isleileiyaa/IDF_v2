@@ -141,6 +141,19 @@ parser.add_argument('--grad_clip_value', type=float, default=1.0)
 parser.add_argument('--kill_retrieval', action='store_true',
                      help='shuffle retrieved_seq across the batch dim so retrieval carries no real signal')
 
+# RIDDE_检索扰动相对风险目标 (rob_doc): L = L_pred + lambda_rob*L_rob
+parser.add_argument('--lambda_rob', type=float, default=0.0,
+                     help='rho_rob；0则完全跳过L_rob，行为跟改动前一模一样')
+parser.add_argument('--kl_radius', type=float, default=0.02, help='epsilon_rob，omega周围的KL球半径')
+parser.add_argument('--rob_inner_steps', type=int, default=3)
+parser.add_argument('--rob_step_size', type=float, default=0.2)
+parser.add_argument('--rob_random_restarts', type=int, default=1)
+parser.add_argument('--rob_bisection_steps', type=int, default=24)
+parser.add_argument('--f0_checkpoint_path', type=str, default='',
+                     help='Query-only参考模型f_0的checkpoint(augment_mode=baseline，即TrueBase)，lambda_rob>0时必填')
+parser.add_argument('--init_from_checkpoint', type=str, default='',
+                     help='鲁棒训练要接着哪个已经训好的checkpoint继续训(比如Pure-ERM+学习型融合头那个)，不填就是从头初始化')
+
 # gpu
 parser.add_argument('--devices', type=str, default='0,1,2,3', help='device ids of multile gpus')
 parser.add_argument('--gpu_loc', type=int, default=0, help='main gpu location')
@@ -255,6 +268,16 @@ elif args.model == 'ChronosBoltRetrieve':
             model.P_dyn,
             model.f_inv,
             model.f_dyn,
+        ])
+    if args.augment_mode == 'idf_trr_dualpath_learnfuse':
+        model.init_extra_weights([
+            model.encode_mlp,
+            model.ret_score_head,
+            model.P_inv,
+            model.P_dyn,
+            model.f_inv,
+            model.f_dyn,
+            model.final_pred_head,
         ])
     if args.augment_mode == 'idf_clean_dis_deepmlp':
         model.init_extra_weights([
@@ -415,6 +438,22 @@ else:
     exit()
 print(f'{args.model} model loaded')
 
+# RIDDE_检索扰动相对风险目标 (rob_doc)：鲁棒训练接着已经训好的checkpoint(比如
+# Pure-ERM+学习型融合头)继续训，不是从随机初始化的P_inv/P_dyn/f_inv/f_dyn/
+# final_pred_head/encode_mlp/ret_score_head开始。上面的init_extra_weights只是把
+# 这些模块随机初始化好、把shape注册上，这里再整体覆盖成真正训好的权重。
+if args.init_from_checkpoint:
+    assert args.augment_mode == 'idf_trr_dualpath_learnfuse', \
+        "--init_from_checkpoint 目前只为鲁棒训练(idf_trr_dualpath_learnfuse)这条路径验证过"
+    _init_sd = torch.load(args.init_from_checkpoint, map_location='cpu')
+    _missing, _unexpected = model.load_state_dict(_init_sd, strict=False)
+    print(f"[RIDDE_rob] 从 {args.init_from_checkpoint} 加载已训练权重完成 "
+          f"(missing={len(_missing)}, unexpected={len(_unexpected)})")
+    print(f"[RIDDE_rob] missing keys 示例: {_missing[:10]}")
+    print(f"[RIDDE_rob] unexpected keys 示例: {_unexpected[:10]}")
+    assert len(_unexpected) == 0, \
+        "unexpected keys不应该出现——说明checkpoint里有当前模型结构不认识的键，先人工核对再继续"
+
 model.to(device)
 if args.use_multi_gpu:
     args.devices = [int(i) for i in args.devices.split(',')]
@@ -449,6 +488,29 @@ if args.lambda_trr > 0:
     # nu_tilde 是方案文档4.3节 CVaR 的分位变量 nu 的 softplus 前参数化，是一个跟
     # model 参数完全独立的标量，需要手动加进优化器的参数列表(不在 model.parameters()里)。
     nu_tilde = nn.Parameter(torch.tensor(float(args.nu_init), dtype=torch.float32, device=device))
+
+# RIDDE_检索扰动相对风险目标(rob_doc)："Query-only模型仅用于提供参考预测损失"。
+# 加载方式完全照抄上面model_B那一套(augment='baseline'，eval，requires_grad=False)，
+# 只是checkpoint换成TrueBase(script/pretrain_truebase.sh训出来的那个)，不是TRR的B。
+model_f0 = None
+if args.lambda_rob > 0:
+    assert args.model == 'ChronosBoltRetrieve', "L_rob目前只接了ChronosBoltRetrieve这条路径"
+    assert args.f0_checkpoint_path, "--lambda_rob > 0 时必须提供 --f0_checkpoint_path(TrueBase/Query-only参考模型checkpoint)"
+    config_f0 = AutoConfig.from_pretrained(args.pretrained_model_path)
+    if hasattr(config_f0, "chronos_config"):
+        config_f0.chronos_config["context_length"] = args.context_length
+        config_f0.chronos_config["prediction_length"] = args.prediction_length
+    model_f0 = ChronosBoltModelForForecastingWithRetrieval(config=config_f0, augment='baseline')
+    model_f0.debug_shapes = False
+    model_f0._debug_shapes_printed = True
+    f0_state_dict = torch.load(args.f0_checkpoint_path, map_location='cpu')
+    missing_f0, unexpected_f0 = model_f0.load_state_dict(f0_state_dict, strict=False)
+    print(f"[RIDDE_rob] f_0(TrueBase)从 {args.f0_checkpoint_path} 加载完成 "
+          f"(missing={len(missing_f0)}, unexpected={len(unexpected_f0)})")
+    model_f0.to(device)
+    model_f0.eval()
+    for p in model_f0.parameters():
+        p.requires_grad = False
 
 params = list(model.parameters())
 if nu_tilde is not None:
@@ -640,6 +702,16 @@ if args.freeze_chronos_bolt:
             'f_inv',
             'f_dyn',
         ])
+    elif args.augment_mode == 'idf_trr_dualpath_learnfuse':
+        layers_to_unfreeze.extend([
+            'encode_mlp',
+            'ret_score_head',
+            'P_inv',
+            'P_dyn',
+            'f_inv',
+            'f_dyn',
+            'final_pred_head',
+        ])
     elif args.augment_mode == 'baseline':
         # No-Retrieval Base(方案C):augment_mode='baseline' 的前向传播完全不碰检索,
         # 只是把 output_patch_embedding(sequence_output) 作为原生 Chronos-Bolt 预测头
@@ -649,6 +721,15 @@ if args.freeze_chronos_bolt:
         # 这不公平。只放开 output_patch_embedding,让它享受和 RAG 融合头一样的训练机会
         # (同样的数据、步数、学习率、优化器,冻结主干),只是不给检索输入。
         layers_to_unfreeze.append('output_patch_embedding')
+
+    if args.lambda_rob > 0:
+        # RIDDE_检索扰动相对风险目标(rob_doc)："参考检索权重由鲁棒训练开始前的RIDDE
+        # 检查点生成,冻结该检查点中用于检索与注意力计算的模块"——具体做法就是让
+        # encode_mlp/ret_score_head在这个阶段不进入可训练列表,不需要额外维护一份
+        # 单独的frozen model实例。
+        _before_filter = set(layers_to_unfreeze)
+        layers_to_unfreeze = [l for l in layers_to_unfreeze if l not in ('encode_mlp', 'ret_score_head')]
+        print(f'[RIDDE_rob] lambda_rob>0: 从可训练列表移除 {_before_filter - set(layers_to_unfreeze)}(参考权重omega固定,不再训练)')
 
     for param in model.parameters():
         param.requires_grad = False
@@ -833,6 +914,73 @@ for i, batch in pbar:
             r_e_max = r_e_stack.max()
         loss = loss + args.lambda_trr * loss_trr
 
+    # RIDDE_检索扰动相对风险目标 (rob_doc): L = L_pred + lambda_rob*L_rob。lambda_rob=0
+    # 完全跳过，行为和改动前一模一样。
+    loss_rob = loss.new_zeros(())
+    rob_active_frac = loss.new_zeros(())
+    rob_kl_max = loss.new_zeros(())
+    if args.lambda_rob > 0:
+        from utils.ridde_robust_loss import RobustConfig, robust_relative_objective, squared_error
+        assert outputs.aux_e_q_rob is not None and outputs.aux_retrieved_y_enc_rob is not None \
+            and outputs.aux_omega_rob is not None and outputs.aux_target_rob is not None, \
+            "lambda_rob>0 要求 augment_mode=idf_trr_dualpath_learnfuse 且模型已吐出 aux_*_rob 字段,检查STEP1的patch是否生效"
+        _m = model.module if hasattr(model, 'module') else model
+        central_idx = torch.abs(_m.quantiles - 0.5).argmin()
+        e_q_rob = outputs.aux_e_q_rob.detach()
+        retrieved_y_enc_rob = outputs.aux_retrieved_y_enc_rob.detach()
+        omega_rob = outputs.aux_omega_rob.detach()
+        target_point = outputs.aux_target_rob.detach().squeeze(1)
+
+        with torch.no_grad():
+            outputs_f0 = model_f0(
+                context=batch['x'].float(),
+                target=batch['y'].float(),
+                retrieved_seq=retrieved_seqs.float(),
+                distances=batch['distances'].float(),
+            )
+        f0_point = outputs_f0.quantile_preds[:, central_idx].detach()
+        baseline_loss = squared_error(f0_point, target_point, reduction='sum')
+        assert torch.isfinite(baseline_loss).all() and (baseline_loss >= 0).all(), \
+            "f_0 baseline_loss 出现非法值(非有限或负数)，检查f_0 checkpoint是否加载对了"
+
+        def _predict_pi(pi):
+            fused = _m.dualpath_predict_with_pi(e_q_rob, retrieved_y_enc_rob, pi)
+            return fused[:, central_idx]
+
+        # 下面这几个轻量头临时切eval()只是为了让predict()在omega/pi_star之间反复
+        # 调用时结果确定(没有dropout随机性)，这是把模块返回的loss拆成clean_i+excess
+        # 两部分再精确相减、避免L_pred重复计入的前提；eval()不冻结参数，梯度照样
+        # 反传，train()/eval()状态在这段计算结束后立刻还原，不影响这个step其余部分。
+        # 整个模型做一次eval()/train()切换,而不是手动维护P_inv/P_dyn/f_inv/f_dyn/
+        # final_pred_head这份列表——dualpath_predict_with_pi只会碰到_m的这几个头,
+        # 不会重新跑backbone/encode_mlp/ret_score_head(它们本来就冻结),所以切eval()
+        # 对这次计算范围之外的部分零影响;以后这几个头里如果加了dropout/batchnorm,
+        # 也会被自动覆盖到,不用回来同步这份列表。eval()不冻结参数,梯度照样反传。
+        _rob_was_training = _m.training
+        _m.eval()
+        try:
+            cfg = RobustConfig(rho=1.0, radius=args.kl_radius, inner_steps=args.rob_inner_steps,
+                               step_size=args.rob_step_size, random_restarts=args.rob_random_restarts,
+                               bisection_steps=args.rob_bisection_steps, reduction='sum')
+            loss_combo, rob_info = robust_relative_objective(
+                predict=_predict_pi, target=target_point, omega=omega_rob,
+                baseline_loss=baseline_loss, cfg=cfg,
+            )
+            # loss_combo = clean_i.mean() + 1.0*excess.mean()(cfg.rho=1固定，只是为了
+            # 触发模块内部的对抗搜索，不是真正的rho_rob)。clean_i是"平方L2+中位数分位
+            # 数"版本的L_pred替身，跟本文件已有的loss_forecast(pinball loss)是同一个
+            # 角色、不同度量，不能重复计入——用同样的predict/target/reduction重新算一
+            # 次clean_i_grad，代数上跟模块内部的clean_i完全相等，减掉后只剩纯L_rob项。
+            clean_i_grad = squared_error(_predict_pi(omega_rob), target_point, reduction='sum')
+        finally:
+            _m.train(_rob_was_training)
+
+        loss_rob = loss_combo - clean_i_grad.mean()
+        with torch.no_grad():
+            rob_active_frac = rob_info['active_fraction']
+            rob_kl_max = rob_info['kl'].max()
+        loss = loss + args.lambda_rob * loss_rob
+
     if args.model == 'ChronosBoltRetrieve':
         loss_forecast = outputs.loss_forecast.mean() if outputs.loss_forecast is not None else loss
         loss_cons = outputs.loss_cons.mean() if outputs.loss_cons is not None else loss.new_zeros(())
@@ -906,6 +1054,12 @@ for i, batch in pbar:
                 'r_e_mean': r_e_mean.item(),
                 'r_e_max': r_e_max.item(),
             })
+        if args.lambda_rob > 0:
+            log_payload.update({
+                'loss_rob': loss_rob.item(),
+                'rob_active_frac': rob_active_frac.item(),
+                'rob_kl_max': rob_kl_max.item(),
+            })
         wandb.log(log_payload)
 
     postfix = {
@@ -917,6 +1071,12 @@ for i, batch in pbar:
             'trr': round(loss_trr.item(), 4),
             'nu': round(nu_value.item(), 4),
             'r_max': round(r_e_max.item(), 4),
+        })
+    if args.lambda_rob > 0:
+        postfix.update({
+            'rob': round(loss_rob.item(), 4),
+            'rob_af': round(rob_active_frac.item(), 4),
+            'rob_kl': round(rob_kl_max.item(), 4),
         })
     if args.augment_mode == 'idf_ridde_v2':
         postfix.update({
