@@ -59,6 +59,15 @@ class ChronosBoltOutput(ModelOutput):
     # (loss_xcov above is reused; loss_var is the new anti-collapse variance-floor term).
     loss_var: Optional[torch.Tensor] = None
     loss_sep: Optional[torch.Tensor] = None
+    # RIDDE_检索扰动相对风险目标 (rob_doc)：idf_trr_dualpath / idf_trr_dualpath_learnfuse
+    # 的 e_q、retrieved_y_enc(文档的 e_hat_k^r)、omega(ref_doc的omega_i,k，已squeeze成
+    # [batch,K])、以及跟fused_quantile_preds同一把尺子(instance_norm+padding之后)的
+    # target，供pretrain.py用model.dualpath_predict_with_pi在外部重跑轻量下游头算L_rob。
+    # 对其他augment_mode和已有数值零影响，纯增量字段。
+    aux_e_q_rob: Optional[torch.Tensor] = None
+    aux_retrieved_y_enc_rob: Optional[torch.Tensor] = None
+    aux_omega_rob: Optional[torch.Tensor] = None
+    aux_target_rob: Optional[torch.Tensor] = None
     diag_cos_sim: Optional[torch.Tensor] = None
     diag_gamma_mean: Optional[torch.Tensor] = None
     diag_gamma_sat_frac: Optional[torch.Tensor] = None
@@ -857,6 +866,31 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             self.f_inv = nn.Linear(config.d_model, pred_dim)
             self.f_dyn = nn.Linear(config.d_model, pred_dim)
 
+        if self.augment == 'idf_trr_dualpath_learnfuse':
+            # 结构定义完全复用 idf_trr_dualpath(h_r聚合方式、z_inv_in/z_dyn_in拼接、
+            # P_inv/P_dyn)，唯一新增 final_pred_head，用来把"加法重构"换成
+            # idf_clean_dis(老RIDDE)那种可学习线性融合头，做单变量消融对比。
+            pred_dim = self.num_quantiles * self.chronos_config.prediction_length
+            self.encode_mlp = nn.Sequential(
+                nn.Linear(self.chronos_config.prediction_length, config.d_model),
+                nn.ReLU(),
+                nn.Linear(config.d_model, config.d_model),
+            )
+            self.ret_score_head = nn.Linear(config.d_model * 2, 1)
+            self.P_inv = nn.Sequential(
+                nn.Linear(config.d_model * 4, config.d_model),
+                nn.ReLU(),
+                nn.Linear(config.d_model, config.d_model),
+            )
+            self.P_dyn = nn.Sequential(
+                nn.Linear(config.d_model * 2, config.d_model),
+                nn.ReLU(),
+                nn.Linear(config.d_model, config.d_model),
+            )
+            self.f_inv = nn.Linear(config.d_model, pred_dim)
+            self.f_dyn = nn.Linear(config.d_model, pred_dim)
+            self.final_pred_head = nn.Linear(pred_dim * 2, pred_dim)
+
         if self.augment == 'idf_h_linear_head':
             pred_dim = self.num_quantiles * self.chronos_config.prediction_length
             self.encode_mlp = nn.Sequential(
@@ -1217,6 +1251,10 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
         # use_disentangle_aux_loss 分支用的，公式和这里完全不同，混用会互相干扰）。
         aux_z_inv_trr = None
         aux_z_dyn_trr = None
+        aux_e_q_rob = None
+        aux_retrieved_y_enc_rob = None
+        aux_omega_rob = None
+        aux_target_rob = None
 
         if self.augment == 'baseline':
             fused_quantile_preds = self.output_patch_embedding(sequence_output).view(*quantile_preds_shape)
@@ -1224,12 +1262,12 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             retrieved_seq, loc_scale_retrieved = self.instance_norm(retrieved_seq)
 
             # fuse retrieved sequence
-            if 'moe' not in self.augment and self.augment != 'idf_branch' and self.augment != 'idf_x' and self.augment != 'idf_clean_dis' and self.augment != 'idf_clean_dis_deepmlp' and self.augment != 'idf_clean_dis_ts3align' and self.augment != 'idf_ridde_v2' and self.augment != 'idf_h_linear_head' and self.augment != 'idf_h_native_head' and self.augment != 'idf_y_linear_head' and self.augment != 'idf_residual' and self.augment != 'idf_branch_gru' and self.augment != 'idf_branch_gru_q' and self.augment != 'idf_dual_direct_head' and self.augment != 'idf_dual_projector' and self.augment != 'idf_dual_projector_mlp' and self.augment != 'idf_trr_dualpath':
+            if 'moe' not in self.augment and self.augment != 'idf_branch' and self.augment != 'idf_x' and self.augment != 'idf_clean_dis' and self.augment != 'idf_clean_dis_deepmlp' and self.augment != 'idf_clean_dis_ts3align' and self.augment != 'idf_ridde_v2' and self.augment != 'idf_h_linear_head' and self.augment != 'idf_h_native_head' and self.augment != 'idf_y_linear_head' and self.augment != 'idf_residual' and self.augment != 'idf_branch_gru' and self.augment != 'idf_branch_gru_q' and self.augment != 'idf_dual_direct_head' and self.augment != 'idf_dual_projector' and self.augment != 'idf_dual_projector_mlp' and self.augment != 'idf_trr_dualpath' and self.augment != 'idf_trr_dualpath_learnfuse':
                 weights = torch.softmax(-distances, dim=1)
                 retrieved_seq = (weights.unsqueeze(-1) * retrieved_seq).sum(dim=1)
                 retrieved_seq = retrieved_seq.unsqueeze(1)
             # B, L = target.shape
-            L = self.chronos_config.prediction_length if self.augment in ['idf_branch', 'idf_x', 'idf_clean_dis', 'idf_clean_dis_deepmlp', 'idf_clean_dis_ts3align', 'idf_ridde_v2', 'idf_h_linear_head', 'idf_h_native_head', 'idf_y_linear_head', 'idf_residual', 'idf_branch_gru', 'idf_branch_gru_q', 'idf_dual_direct_head', 'idf_dual_projector', 'idf_dual_projector_mlp', 'idf_trr_dualpath'] else 64
+            L = self.chronos_config.prediction_length if self.augment in ['idf_branch', 'idf_x', 'idf_clean_dis', 'idf_clean_dis_deepmlp', 'idf_clean_dis_ts3align', 'idf_ridde_v2', 'idf_h_linear_head', 'idf_h_native_head', 'idf_y_linear_head', 'idf_residual', 'idf_branch_gru', 'idf_branch_gru_q', 'idf_dual_direct_head', 'idf_dual_projector', 'idf_dual_projector_mlp', 'idf_trr_dualpath', 'idf_trr_dualpath_learnfuse'] else 64
             r_B, r_M, r_L = retrieved_seq.shape
             assert r_L % 2 == 0, "L of retrieved_seq should be even"
             retrieved_x, retrieved_y = retrieved_seq.split((r_L-L, L), dim=2)
@@ -1772,6 +1810,41 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
 
                 aux_z_inv_trr = z_inv
                 aux_z_dyn_trr = z_dyn
+                aux_e_q_rob = e_q
+                aux_retrieved_y_enc_rob = retrieved_y_enc
+                aux_omega_rob = omega.squeeze(-1)
+
+            if self.augment == 'idf_trr_dualpath_learnfuse':
+                # 前半段(h_r聚合、z_inv_in/z_dyn_in拼接、P_inv/P_dyn)逐字复用
+                # idf_trr_dualpath，唯一区别在最后一行的融合方式。
+                retrieved_y_enc = []
+                for i in range(r_M):
+                    retrieved_y_enc.append(self.encode_mlp(retrieved_y[:, i, :]))
+                retrieved_y_enc = torch.stack(retrieved_y_enc, dim=1)
+
+                e_q = sequence_output.squeeze(1)
+                q_expand = e_q.unsqueeze(1).expand(-1, r_M, -1)
+                ret_score_in = torch.cat([q_expand, retrieved_y_enc], dim=-1)
+                omega = F.softmax(self.ret_score_head(ret_score_in), dim=1)
+                h_r = (omega * retrieved_y_enc).sum(dim=1)
+
+                z_inv_in = torch.cat([e_q, h_r, e_q * h_r, torch.abs(e_q - h_r)], dim=-1)
+                z_dyn_in = torch.cat([e_q, e_q - h_r], dim=-1)
+                z_inv = self.P_inv(z_inv_in)
+                z_dyn = self.P_dyn(z_dyn_in)
+
+                y_inv = self.f_inv(z_inv).view(*quantile_preds_shape)
+                y_dyn = self.f_dyn(z_dyn).view(*quantile_preds_shape)
+                # 唯一区别：不做 y_inv+y_dyn 加法重构，改用老RIDDE(idf_clean_dis)
+                # 那种可学习线性融合头对两路预测做加权组合。
+                final_in = torch.cat([y_inv.reshape(batch_size, -1), y_dyn.reshape(batch_size, -1)], dim=-1)
+                fused_quantile_preds = self.final_pred_head(final_in).view(*quantile_preds_shape)
+
+                aux_z_inv_trr = z_inv
+                aux_z_dyn_trr = z_dyn
+                aux_e_q_rob = e_q
+                aux_retrieved_y_enc_rob = retrieved_y_enc
+                aux_omega_rob = omega.squeeze(-1)
 
             if self.augment == 'gate':
                 # Step 1
@@ -1834,6 +1907,8 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
                 target = torch.cat([target, torch.zeros(padding_shape).to(target)], dim=-1)
                 target_mask = torch.cat([target_mask, torch.zeros(padding_shape).to(target_mask)], dim=-1)
 
+            aux_target_rob = target
+
             loss = (
                 2
                 * torch.abs(
@@ -1873,7 +1948,7 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             loss_var = self._zero_loss_like(loss_forecast)
             loss_sep = self._zero_loss_like(loss_forecast)
 
-            if self.augment == 'idf_trr_dualpath':
+            if self.augment in ('idf_trr_dualpath', 'idf_trr_dualpath_learnfuse'):
                 assert aux_z_inv_trr is not None and aux_z_dyn_trr is not None, \
                     "idf_trr_dualpath 的 z_inv/z_dyn 应该在 forward 里已经算好了"
                 z_inv, z_dyn = aux_z_inv_trr, aux_z_dyn_trr
@@ -2136,7 +2211,37 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             use_disentangle_aux_loss=use_disentangle_aux_loss,
             aux_loss_enabled=aux_loss_enabled,
             quantile_preds=fused_quantile_preds,
+            aux_e_q_rob=aux_e_q_rob,
+            aux_retrieved_y_enc_rob=aux_retrieved_y_enc_rob,
+            aux_omega_rob=aux_omega_rob,
+            aux_target_rob=aux_target_rob,
         )
+
+    def dualpath_predict_with_pi(self, e_q, retrieved_y_enc, pi):
+        """RIDDE_检索扰动相对风险目标 (rob_doc)：h_i^r(pi) = sum_k pi_k * e_hat_k^r，
+        重跑P_inv/P_dyn/f_inv/f_dyn(以及idf_trr_dualpath_learnfuse的final_pred_head)。
+        e_q/retrieved_y_enc是缓存量(来自aux_e_q_rob/aux_retrieved_y_enc_rob)，不用
+        再过一次backbone/encode_mlp；这里只重跑轻量下游头，供ridde_robust_loss.py的
+        内层搜索反复调用。pi形状[batch, r_M]，跟aux_omega_rob(已squeeze)同形状，
+        sum(-1)应为1。
+        """
+        assert self.augment in ('idf_trr_dualpath', 'idf_trr_dualpath_learnfuse'), \
+            f"dualpath_predict_with_pi 只支持双路径augment_mode，收到 {self.augment}"
+        batch_size = pi.shape[0]
+        quantile_preds_shape = (batch_size, self.num_quantiles, self.chronos_config.prediction_length)
+        h_r = (pi.unsqueeze(-1) * retrieved_y_enc).sum(dim=1)
+        z_inv_in = torch.cat([e_q, h_r, e_q * h_r, torch.abs(e_q - h_r)], dim=-1)
+        z_dyn_in = torch.cat([e_q, e_q - h_r], dim=-1)
+        z_inv = self.P_inv(z_inv_in)
+        z_dyn = self.P_dyn(z_dyn_in)
+        y_inv = self.f_inv(z_inv).view(*quantile_preds_shape)
+        y_dyn = self.f_dyn(z_dyn).view(*quantile_preds_shape)
+        if self.augment == 'idf_trr_dualpath_learnfuse':
+            final_in = torch.cat([y_inv.reshape(batch_size, -1), y_dyn.reshape(batch_size, -1)], dim=-1)
+            fused = self.final_pred_head(final_in).view(*quantile_preds_shape)
+        else:
+            fused = y_inv + y_dyn
+        return fused
 
     def _init_decoder(self, config):
         decoder_config = copy.deepcopy(config)
