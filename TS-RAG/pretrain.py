@@ -61,6 +61,10 @@ parser.add_argument('--augment_mode', type=str, default='moe2')
 parser.add_argument('--debug_shapes', action='store_true', help='print key tensor shapes once for debug')
 parser.add_argument('--rho1', type=float, default=0.0)
 parser.add_argument('--rho2', type=float, default=0.0)
+parser.add_argument('--tau_dis', type=float, default=0.17)
+parser.add_argument('--lambda_sem', type=float, default=0.0)
+parser.add_argument('--lambda_ord', type=float, default=0.0)
+parser.add_argument('--lambda_xcov', type=float, default=0.0)
 parser.add_argument('--rho3', type=float, default=0.0)
 parser.add_argument('--rho4', type=float, default=0.0)
 # output-level disentanglement ablation (idf_clean_dis / RIDDE only):
@@ -188,6 +192,10 @@ elif args.model == 'ChronosBoltRetrieve':
     model._debug_shapes_printed = False
     model.rho1 = args.rho1
     model.rho2 = args.rho2
+    model.tau_dis = args.tau_dis
+    model.lambda_sem = args.lambda_sem
+    model.lambda_ord = args.lambda_ord
+    model.lambda_xcov = args.lambda_xcov
     model.rho3 = args.rho3
     model.rho4 = args.rho4
     model.dis_mode = args.dis_mode
@@ -443,8 +451,9 @@ print(f'{args.model} model loaded')
 # final_pred_head/encode_mlp/ret_score_head开始。上面的init_extra_weights只是把
 # 这些模块随机初始化好、把shape注册上，这里再整体覆盖成真正训好的权重。
 if args.init_from_checkpoint:
-    assert args.augment_mode == 'idf_trr_dualpath_learnfuse', \
-        "--init_from_checkpoint 目前只为鲁棒训练(idf_trr_dualpath_learnfuse)这条路径验证过"
+    assert args.augment_mode in ('idf_trr_dualpath_learnfuse', 'idf_clean_dis_v3', 'idf_clean_dis_v4'), \
+        "--init_from_checkpoint 目前只为鲁棒训练(idf_trr_dualpath_learnfuse)、" \
+        "带容差门控重叠(idf_clean_dis_v3)和v4(idf_clean_dis_v4)这几条路径验证过"
     _init_sd = torch.load(args.init_from_checkpoint, map_location='cpu')
     _missing, _unexpected = model.load_state_dict(_init_sd, strict=False)
     print(f"[RIDDE_rob] 从 {args.init_from_checkpoint} 加载已训练权重完成 "
@@ -571,7 +580,17 @@ if args.freeze_chronos_bolt:
             'dyn_pred_head',
             'final_pred_head',
         ])
-    elif args.augment_mode == 'idf_clean_dis':
+    elif args.augment_mode in ('idf_clean_dis', 'idf_clean_dis_v3'):
+        layers_to_unfreeze.extend([
+            'encode_mlp',
+            'ret_score_head',
+            'fuse_gate',
+            'routing_gate',
+            'inv_pred_head',
+            'dyn_pred_head_clean',
+            'final_pred_head',
+        ])
+    elif args.augment_mode == 'idf_clean_dis_v4':
         layers_to_unfreeze.extend([
             'encode_mlp',
             'ret_score_head',
@@ -919,6 +938,7 @@ for i, batch in pbar:
     loss_rob = loss.new_zeros(())
     rob_active_frac = loss.new_zeros(())
     rob_kl_max = loss.new_zeros(())
+    rob_f0_gap_diag = loss.new_zeros(())
     if args.lambda_rob > 0:
         from utils.ridde_robust_loss import RobustConfig, robust_relative_objective, squared_error
         assert outputs.aux_e_q_rob is not None and outputs.aux_retrieved_y_enc_rob is not None \
@@ -932,16 +952,24 @@ for i, batch in pbar:
         target_point = outputs.aux_target_rob.detach().squeeze(1)
 
         with torch.no_grad():
+            clean_pred = _m.dualpath_predict_with_pi(e_q_rob, retrieved_y_enc_rob, omega_rob)[:, central_idx]
+            baseline_loss = squared_error(clean_pred, target_point, reduction='sum')
+        assert torch.isfinite(baseline_loss).all() and (baseline_loss >= 0).all(), \
+            "baseline_loss(ω_i下的正常clean预测)出现非法值(非有限或负数)，检查dualpath_predict_with_pi/omega_rob"
+
+        # 诊断用，不参与loss：仍跑一次f_0(Query-only)前向，只用来记录"相对完全不用检索"的差距，
+        # 2026-09-12改动：baseline从f_0换成模型自身clean loss，详见项目文档
+        # ridde-robust-relative-risk-l_rob-integration.md 的"Hinge几乎不激活问题排查"一节
+        with torch.no_grad():
             outputs_f0 = model_f0(
                 context=batch['x'].float(),
                 target=batch['y'].float(),
                 retrieved_seq=retrieved_seqs.float(),
                 distances=batch['distances'].float(),
             )
-        f0_point = outputs_f0.quantile_preds[:, central_idx].detach()
-        baseline_loss = squared_error(f0_point, target_point, reduction='sum')
-        assert torch.isfinite(baseline_loss).all() and (baseline_loss >= 0).all(), \
-            "f_0 baseline_loss 出现非法值(非有限或负数)，检查f_0 checkpoint是否加载对了"
+            f0_point = outputs_f0.quantile_preds[:, central_idx].detach()
+            f0_loss_diag = squared_error(f0_point, target_point, reduction='sum')
+            rob_f0_gap_diag = (f0_loss_diag - baseline_loss).mean()
 
         def _predict_pi(pi):
             fused = _m.dualpath_predict_with_pi(e_q_rob, retrieved_y_enc_rob, pi)
@@ -1059,6 +1087,7 @@ for i, batch in pbar:
                 'loss_rob': loss_rob.item(),
                 'rob_active_frac': rob_active_frac.item(),
                 'rob_kl_max': rob_kl_max.item(),
+                'rob_f0_gap_diag': rob_f0_gap_diag.item(),
             })
         wandb.log(log_payload)
 
@@ -1077,6 +1106,7 @@ for i, batch in pbar:
             'rob': round(loss_rob.item(), 4),
             'rob_af': round(rob_active_frac.item(), 4),
             'rob_kl': round(rob_kl_max.item(), 4),
+            'rob_gap': round(rob_f0_gap_diag.item(), 4),
         })
     if args.augment_mode == 'idf_ridde_v2':
         postfix.update({

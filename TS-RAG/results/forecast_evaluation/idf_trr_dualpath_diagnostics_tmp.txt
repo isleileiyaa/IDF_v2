@@ -1,0 +1,92 @@
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.6195, std:0.0000 ---- mae:0.4826, std:0.0000
+electricity_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.3287, std:0.0000 ---- mae:0.2617, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.0749, std:0.0000 ---- mae:0.1993, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.1419, std:0.0000 ---- mae:0.2606, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.1172, std:0.0000 ---- mae:0.2455, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.3120, std:0.0000 ---- mae:0.3840, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.0592, std:0.0000 ---- mae:0.1793, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.7345, std:0.0000 ---- mae:0.5381, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.6195, std:0.0000 ---- mae:0.4826, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.7345, std:0.0000 ---- mae:0.5381, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.7313, std:0.0000 ---- mae:0.5360, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.6195, std:0.0000 ---- mae:0.4826, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.7345, std:0.0000 ---- mae:0.5381, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.7313, std:0.0000 ---- mae:0.5360, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.7287, std:0.0000 ---- mae:0.5338, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.6195, std:0.0000 ---- mae:0.4826, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.6195, std:0.0000 ---- mae:0.4826, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.7287, std:0.0000 ---- mae:0.5338, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.7345, std:0.0000 ---- mae:0.5381, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.7313, std:0.0000 ---- mae:0.5360, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.7034, std:0.0000 ---- mae:0.5729, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.8339, std:0.0000 ---- mae:0.5782, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.6195, std:0.0000 ---- mae:0.4826, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:1.2218, std:0.0000 ---- mae:0.8281, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.0749, std:0.0000 ---- mae:0.1993, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.0795, std:0.0000 ---- mae:0.2158, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.1419, std:0.0000 ---- mae:0.2606, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.1231, std:0.0000 ---- mae:0.2544, std:0.0000
+electricity_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.3287, std:0.0000 ---- mae:0.2617, std:0.0000
+electricity_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.3994, std:0.0000 ---- mae:0.3754, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.1172, std:0.0000 ---- mae:0.2455, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.1699, std:0.0000 ---- mae:0.3155, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.3120, std:0.0000 ---- mae:0.3840, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.7911, std:0.0000 ---- mae:0.6889, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.0592, std:0.0000 ---- mae:0.1793, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.1062, std:0.0000 ---- mae:0.2460, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.6276, std:0.0000 ---- mae:0.4866, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.1173, std:0.0000 ---- mae:0.2459, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.3189, std:0.0000 ---- mae:0.3904, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.6276, std:0.0000 ---- mae:0.4866, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.1173, std:0.0000 ---- mae:0.2459, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.3189, std:0.0000 ---- mae:0.3904, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.0582, std:0.0000 ---- mae:0.1774, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.0734, std:0.0000 ---- mae:0.1955, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.1266, std:0.0000 ---- mae:0.2482, std:0.0000
+electricity_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_diagnostics
+mse:0.3306, std:0.0000 ---- mae:0.2652, std:0.0000
