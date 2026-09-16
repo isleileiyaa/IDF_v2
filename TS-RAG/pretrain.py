@@ -61,6 +61,23 @@ parser.add_argument('--augment_mode', type=str, default='moe2')
 parser.add_argument('--debug_shapes', action='store_true', help='print key tensor shapes once for debug')
 parser.add_argument('--rho1', type=float, default=0.0)
 parser.add_argument('--rho2', type=float, default=0.0)
+parser.add_argument('--tau_dis', type=float, default=0.17)
+parser.add_argument('--lambda_sem', type=float, default=0.0)
+parser.add_argument("--fusion_mode", type=str, default="learned",
+                     choices=["learned", "additive"],
+                     help="idf_clean_dis_v4专属：最终融合方式。learned=现有final_pred_head"
+                          "(cat(y_inv,y_dyn))（默认，等价于不加这个参数时的行为）；"
+                          "additive=y_inv+y_dyn直接相加，跳过final_pred_head。"
+                          "对v3/其他augment_mode无效。")
+parser.add_argument("--disable_ci", action="store_true", default=False, help="c_i fixed to 1 for all samples, ignoring tau confidence weighting (v4 only)")
+parser.add_argument('--lambda_ord', type=float, default=0.0)
+parser.add_argument("--lambda_delta", type=float, default=0.0, help="weight for L_Delta (final-y first-difference Huber loss vs ground truth, v3/v4 only)")
+parser.add_argument("--huber_kappa", type=float, default=1.0, help="Huber loss delta/threshold parameter for L_Delta")
+parser.add_argument("--calibrate_grad_norm", action="store_true", default=False,
+                     help="诊断专用：第一步forward后分别对loss_forecast和loss_delta单独backward，"
+                          "打印||grad(loss_forecast)||/||grad(loss_delta)||比值和建议的lambda_delta"
+                          "取值(5%%/10%%梯度范数占比)，然后退出，不进行真正训练。")
+parser.add_argument('--lambda_xcov', type=float, default=0.0)
 parser.add_argument('--rho3', type=float, default=0.0)
 parser.add_argument('--rho4', type=float, default=0.0)
 # output-level disentanglement ablation (idf_clean_dis / RIDDE only):
@@ -188,6 +205,14 @@ elif args.model == 'ChronosBoltRetrieve':
     model._debug_shapes_printed = False
     model.rho1 = args.rho1
     model.rho2 = args.rho2
+    model.tau_dis = args.tau_dis
+    model.lambda_sem = args.lambda_sem
+    model.fusion_mode = args.fusion_mode
+    model.disable_ci = args.disable_ci
+    model.lambda_ord = args.lambda_ord
+    model.lambda_delta = args.lambda_delta
+    model.huber_kappa = args.huber_kappa
+    model.lambda_xcov = args.lambda_xcov
     model.rho3 = args.rho3
     model.rho4 = args.rho4
     model.dis_mode = args.dis_mode
@@ -443,8 +468,9 @@ print(f'{args.model} model loaded')
 # final_pred_head/encode_mlp/ret_score_head开始。上面的init_extra_weights只是把
 # 这些模块随机初始化好、把shape注册上，这里再整体覆盖成真正训好的权重。
 if args.init_from_checkpoint:
-    assert args.augment_mode == 'idf_trr_dualpath_learnfuse', \
-        "--init_from_checkpoint 目前只为鲁棒训练(idf_trr_dualpath_learnfuse)这条路径验证过"
+    assert args.augment_mode in ('idf_trr_dualpath_learnfuse', 'idf_clean_dis_v3', 'idf_clean_dis_v4'), \
+        "--init_from_checkpoint 目前只为鲁棒训练(idf_trr_dualpath_learnfuse)、" \
+        "带容差门控重叠(idf_clean_dis_v3)和v4(idf_clean_dis_v4)这几条路径验证过"
     _init_sd = torch.load(args.init_from_checkpoint, map_location='cpu')
     _missing, _unexpected = model.load_state_dict(_init_sd, strict=False)
     print(f"[RIDDE_rob] 从 {args.init_from_checkpoint} 加载已训练权重完成 "
@@ -571,7 +597,17 @@ if args.freeze_chronos_bolt:
             'dyn_pred_head',
             'final_pred_head',
         ])
-    elif args.augment_mode == 'idf_clean_dis':
+    elif args.augment_mode in ('idf_clean_dis', 'idf_clean_dis_v3'):
+        layers_to_unfreeze.extend([
+            'encode_mlp',
+            'ret_score_head',
+            'fuse_gate',
+            'routing_gate',
+            'inv_pred_head',
+            'dyn_pred_head_clean',
+            'final_pred_head',
+        ])
+    elif args.augment_mode == 'idf_clean_dis_v4':
         layers_to_unfreeze.extend([
             'encode_mlp',
             'ret_score_head',
@@ -872,6 +908,30 @@ for i, batch in pbar:
         loss = outputs.loss
     loss = loss.mean()
 
+    if args.calibrate_grad_norm and i == 0:
+        trainable_params = [p for p in params if p.requires_grad]
+        model_optim.zero_grad()
+        outputs.loss_forecast.backward(retain_graph=True)
+        grad_norm_pred = torch.sqrt(sum(
+            (p.grad.detach() ** 2).sum() for p in trainable_params if p.grad is not None
+        ))
+        model_optim.zero_grad()
+        outputs.loss_delta.backward()
+        grad_norm_delta = torch.sqrt(sum(
+            (p.grad.detach() ** 2).sum() for p in trainable_params if p.grad is not None
+        ))
+        model_optim.zero_grad()
+        ratio = (grad_norm_delta / grad_norm_pred).item()
+        print(f"[calibrate_grad_norm] loss_forecast={outputs.loss_forecast.item():.6f} "
+              f"loss_delta(raw,未乘lambda_delta)={outputs.loss_delta.item():.6f}")
+        print(f"[calibrate_grad_norm] ||grad(loss_forecast)||={grad_norm_pred.item():.6f} "
+              f"||grad(loss_delta)||={grad_norm_delta.item():.6f} ratio={ratio:.6f}")
+        for target_ratio in (0.05, 0.10):
+            suggested = target_ratio / ratio
+            print(f"[calibrate_grad_norm] 目标梯度范数占比={target_ratio:.2f} "
+                  f"-> 建议lambda_delta≈{suggested:.6f}")
+        raise SystemExit(0)
+
     # RIDDE_新版目标函数与最终实验方案 Stage 4 (4.2-4.6节)：L_TRR/CVaR。lambda_trr=0
     # (Stage 3 及更早的所有 augment_mode)完全跳过这一段，行为跟改动前一模一样。
     # 这里的 loss 到这一步为止(对 idf_trr_dualpath 来说)已经是模型内部算好的
@@ -919,6 +979,7 @@ for i, batch in pbar:
     loss_rob = loss.new_zeros(())
     rob_active_frac = loss.new_zeros(())
     rob_kl_max = loss.new_zeros(())
+    rob_f0_gap_diag = loss.new_zeros(())
     if args.lambda_rob > 0:
         from utils.ridde_robust_loss import RobustConfig, robust_relative_objective, squared_error
         assert outputs.aux_e_q_rob is not None and outputs.aux_retrieved_y_enc_rob is not None \
@@ -932,16 +993,24 @@ for i, batch in pbar:
         target_point = outputs.aux_target_rob.detach().squeeze(1)
 
         with torch.no_grad():
+            clean_pred = _m.dualpath_predict_with_pi(e_q_rob, retrieved_y_enc_rob, omega_rob)[:, central_idx]
+            baseline_loss = squared_error(clean_pred, target_point, reduction='sum')
+        assert torch.isfinite(baseline_loss).all() and (baseline_loss >= 0).all(), \
+            "baseline_loss(ω_i下的正常clean预测)出现非法值(非有限或负数)，检查dualpath_predict_with_pi/omega_rob"
+
+        # 诊断用，不参与loss：仍跑一次f_0(Query-only)前向，只用来记录"相对完全不用检索"的差距，
+        # 2026-09-12改动：baseline从f_0换成模型自身clean loss，详见项目文档
+        # ridde-robust-relative-risk-l_rob-integration.md 的"Hinge几乎不激活问题排查"一节
+        with torch.no_grad():
             outputs_f0 = model_f0(
                 context=batch['x'].float(),
                 target=batch['y'].float(),
                 retrieved_seq=retrieved_seqs.float(),
                 distances=batch['distances'].float(),
             )
-        f0_point = outputs_f0.quantile_preds[:, central_idx].detach()
-        baseline_loss = squared_error(f0_point, target_point, reduction='sum')
-        assert torch.isfinite(baseline_loss).all() and (baseline_loss >= 0).all(), \
-            "f_0 baseline_loss 出现非法值(非有限或负数)，检查f_0 checkpoint是否加载对了"
+            f0_point = outputs_f0.quantile_preds[:, central_idx].detach()
+            f0_loss_diag = squared_error(f0_point, target_point, reduction='sum')
+            rob_f0_gap_diag = (f0_loss_diag - baseline_loss).mean()
 
         def _predict_pi(pi):
             fused = _m.dualpath_predict_with_pi(e_q_rob, retrieved_y_enc_rob, pi)
@@ -1059,6 +1128,7 @@ for i, batch in pbar:
                 'loss_rob': loss_rob.item(),
                 'rob_active_frac': rob_active_frac.item(),
                 'rob_kl_max': rob_kl_max.item(),
+                'rob_f0_gap_diag': rob_f0_gap_diag.item(),
             })
         wandb.log(log_payload)
 
@@ -1077,6 +1147,7 @@ for i, batch in pbar:
             'rob': round(loss_rob.item(), 4),
             'rob_af': round(rob_active_frac.item(), 4),
             'rob_kl': round(rob_kl_max.item(), 4),
+            'rob_gap': round(rob_f0_gap_diag.item(), 4),
         })
     if args.augment_mode == 'idf_ridde_v2':
         postfix.update({

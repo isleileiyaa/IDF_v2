@@ -1,0 +1,69 @@
+Passing a tuple of `past_key_values` is deprecated and will be removed in Transformers v4.48.0. You should pass an instance of `EncoderDecoderCache` instead, e.g. `past_key_values=EncoderDecoderCache.from_legacy_cache(past_key_values)`.
+[env异质性诊断] device=cuda:0
+[env异质性诊断] 参考模型B从 checkpoints/data50m_baseline_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_seed2021_final.pth 加载完成 (missing=0, unexpected=0)
+[env异质性诊断] 共 28 个环境文件
+env= 0 file=chronos-dataset-sample-50m-chunk-000.parquet n= 3000 R_e^0(mean)=19.764091 R_e^0(within_std)=15.694961
+env= 1 file=chronos-dataset-sample-50m-chunk-001.parquet n= 3000 R_e^0(mean)=21.303930 R_e^0(within_std)=12.176117
+env= 2 file=chronos-dataset-sample-50m-chunk-002.parquet n= 3000 R_e^0(mean)=26.774109 R_e^0(within_std)=30.223831
+env= 3 file=chronos-dataset-sample-50m-chunk-003.parquet n= 3000 R_e^0(mean)=24.723980 R_e^0(within_std)=12.217020
+env= 4 file=chronos-dataset-sample-50m-chunk-004.parquet n= 3000 R_e^0(mean)=31.266850 R_e^0(within_std)=31.511663
+env= 5 file=chronos-dataset-sample-50m-chunk-005.parquet n= 3000 R_e^0(mean)=23.690792 R_e^0(within_std)=18.516253
+env= 6 file=chronos-dataset-sample-50m-chunk-006.parquet n= 3000 R_e^0(mean)=20.868877 R_e^0(within_std)=13.712802
+env= 7 file=chronos-dataset-sample-50m-chunk-007.parquet n= 3000 R_e^0(mean)=22.075621 R_e^0(within_std)=12.235962
+env= 8 file=chronos-dataset-sample-50m-chunk-008.parquet n= 3000 R_e^0(mean)=25.866943 R_e^0(within_std)=20.611553
+env= 9 file=chronos-dataset-sample-50m-chunk-009.parquet n= 3000 R_e^0(mean)=19.106291 R_e^0(within_std)=12.207576
+env=10 file=chronos-dataset-sample-50m-chunk-010.parquet n= 3000 R_e^0(mean)=22.843136 R_e^0(within_std)=22.229464
+env=11 file=chronos-dataset-sample-50m-chunk-011.parquet n= 3000 R_e^0(mean)=21.782185 R_e^0(within_std)=17.713905
+env=12 file=chronos-dataset-sample-50m-chunk-012.parquet n= 3000 R_e^0(mean)=27.197802 R_e^0(within_std)=24.534855
+env=13 file=chronos-dataset-sample-50m-chunk-013.parquet n= 3000 R_e^0(mean)=23.642597 R_e^0(within_std)=17.565378
+env=14 file=chronos-dataset-sample-50m-chunk-015.parquet n= 3000 R_e^0(mean)=23.546122 R_e^0(within_std)=20.853245
+env=15 file=chronos-dataset-sample-50m-chunk-016.parquet n= 3000 R_e^0(mean)=20.401768 R_e^0(within_std)=15.119043
+env=16 file=chronos-dataset-sample-50m-chunk-017.parquet n= 3000 R_e^0(mean)=21.922367 R_e^0(within_std)=14.954632
+env=17 file=chronos-dataset-sample-50m-chunk-018.parquet n= 3000 R_e^0(mean)=25.442081 R_e^0(within_std)=19.062151
+env=18 file=chronos-dataset-sample-50m-chunk-019.parquet n= 3000 R_e^0(mean)=24.283447 R_e^0(within_std)=14.511261
+env=19 file=chronos-dataset-sample-50m-chunk-020.parquet n= 3000 R_e^0(mean)=21.128107 R_e^0(within_std)=13.063263
+env=20 file=chronos-dataset-sample-50m-chunk-021.parquet n= 3000 R_e^0(mean)=25.150782 R_e^0(within_std)=12.792439
+env=21 file=chronos-dataset-sample-50m-chunk-022.parquet n= 3000 R_e^0(mean)=25.105013 R_e^0(within_std)=15.692186
+env=22 file=chronos-dataset-sample-50m-chunk-023.parquet n= 3000 R_e^0(mean)=21.607920 R_e^0(within_std)=15.273804
+env=23 file=chronos-dataset-sample-50m-chunk-024.parquet n= 3000 R_e^0(mean)=23.671083 R_e^0(within_std)=15.580757
+env=24 file=chronos-dataset-sample-50m-chunk-025.parquet n= 3000 R_e^0(mean)=20.320528 R_e^0(within_std)=13.325893
+env=25 file=chronos-dataset-sample-50m-chunk-026.parquet n= 3000 R_e^0(mean)=19.478973 R_e^0(within_std)=15.799825
+env=26 file=chronos-dataset-sample-50m-chunk-027.parquet n= 3000 R_e^0(mean)=24.015003 R_e^0(within_std)=12.971249
+env=27 file=chronos-dataset-sample-50m-chunk-028.parquet n= 3000 R_e^0(mean)=19.952501 R_e^0(within_std)=16.508314
+
+=== 跨环境 R_e^0 分布汇总 ===
+环境数=28
+跨环境 mean=23.104746  跨环境 std=2.725923  跨环境变异系数 cv=0.1180
+min=19.106291  max=31.266850  max/min=1.6365
+环境内部(单环境采样噪声)典型std=17.023550
+跨环境std / 环境内部std = 0.1601  (这个比值远大于1，说明环境间差异明显超出单环境内部的采样噪声，支持'环境有实质分布差异'；如果这个比值接近或小于1，说明环境间的差异跟一个环境内部随机抽样的波动是一个量级，更可能是噪声而不是真实的分布分组)
+
+=== 按 R_e^0 从小到大排序(供人工看是否有断层/分组结构，还是连续均匀分布) ===
+  env= 9 file=chronos-dataset-sample-50m-chunk-009.parquet R_e^0=19.106291
+  env=25 file=chronos-dataset-sample-50m-chunk-026.parquet R_e^0=19.478973
+  env= 0 file=chronos-dataset-sample-50m-chunk-000.parquet R_e^0=19.764091
+  env=27 file=chronos-dataset-sample-50m-chunk-028.parquet R_e^0=19.952501
+  env=24 file=chronos-dataset-sample-50m-chunk-025.parquet R_e^0=20.320528
+  env=15 file=chronos-dataset-sample-50m-chunk-016.parquet R_e^0=20.401768
+  env= 6 file=chronos-dataset-sample-50m-chunk-006.parquet R_e^0=20.868877
+  env=19 file=chronos-dataset-sample-50m-chunk-020.parquet R_e^0=21.128107
+  env= 1 file=chronos-dataset-sample-50m-chunk-001.parquet R_e^0=21.303930
+  env=22 file=chronos-dataset-sample-50m-chunk-023.parquet R_e^0=21.607920
+  env=11 file=chronos-dataset-sample-50m-chunk-011.parquet R_e^0=21.782185
+  env=16 file=chronos-dataset-sample-50m-chunk-017.parquet R_e^0=21.922367
+  env= 7 file=chronos-dataset-sample-50m-chunk-007.parquet R_e^0=22.075621
+  env=10 file=chronos-dataset-sample-50m-chunk-010.parquet R_e^0=22.843136
+  env=14 file=chronos-dataset-sample-50m-chunk-015.parquet R_e^0=23.546122
+  env=13 file=chronos-dataset-sample-50m-chunk-013.parquet R_e^0=23.642597
+  env=23 file=chronos-dataset-sample-50m-chunk-024.parquet R_e^0=23.671083
+  env= 5 file=chronos-dataset-sample-50m-chunk-005.parquet R_e^0=23.690792
+  env=26 file=chronos-dataset-sample-50m-chunk-027.parquet R_e^0=24.015003
+  env=18 file=chronos-dataset-sample-50m-chunk-019.parquet R_e^0=24.283447
+  env= 3 file=chronos-dataset-sample-50m-chunk-003.parquet R_e^0=24.723980
+  env=21 file=chronos-dataset-sample-50m-chunk-022.parquet R_e^0=25.105013
+  env=20 file=chronos-dataset-sample-50m-chunk-021.parquet R_e^0=25.150782
+  env=17 file=chronos-dataset-sample-50m-chunk-018.parquet R_e^0=25.442081
+  env= 8 file=chronos-dataset-sample-50m-chunk-008.parquet R_e^0=25.866943
+  env= 2 file=chronos-dataset-sample-50m-chunk-002.parquet R_e^0=26.774109
+  env=12 file=chronos-dataset-sample-50m-chunk-012.parquet R_e^0=27.197802
+  env= 4 file=chronos-dataset-sample-50m-chunk-004.parquet R_e^0=31.266850

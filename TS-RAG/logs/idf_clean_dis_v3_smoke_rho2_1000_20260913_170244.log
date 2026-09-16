@@ -1,0 +1,122 @@
+wandb: Tracking run with wandb version 0.19.10
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+ChronosBoltRetrieve model loaded
+[RIDDE_rob] 从 checkpoints/data50m_idf_clean_dis_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_rho0_0.01_0_0_final.pth 加载已训练权重完成 (missing=0, unexpected=0)
+[RIDDE_rob] missing keys 示例: []
+[RIDDE_rob] unexpected keys 示例: []
+Trainable parameters:
+encode_mlp.0.weight
+encode_mlp.0.bias
+encode_mlp.2.weight
+encode_mlp.2.bias
+  0%|          | 0/50 [00:00<?, ?it/s]Passing a tuple of `past_key_values` is deprecated and will be removed in Transformers v4.48.0. You should pass an instance of `EncoderDecoderCache` instead, e.g. `past_key_values=EncoderDecoderCache.from_legacy_cache(past_key_values)`.
+  0%|          | 0/50 [00:07<?, ?it/s, total=20.2, f=17.7, cons=0, smooth=0, inv=0.0748, dis=0.0025, dis_out=0.0339, ret=0.239, dyn=-0.0823]  2%|▏         | 1/50 [00:07<05:55,  7.25s/it, total=20.2, f=17.7, cons=0, smooth=0, inv=0.0748, dis=0.0025, dis_out=0.0339, ret=0.239, dyn=-0.0823]  2%|▏         | 1/50 [00:07<05:55,  7.25s/it, total=20.2, f=17, cons=0, smooth=0, inv=0.0707, dis=0.0032, dis_out=0.0339, ret=0.211, dyn=-0.0764]    2%|▏         | 1/50 [00:07<05:55,  7.25s/it, total=20, f=18.2, cons=0, smooth=0, inv=0.0724, dis=0.0018, dis_out=0.033, ret=0.235, dyn=-0.0775]   6%|▌         | 3/50 [00:07<01:31,  1.94s/it, total=20, f=18.2, cons=0, smooth=0, inv=0.0724, dis=0.0018, dis_out=0.033, ret=0.235, dyn=-0.0775]  6%|▌         | 3/50 [00:07<01:31,  1.94s/it, total=19, f=17.9, cons=0, smooth=0, inv=0.0795, dis=0.001, dis_out=0.0361, ret=0.252, dyn=-0.0843]  6%|▌         | 3/50 [00:07<01:31,  1.94s/it, total=17.3, f=16.4, cons=0, smooth=0, inv=0.0742, dis=0.0009, dis_out=0.0326, ret=0.261, dyn=-0.0805] 10%|█         | 5/50 [00:07<00:44,  1.02it/s, total=17.3, f=16.4, cons=0, smooth=0, inv=0.0742, dis=0.0009, dis_out=0.0326, ret=0.261, dyn=-0.0805] 10%|█         | 5/50 [00:07<00:44,  1.02it/s, total=16.2, f=15.6, cons=0, smooth=0, inv=0.0775, dis=0.0006, dis_out=0.0339, ret=0.311, dyn=-0.0856] 10%|█         | 5/50 [00:07<00:44,  1.02it/s, total=17.9, f=17.5, cons=0, smooth=0, inv=0.0782, dis=0.0004, dis_out=0.0367, ret=0.287, dyn=-0.0831] 14%|█▍        | 7/50 [00:07<00:25,  1.68it/s, total=17.9, f=17.5, cons=0, smooth=0, inv=0.0782, dis=0.0004, dis_out=0.0367, ret=0.287, dyn=-0.0831] 14%|█▍        | 7/50 [00:07<00:25,  1.68it/s, total=18.6, f=18.3, cons=0, smooth=0, inv=0.0801, dis=0.0003, dis_out=0.0337, ret=0.3, dyn=-0.0845]   14%|█▍        | 7/50 [00:07<00:25,  1.68it/s, total=19, f=18.7, cons=0, smooth=0, inv=0.0835, dis=0.0003, dis_out=0.0336, ret=0.348, dyn=-0.0893] 18%|█▊        | 9/50 [00:07<00:16,  2.50it/s, total=19, f=18.7, cons=0, smooth=0, inv=0.0835, dis=0.0003, dis_out=0.0336, ret=0.348, dyn=-0.0893] 18%|█▊        | 9/50 [00:07<00:16,  2.50it/s, total=18.9, f=18.9, cons=0, smooth=0, inv=0.0816, dis=0.0001, dis_out=0.0357, ret=0.34, dyn=-0.0859] 18%|█▊        | 9/50 [00:08<00:16,  2.50it/s, total=18.3, f=18.2, cons=0, smooth=0, inv=0.0826, dis=0.0001, dis_out=0.0365, ret=0.386, dyn=-0.0869] 22%|██▏       | 11/50 [00:08<00:11,  3.50it/s, total=18.3, f=18.2, cons=0, smooth=0, inv=0.0826, dis=0.0001, dis_out=0.0365, ret=0.386, dyn=-0.0869] 22%|██▏       | 11/50 [00:08<00:11,  3.50it/s, total=18.5, f=18.4, cons=0, smooth=0, inv=0.0838, dis=0.0001, dis_out=0.0343, ret=0.414, dyn=-0.0881] 22%|██▏       | 11/50 [00:08<00:11,  3.50it/s, total=19.7, f=19.6, cons=0, smooth=0, inv=0.0847, dis=0.0001, dis_out=0.0345, ret=0.388, dyn=-0.0885] 26%|██▌       | 13/50 [00:08<00:07,  4.64it/s, total=19.7, f=19.6, cons=0, smooth=0, inv=0.0847, dis=0.0001, dis_out=0.0345, ret=0.388, dyn=-0.0885] 26%|██▌       | 13/50 [00:08<00:07,  4.64it/s, total=20, f=20, cons=0, smooth=0, inv=0.0895, dis=0, dis_out=0.0363, ret=0.446, dyn=-0.0946]          26%|██▌       | 13/50 [00:08<00:07,  4.64it/s, total=19.3, f=19.2, cons=0, smooth=0, inv=0.0876, dis=0.0001, dis_out=0.0354, ret=0.462, dyn=-0.0962] 30%|███       | 15/50 [00:08<00:05,  5.88it/s, total=19.3, f=19.2, cons=0, smooth=0, inv=0.0876, dis=0.0001, dis_out=0.0354, ret=0.462, dyn=-0.0962] 30%|███       | 15/50 [00:08<00:05,  5.88it/s, total=18.8, f=18.7, cons=0, smooth=0, inv=0.0883, dis=0.0001, dis_out=0.0347, ret=0.487, dyn=-0.0957] 30%|███       | 15/50 [00:08<00:05,  5.88it/s, total=20, f=20, cons=0, smooth=0, inv=0.0881, dis=0, dis_out=0.033, ret=0.577, dyn=-0.0959]           34%|███▍      | 17/50 [00:08<00:04,  7.14it/s, total=20, f=20, cons=0, smooth=0, inv=0.0881, dis=0, dis_out=0.033, ret=0.577, dyn=-0.0959] 34%|███▍      | 17/50 [00:08<00:04,  7.14it/s, total=18.8, f=18.8, cons=0, smooth=0, inv=0.0872, dis=0, dis_out=0.0322, ret=0.533, dyn=-0.0946] 34%|███▍      | 17/50 [00:08<00:04,  7.14it/s, total=20.8, f=20.8, cons=0, smooth=0, inv=0.0903, dis=0, dis_out=0.0337, ret=0.591, dyn=-0.0982] 38%|███▊      | 19/50 [00:08<00:03,  8.35it/s, total=20.8, f=20.8, cons=0, smooth=0, inv=0.0903, dis=0, dis_out=0.0337, ret=0.591, dyn=-0.0982] 38%|███▊      | 19/50 [00:08<00:03,  8.35it/s, total=18.9, f=18.9, cons=0, smooth=0, inv=0.0788, dis=0, dis_out=0.036, ret=0.488, dyn=-0.0862]  38%|███▊      | 19/50 [00:08<00:03,  8.35it/s, total=19, f=19, cons=0, smooth=0, inv=0.0864, dis=0, dis_out=0.0369, ret=0.525, dyn=-0.0936]    42%|████▏     | 21/50 [00:08<00:03,  9.43it/s, total=19, f=19, cons=0, smooth=0, inv=0.0864, dis=0, dis_out=0.0369, ret=0.525, dyn=-0.0936] 42%|████▏     | 21/50 [00:08<00:03,  9.43it/s, total=19.6, f=19.6, cons=0, smooth=0, inv=0.0779, dis=0, dis_out=0.0337, ret=0.55, dyn=-0.0858] 42%|████▏     | 21/50 [00:08<00:03,  9.43it/s, total=25.7, f=25.7, cons=0, smooth=0, inv=0.0847, dis=0, dis_out=0.0341, ret=0.584, dyn=-0.0934] 46%|████▌     | 23/50 [00:08<00:02, 10.34it/s, total=25.7, f=25.7, cons=0, smooth=0, inv=0.0847, dis=0, dis_out=0.0341, ret=0.584, dyn=-0.0934] 46%|████▌     | 23/50 [00:08<00:02, 10.34it/s, total=23.1, f=23.1, cons=0, smooth=0, inv=0.079, dis=0, dis_out=0.0332, ret=0.523, dyn=-0.0886]  46%|████▌     | 23/50 [00:09<00:02, 10.34it/s, total=25.5, f=25.5, cons=0, smooth=0, inv=0.0803, dis=0, dis_out=0.032, ret=0.57, dyn=-0.0883]  50%|█████     | 25/50 [00:09<00:02, 11.11it/s, total=25.5, f=25.5, cons=0, smooth=0, inv=0.0803, dis=0, dis_out=0.032, ret=0.57, dyn=-0.0883] 50%|█████     | 25/50 [00:09<00:02, 11.11it/s, total=19, f=19, cons=0, smooth=0, inv=0.0763, dis=0, dis_out=0.0327, ret=0.552, dyn=-0.0851]   50%|█████     | 25/50 [00:09<00:02, 11.11it/s, total=22.6, f=22.6, cons=0, smooth=0, inv=0.0812, dis=0, dis_out=0.0332, ret=0.576, dyn=-0.0895] 54%|█████▍    | 27/50 [00:09<00:01, 11.73it/s, total=22.6, f=22.6, cons=0, smooth=0, inv=0.0812, dis=0, dis_out=0.0332, ret=0.576, dyn=-0.0895] 54%|█████▍    | 27/50 [00:09<00:01, 11.73it/s, total=19.7, f=19.7, cons=0, smooth=0, inv=0.0774, dis=0, dis_out=0.032, ret=0.539, dyn=-0.0852]  54%|█████▍    | 27/50 [00:09<00:01, 11.73it/s, total=20.1, f=20.1, cons=0, smooth=0, inv=0.0848, dis=0, dis_out=0.0344, ret=0.587, dyn=-0.093] 58%|█████▊    | 29/50 [00:09<00:01, 12.19it/s, total=20.1, f=20.1, cons=0, smooth=0, inv=0.0848, dis=0, dis_out=0.0344, ret=0.587, dyn=-0.093] 58%|█████▊    | 29/50 [00:09<00:01, 12.19it/s, total=20.8, f=20.8, cons=0, smooth=0, inv=0.0812, dis=0, dis_out=0.0346, ret=0.584, dyn=-0.0922] 58%|█████▊    | 29/50 [00:09<00:01, 12.19it/s, total=18.1, f=18.1, cons=0, smooth=0, inv=0.0829, dis=0, dis_out=0.0326, ret=0.576, dyn=-0.0913] 62%|██████▏   | 31/50 [00:09<00:01, 12.53it/s, total=18.1, f=18.1, cons=0, smooth=0, inv=0.0829, dis=0, dis_out=0.0326, ret=0.576, dyn=-0.0913] 62%|██████▏   | 31/50 [00:09<00:01, 12.53it/s, total=19.8, f=19.8, cons=0, smooth=0, inv=0.0795, dis=0, dis_out=0.0342, ret=0.612, dyn=-0.089]  62%|██████▏   | 31/50 [00:09<00:01, 12.53it/s, total=20.2, f=20.2, cons=0, smooth=0, inv=0.0773, dis=0, dis_out=0.0328, ret=0.593, dyn=-0.0861] 66%|██████▌   | 33/50 [00:09<00:01, 12.76it/s, total=20.2, f=20.2, cons=0, smooth=0, inv=0.0773, dis=0, dis_out=0.0328, ret=0.593, dyn=-0.0861] 66%|██████▌   | 33/50 [00:09<00:01, 12.76it/s, total=19.7, f=19.7, cons=0, smooth=0, inv=0.0712, dis=0, dis_out=0.036, ret=0.538, dyn=-0.0819]  66%|██████▌   | 33/50 [00:09<00:01, 12.76it/s, total=16.7, f=16.7, cons=0, smooth=0, inv=0.0697, dis=0, dis_out=0.033, ret=0.571, dyn=-0.0777] 70%|███████   | 35/50 [00:09<00:01, 12.90it/s, total=16.7, f=16.7, cons=0, smooth=0, inv=0.0697, dis=0, dis_out=0.033, ret=0.571, dyn=-0.0777] 70%|███████   | 35/50 [00:09<00:01, 12.90it/s, total=20.1, f=20.1, cons=0, smooth=0, inv=0.0773, dis=0, dis_out=0.0364, ret=0.549, dyn=-0.0851] 70%|███████   | 35/50 [00:09<00:01, 12.90it/s, total=19.6, f=19.6, cons=0, smooth=0, inv=0.0724, dis=0, dis_out=0.0373, ret=0.524, dyn=-0.0812] 74%|███████▍  | 37/50 [00:09<00:00, 13.01it/s, total=19.6, f=19.6, cons=0, smooth=0, inv=0.0724, dis=0, dis_out=0.0373, ret=0.524, dyn=-0.0812] 74%|███████▍  | 37/50 [00:10<00:00, 13.01it/s, total=20.8, f=20.8, cons=0, smooth=0, inv=0.0797, dis=0, dis_out=0.0329, ret=0.609, dyn=-0.0879] 74%|███████▍  | 37/50 [00:10<00:00, 13.01it/s, total=18.1, f=18.1, cons=0, smooth=0, inv=0.0786, dis=0, dis_out=0.0352, ret=0.574, dyn=-0.088]  78%|███████▊  | 39/50 [00:10<00:00, 13.15it/s, total=18.1, f=18.1, cons=0, smooth=0, inv=0.0786, dis=0, dis_out=0.0352, ret=0.574, dyn=-0.088] 78%|███████▊  | 39/50 [00:10<00:00, 13.15it/s, total=19.8, f=19.8, cons=0, smooth=0, inv=0.075, dis=0, dis_out=0.0345, ret=0.554, dyn=-0.0837] 78%|███████▊  | 39/50 [00:10<00:00, 13.15it/s, total=19.3, f=19.3, cons=0, smooth=0, inv=0.0767, dis=0, dis_out=0.0348, ret=0.636, dyn=-0.0861] 82%|████████▏ | 41/50 [00:10<00:00, 13.23it/s, total=19.3, f=19.3, cons=0, smooth=0, inv=0.0767, dis=0, dis_out=0.0348, ret=0.636, dyn=-0.0861] 82%|████████▏ | 41/50 [00:10<00:00, 13.23it/s, total=21.6, f=21.6, cons=0, smooth=0, inv=0.0774, dis=0, dis_out=0.0332, ret=0.61, dyn=-0.086]   82%|████████▏ | 41/50 [00:10<00:00, 13.23it/s, total=19.9, f=19.9, cons=0, smooth=0, inv=0.0686, dis=0, dis_out=0.0343, ret=0.652, dyn=-0.0781] 86%|████████▌ | 43/50 [00:10<00:00, 13.28it/s, total=19.9, f=19.9, cons=0, smooth=0, inv=0.0686, dis=0, dis_out=0.0343, ret=0.652, dyn=-0.0781] 86%|████████▌ | 43/50 [00:10<00:00, 13.28it/s, total=21.8, f=21.8, cons=0, smooth=0, inv=0.0726, dis=0, dis_out=0.0345, ret=0.597, dyn=-0.0819][idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1719 active_frac=0.5195 loss_dis=0.002524
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=2.5239624083e-03 loss_forecast_raw=1.7718433380e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1784 active_frac=0.5078 loss_dis=0.003163
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=3.1627304852e-03 loss_forecast_raw=1.7046649933e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1640 active_frac=0.4258 loss_dis=0.001829
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=1.8292894820e-03 loss_forecast_raw=1.8214279175e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1577 active_frac=0.3672 loss_dis=0.001041
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=1.0405414505e-03 loss_forecast_raw=1.7926700592e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1480 active_frac=0.3008 loss_dis=0.000944
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=9.4418961089e-04 loss_forecast_raw=1.6362033844e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1376 active_frac=0.2930 loss_dis=0.000624
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=6.2397721922e-04 loss_forecast_raw=1.5620656013e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1363 active_frac=0.2305 loss_dis=0.000401
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=4.0069327224e-04 loss_forecast_raw=1.7483552933e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1312 active_frac=0.1484 loss_dis=0.000337
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=3.3698402694e-04 loss_forecast_raw=1.8306165695e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1210 active_frac=0.1250 loss_dis=0.000293
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=2.9305211501e-04 loss_forecast_raw=1.8685283661e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1151 active_frac=0.0742 loss_dis=0.000056
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=5.6258664699e-05 loss_forecast_raw=1.8872484207e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1082 active_frac=0.0664 loss_dis=0.000073
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=7.2504830314e-05 loss_forecast_raw=1.8248580933e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1041 active_frac=0.0352 loss_dis=0.000088
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=8.8143598987e-05 loss_forecast_raw=1.8379753113e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1041 active_frac=0.0547 loss_dis=0.000099
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=9.8580159829e-05 loss_forecast_raw=1.9631690979e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0960 active_frac=0.0273 loss_dis=0.000031
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=3.0624978535e-05 loss_forecast_raw=1.9970516205e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0934 active_frac=0.0156 loss_dis=0.000067
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=6.6803564550e-05 loss_forecast_raw=1.9203357697e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0918 active_frac=0.0312 loss_dis=0.000071
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=7.0860376582e-05 loss_forecast_raw=1.8681024551e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0823 active_frac=0.0195 loss_dis=0.000029
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=2.9253971661e-05 loss_forecast_raw=1.9979167938e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0871 active_frac=0.0234 loss_dis=0.000035
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=3.5182376450e-05 loss_forecast_raw=1.8763378143e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0781 active_frac=0.0117 loss_dis=0.000006
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=6.4270107032e-06 loss_forecast_raw=2.0788784027e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0842 active_frac=0.0117 loss_dis=0.000010
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=9.5839577625e-06 loss_forecast_raw=1.8923332214e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0817 active_frac=0.0078 loss_dis=0.000001
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=1.4322260995e-06 loss_forecast_raw=1.9034139633e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0822 active_frac=0.0117 loss_dis=0.000012
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=1.2404188055e-05 loss_forecast_raw=1.9608669281e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0783 active_frac=0.0039 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=3.5142824117e-07 loss_forecast_raw=2.5728387833e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0797 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=2.3135814667e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0790 active_frac=0.0039 loss_dis=0.000007
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=6.6339675868e-06 loss_forecast_raw=2.5477436066e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0795 active_frac=0.0039 loss_dis=0.000001
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=5.0160139153e-07 loss_forecast_raw=1.8989654541e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0754 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=2.2622230530e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0750 active_frac=0.0039 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=1.1473576222e-07 loss_forecast_raw=1.9670850754e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0706 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=2.0135515213e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0738 active_frac=0.0078 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=3.6778402546e-07 loss_forecast_raw=2.0788326263e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0798 active_frac=0.0156 loss_dis=0.000001
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=7.6043301078e-07 loss_forecast_raw=1.8143449783e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0745 active_frac=0.0078 loss_dis=0.000002
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=1.6353567389e-06 loss_forecast_raw=1.9797571182e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0758 active_frac=0.0039 loss_dis=0.000004
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=4.2910419324e-06 loss_forecast_raw=2.0200334549e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0864 active_frac=0.0156 loss_dis=0.000003
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=3.0757216791e-06 loss_forecast_raw=1.9742412567e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0809 active_frac=0.0078 loss_dis=0.000002
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=1.6429574998e-06 loss_forecast_raw=1.6689279556e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0841 active_frac=0.0117 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=7.8158663541e-08 loss_forecast_raw=2.0120532990e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0853 active_frac=0.0234 loss_dis=0.000010
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=1.0224622201e-05 loss_forecast_raw=1.9634290695e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0765 active_frac=0.0039 loss_dis=0.000001
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=1.2211038438e-06 loss_forecast_raw=2.0826606750e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0804 active_frac=0.0039 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=1.0914407156e-08 loss_forecast_raw=1.8113611221e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0821 active_frac=0.0078 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=2.3741992550e-07 loss_forecast_raw=1.9800121307e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0721 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.9250207901e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0781 active_frac=0.0078 loss_dis=0.000005
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=4.6815171117e-06 loss_forecast_raw=2.1582134247e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0772 active_frac=0.0117 loss_dis=0.000001
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=1.0558926533e-06 loss_forecast_raw=1.9852329254e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0741 active_frac=0.0039 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=8.2419751024e-09 loss_forecast_raw=2.1848693848e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0718 active_frac=0.0039 loss_dis=0.000000
+ 86%|████████▌ | 43/50 [00:10<00:00, 13.28it/s, total=19.2, f=19.2, cons=0, smooth=0, inv=0.074, dis=0, dis_out=0.0302, ret=0.61, dyn=-0.082]    90%|█████████ | 45/50 [00:10<00:00, 13.33it/s, total=19.2, f=19.2, cons=0, smooth=0, inv=0.074, dis=0, dis_out=0.0302, ret=0.61, dyn=-0.082] 90%|█████████ | 45/50 [00:10<00:00, 13.33it/s, total=17.6, f=17.6, cons=0, smooth=0, inv=0.0723, dis=0, dis_out=0.0343, ret=0.587, dyn=-0.0814] 90%|█████████ | 45/50 [00:10<00:00, 13.33it/s, total=18.2, f=18.2, cons=0, smooth=0, inv=0.0771, dis=0, dis_out=0.0355, ret=0.619, dyn=-0.0838] 94%|█████████▍| 47/50 [00:10<00:00, 13.31it/s, total=18.2, f=18.2, cons=0, smooth=0, inv=0.0771, dis=0, dis_out=0.0355, ret=0.619, dyn=-0.0838] 94%|█████████▍| 47/50 [00:10<00:00, 13.31it/s, total=21.5, f=21.5, cons=0, smooth=0, inv=0.0738, dis=0, dis_out=0.0327, ret=0.564, dyn=-0.0784] 94%|█████████▍| 47/50 [00:10<00:00, 13.31it/s, total=21.8, f=21.8, cons=0, smooth=0, inv=0.0735, dis=0, dis_out=0.0325, ret=0.651, dyn=-0.0827] 98%|█████████▊| 49/50 [00:10<00:00, 13.32it/s, total=21.8, f=21.8, cons=0, smooth=0, inv=0.0735, dis=0, dis_out=0.0325, ret=0.651, dyn=-0.0827] 98%|█████████▊| 49/50 [00:10<00:00, 13.32it/s, total=19, f=19, cons=0, smooth=0, inv=0.0711, dis=0, dis_out=0.0313, ret=0.578, dyn=-0.0776]    100%|██████████| 50/50 [00:10<00:00,  4.57it/s, total=19, f=19, cons=0, smooth=0, inv=0.0711, dis=0, dis_out=0.0313, ret=0.578, dyn=-0.0776]
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=1.2388555604e-07 loss_forecast_raw=1.9249698639e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0785 active_frac=0.0078 loss_dis=0.000004
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=3.5308635233e-06 loss_forecast_raw=1.7613536835e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0741 active_frac=0.0039 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=1.6219742349e-07 loss_forecast_raw=1.8154327393e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0782 active_frac=0.0039 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=2.1935261429e-07 loss_forecast_raw=2.1508918762e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0746 active_frac=0.0078 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=3.8895933585e-07 loss_forecast_raw=2.1828071594e+01
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0792 active_frac=0.0078 loss_dis=0.000004
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=4.1816379053e-06 loss_forecast_raw=1.8986347198e+01
+	iters: 50 | loss: 19.7743661
+	speed: 0.8196s/iter
+lr = 0.0002981533
+training finished
+✅ IDF checkpoint saved to checkpoints/smoke_idf_clean_dis_v3_rho2_1000/idf_clean_dis_v3_smoke_rho2_1000_final.pth
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /home/fenglei/TS-RAG-main/TS-RAG/wandb/offline-run-20260913_170247-3p9ufcwg[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/offline-run-20260913_170247-3p9ufcwg/logs[0m

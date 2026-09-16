@@ -1,0 +1,110 @@
+wandb: Tracking run with wandb version 0.19.10
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+ChronosBoltRetrieve model loaded
+[RIDDE_rob] 从 checkpoints/smoke_ridde_rob/data50m_idf_trr_dualpath_learnfuse_rob_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_lambdasep0.0_lambdarob0.1_final.pth 加载已训练权重完成 (missing=0, unexpected=0)
+[RIDDE_rob] missing keys 示例: []
+[RIDDE_rob] unexpected keys 示例: []
+[RIDDE_rob] f_0(TrueBase)从 checkpoints/truebase_rerun/data50m_baseline_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_seed2021_final.pth 加载完成 (missing=0, unexpected=0)
+[RIDDE_rob] lambda_rob>0: 从可训练列表移除 {'ret_score_head', 'encode_mlp'}(参考权重omega固定,不再训练)
+Trainable parameters:
+P_inv.0.weight
+P_inv.0.bias
+P_inv.2.weight
+P_inv.2.bias
+P_dyn.0.weight
+P_dyn.0.bias
+P_dyn.2.weight
+P_dyn.2.bias
+f_inv.weight
+f_inv.bias
+f_dyn.weight
+f_dyn.bias
+final_pred_head.weight
+final_pred_head.bias
+  0%|          | 0/50 [00:00<?, ?it/s]Passing a tuple of `past_key_values` is deprecated and will be removed in Transformers v4.48.0. You should pass an instance of `EncoderDecoderCache` instead, e.g. `past_key_values=EncoderDecoderCache.from_legacy_cache(past_key_values)`.
+  0%|          | 0/50 [00:07<?, ?it/s, total=17.8, f=17.7, rob=1.43, rob_af=0.0508, rob_kl=0.02]  2%|▏         | 1/50 [00:08<06:41,  8.19s/it, total=17.8, f=17.7, rob=1.43, rob_af=0.0508, rob_kl=0.02]  2%|▏         | 1/50 [00:08<06:41,  8.19s/it, total=17.6, f=17.5, rob=1.62, rob_af=0.0547, rob_kl=0.02]  4%|▍         | 2/50 [00:08<02:47,  3.49s/it, total=17.6, f=17.5, rob=1.62, rob_af=0.0547, rob_kl=0.02]  4%|▍         | 2/50 [00:08<02:47,  3.49s/it, total=18.3, f=18.2, rob=1.28, rob_af=0.0664, rob_kl=0.02]  6%|▌         | 3/50 [00:08<01:32,  1.98s/it, total=18.3, f=18.2, rob=1.28, rob_af=0.0664, rob_kl=0.02]  6%|▌         | 3/50 [00:08<01:32,  1.98s/it, total=17.8, f=17.7, rob=0.648, rob_af=0.0586, rob_kl=0.02]  8%|▊         | 4/50 [00:08<00:58,  1.27s/it, total=17.8, f=17.7, rob=0.648, rob_af=0.0586, rob_kl=0.02]  8%|▊         | 4/50 [00:08<00:58,  1.27s/it, total=16.6, f=16.5, rob=0.878, rob_af=0.0547, rob_kl=0.02] 10%|█         | 5/50 [00:08<00:39,  1.15it/s, total=16.6, f=16.5, rob=0.878, rob_af=0.0547, rob_kl=0.02] 10%|█         | 5/50 [00:09<00:39,  1.15it/s, total=15.7, f=15.6, rob=0.924, rob_af=0.0586, rob_kl=0.02] 12%|█▏        | 6/50 [00:09<00:27,  1.57it/s, total=15.7, f=15.6, rob=0.924, rob_af=0.0586, rob_kl=0.02] 12%|█▏        | 6/50 [00:09<00:27,  1.57it/s, total=17.5, f=17.4, rob=0.848, rob_af=0.0703, rob_kl=0.02] 14%|█▍        | 7/50 [00:09<00:20,  2.06it/s, total=17.5, f=17.4, rob=0.848, rob_af=0.0703, rob_kl=0.02] 14%|█▍        | 7/50 [00:09<00:20,  2.06it/s, total=18.5, f=18.5, rob=0.55, rob_af=0.0469, rob_kl=0.02]  16%|█▌        | 8/50 [00:09<00:16,  2.59it/s, total=18.5, f=18.5, rob=0.55, rob_af=0.0469, rob_kl=0.02] 16%|█▌        | 8/50 [00:09<00:16,  2.59it/s, total=18.6, f=18.4, rob=1.29, rob_af=0.0664, rob_kl=0.02] 18%|█▊        | 9/50 [00:09<00:13,  3.12it/s, total=18.6, f=18.4, rob=1.29, rob_af=0.0664, rob_kl=0.02][ROB_DIAG] step=0 n=256 diff(adv-nominal) mean=0.236330 std=0.462156 min=0.000967 max=4.632248 active_frac=0.050781 kl_max=0.020000 nominal_mean=24.062008 adv_mean=24.298340 loss_rob(vs f0)=1.432814
+[ROB_DIAG1] step=0 baseline_loss(f0) mean=110.499451 std=109.001068 min=3.585339 max=829.082581
+[ROB_DIAG1] step=0 baseline_mean=110.499451 vs nominal_mean=24.062008 (baseline-nominal)=86.437439
+[ROB_DIAG1] step=0 radius=0.02 inactive_margin(n=243) mean=92.322159 p25=48.601460 p50=68.408752 p75=106.544830
+[ROB_DIAG2] step=0 radius=0.5 active_fraction=0.058594 kl_max=0.150406 adv_mean=24.411469
+[ROB_DIAG2] step=0 radius=0.5 inactive_margin(n=241) mean=92.997978 p25=49.758026 p50=68.974014 p75=106.725311
+[ROB_DIAG2] step=0 radius=3.0 active_fraction=0.054688 kl_max=0.158094 adv_mean=24.419281
+[ROB_DIAG2] step=0 radius=3.0 inactive_margin(n=242) mean=92.598274 p25=49.070007 p50=68.669876 p75=106.625053
+[ROB_DIAG] step=1 n=256 diff(adv-nominal) mean=0.215852 std=0.377594 min=0.004668 max=2.574554 active_frac=0.054688 kl_max=0.020000 nominal_mean=25.959759 adv_mean=26.175613 loss_rob(vs f0)=1.622463
+[ROB_DIAG1] step=1 baseline_loss(f0) mean=102.346878 std=88.114433 min=4.133387 max=743.703979
+[ROB_DIAG1] step=1 baseline_mean=102.346878 vs nominal_mean=25.959759 (baseline-nominal)=76.387115
+[ROB_DIAG1] step=1 radius=0.02 inactive_margin(n=242) mean=82.294189 p25=44.992374 p50=65.266594 p75=98.280640
+[ROB_DIAG2] step=1 radius=0.5 active_fraction=0.054688 kl_max=0.177665 adv_mean=26.279991
+[ROB_DIAG2] step=1 radius=0.5 inactive_margin(n=242) mean=82.209106 p25=44.875763 p50=65.235809 p75=98.271927
+[ROB_DIAG2] step=1 radius=3.0 active_fraction=0.054688 kl_max=0.183612 adv_mean=26.283760
+[ROB_DIAG2] step=1 radius=3.0 inactive_margin(n=242) mean=82.213776 p25=44.867229 p50=65.252670 p75=98.272751
+[ROB_DIAG] step=2 n=256 diff(adv-nominal) mean=0.225491 std=0.443119 min=0.000579 max=3.512344 active_frac=0.066406 kl_max=0.020000 nominal_mean=26.266758 adv_mean=26.492250 loss_rob(vs f0)=1.276546
+[ROB_DIAG1] step=2 baseline_loss(f0) mean=103.965401 std=84.798401 min=7.014630 max=808.415405
+[ROB_DIAG1] step=2 baseline_mean=103.965401 vs nominal_mean=26.266758 (baseline-nominal)=77.698639
+[ROB_DIAG1] step=2 radius=0.02 inactive_margin(n=239) mean=84.351135 p25=45.301071 p50=72.346085 p75=104.287659
+[ROB_DIAG2] step=2 radius=0.5 active_fraction=0.066406 kl_max=0.149997 adv_mean=26.591829
+[ROB_DIAG2] step=2 radius=0.5 inactive_margin(n=239) mean=84.261963 p25=45.281483 p50=72.238953 p75=104.226303
+[ROB_DIAG2] step=2 radius=3.0 active_fraction=0.066406 kl_max=0.170988 adv_mean=26.580235
+[ROB_DIAG2] step=2 radius=3.0 inactive_margin(n=239) mean=84.274185 p25=45.275913 p50=72.311737 p75=104.231079
+[ROB_DIAG] step=3 n=256 diff(adv-nominal) mean=0.240038 std=0.471268 min=0.002026 max=4.130928 active_frac=0.058594 kl_max=0.020000 nominal_mean=29.654354 adv_mean=29.894394 loss_rob(vs f0)=0.648438
+[ROB_DIAG1] step=3 baseline_loss(f0) mean=117.256454 std=113.052734 min=2.909068 max=887.871826
+[ROB_DIAG1] step=3 baseline_mean=117.256454 vs nominal_mean=29.654354 (baseline-nominal)=87.602097
+[ROB_DIAG1] step=3 radius=0.02 inactive_margin(n=241) mean=93.488335 p25=44.961056 p50=69.225822 p75=104.461571
+[ROB_DIAG2] step=3 radius=0.5 active_fraction=0.058594 kl_max=0.188123 adv_mean=30.025091
+[ROB_DIAG2] step=3 radius=0.5 inactive_margin(n=241) mean=93.375275 p25=44.938377 p50=69.122238 p75=104.442680
+[ROB_DIAG2] step=3 radius=3.0 active_fraction=0.058594 kl_max=0.166039 adv_mean=30.020306
+[ROB_DIAG2] step=3 radius=3.0 inactive_margin(n=241) mean=93.383125 p25=44.920174 p50=69.185410 p75=104.453201
+[ROB_DIAG] step=4 n=256 diff(adv-nominal) mean=0.217902 std=0.448502 min=0.004151 max=3.624329 active_frac=0.054688 kl_max=0.020000 nominal_mean=21.477524 adv_mean=21.695427 loss_rob(vs f0)=0.878021
+[ROB_DIAG1] step=4 baseline_loss(f0) mean=93.092644 std=62.795609 min=4.782166 max=485.578522
+[ROB_DIAG1] step=4 baseline_mean=93.092644 vs nominal_mean=21.477524 (baseline-nominal)=71.615120
+[ROB_DIAG1] step=4 radius=0.02 inactive_margin(n=242) mean=76.456444 p25=48.370689 p50=68.373375 p75=95.326355
+[ROB_DIAG2] step=4 radius=0.5 active_fraction=0.054688 kl_max=0.125734 adv_mean=21.791227
+[ROB_DIAG2] step=4 radius=0.5 inactive_margin(n=242) mean=76.367783 p25=48.367641 p50=68.332916 p75=95.319313
+[ROB_DIAG2] step=4 radius=3.0 active_fraction=0.054688 kl_max=0.144590 adv_mean=21.803986
+[ROB_DIAG2] step=4 radius=3.0 inactive_margin(n=242) mean=76.355087 p25=48.366356 p50=68.337540 p75=95.317123
+[ROB_DIAG] step=5 n=256 diff(adv-nominal) mean=0.188448 std=0.321471 min=0.001364 max=2.961853 active_frac=0.058594 kl_max=0.020000 nominal_mean=18.006372 adv_mean=18.194820 loss_rob(vs f0)=0.924490
+[ROB_DIAG1] step=5 baseline_loss(f0) mean=95.633003 std=78.494965 min=3.824909 max=884.615234
+[ROB_DIAG1] step=5 baseline_mean=95.633003 vs nominal_mean=18.006372 (baseline-nominal)=77.626633
+[ROB_DIAG1] step=5 radius=0.02 inactive_margin(n=241) mean=83.240021 p25=46.708717 p50=69.751404 p75=97.471367
+[ROB_DIAG2] step=5 radius=0.5 active_fraction=0.058594 kl_max=0.143280 adv_mean=18.308743
+[ROB_DIAG2] step=5 radius=0.5 inactive_margin(n=241) mean=83.157562 p25=46.698921 p50=69.697227 p75=97.454681
+[ROB_DIAG2] step=5 radius=3.0 active_fraction=0.058594 kl_max=0.157126 adv_mean=18.310541
+[ROB_DIAG2] step=5 radius=3.0 inactive_margin(n=241) mean=83.161987 p25=46.696445 p50=69.697227 p75=97.447945
+[ROB_DIAG] step=6 n=256 diff(adv-nominal) mean=0.178103 std=0.298672 min=0.000408 max=2.650528 active_frac=0.070312 kl_max=0.020000 nominal_mean=22.265606 adv_mean=22.443710 loss_rob(vs f0)=0.848200
+[ROB_DIAG1] step=6 baseline_loss(f0) mean=101.944931 std=83.076248 min=3.670712 max=857.617798
+[ROB_DIAG1] step=6 baseline_mean=101.944931 vs nominal_mean=22.265606 (baseline-nominal)=79.679321
+[ROB_DIAG1] step=6 radius=0.02 inactive_margin(n=238) mean=86.426277 p25=53.297791 p50=74.882111 p75=102.887817
+[ROB_DIAG2] step=6 radius=0.5 active_fraction=0.070312 kl_max=0.156383 adv_mean=22.541235
+[ROB_DIAG2] step=6 radius=0.5 inactive_margin(n=238) mean=86.348816 p25=53.195793 p50=74.866913 p75=102.869049
+[ROB_DIAG2] step=6 radius=3.0 active_fraction=0.070312 kl_max=0.192375 adv_mean=22.542358
+[ROB_DIAG2] step=6 radius=3.0 inactive_margin(n=238) mean=86.350990 p25=53.181805 p50=74.869400 p75=102.869003
+[ROB_DIAG] step=7 n=256 diff(adv-nominal) mean=0.241670 std=0.485559 min=0.002370 max=3.721336 active_frac=0.046875 kl_max=0.020000 nominal_mean=27.020487 adv_mean=27.262157 loss_rob(vs f0)=0.549688
+[ROB_DIAG1] step=7 baseline_loss(f0) mean=106.173302 std=79.714195 min=16.769550 max=872.832153
+[ROB_DIAG1] step=7 baseline_mean=106.173302 vs nominal_mean=27.020487 (baseline-nominal)=79.152817
+[ROB_DIAG1] step=7 radius=0.02 inactive_margin(n=244) mean=83.368744 p25=54.283070 p50=70.134064 p75=98.261337
+[ROB_DIAG2] step=7 radius=0.5 active_fraction=0.046875 kl_max=0.155965 adv_mean=27.391695
+[ROB_DIAG2] step=7 radius=0.5 inactive_margin(n=244) mean=83.264656 p25=54.219341 p50=70.115234 p75=98.121017
+[ROB_DIAG2] step=7 radius=3.0 active_fraction=0.046875 kl_max=0.171809 adv_mean=27.389328
+[ROB_DIAG2] step=7 radius=3.0 inactive_margin(n=244) mean=83.263206 p25=54.232258 p50=70.115234 p75=98.250351
+[ROB_DIAG] step=8 n=256 diff(adv-nominal) mean=0.222541 std=0.399986 min=0.002561 max=4.361145 active_frac=0.066406 kl_max=0.020000 nominal_mean=31.369909 adv_mean=31.592449 loss_rob(vs f0)=1.293436
+[ROB_DIAG1] step=8 baseline_loss(f0) mean=105.718933 std=97.583641 min=3.982517 max=789.303101
+[ROB_DIAG1] step=8 baseline_mean=105.718933 vs nominal_mean=31.369909 (baseline-nominal)=74.349022
+[ROB_DIAG1] step=8 radius=0.02 inactive_margin(n=239) mean=80.784515 p25=47.406696 p50=69.795914 p75=99.442673
+[ROB_DIAG2] step=8 radius=0.5 active_fraction=0.066406 kl_max=0.187776 adv_mean=31.729708
+[ROB_DIAG2] step=8 radius=0.5 inactive_margin(n=239) mean=80.663414 p25=47.347183 p50=69.791214 p75=99.435501
+[ROB_DIAG2] step=8 radius=3.0 active_fraction=0.066406 kl_max=0.180331 adv_mean=31.715254
+[ROB_DIAG2] step=8 radius=3.0 inactive_margin(n=239) mean=80.679291 p25=47.333527 p50=69.785950 p75=99.436111
+ 18%|█▊        | 9/50 [00:09<00:44,  1.09s/it, total=18.6, f=18.4, rob=1.29, rob_af=0.0664, rob_kl=0.02]
+[ROB_DIAG] step=9 n=256 diff(adv-nominal) mean=0.359699 std=0.970018 min=0.002480 max=10.515884 active_frac=0.046875 kl_max=0.020000 nominal_mean=31.405231 adv_mean=31.764929 loss_rob(vs f0)=0.899853
+[ROB_DIAG1] step=9 baseline_loss(f0) mean=106.708015 std=73.349876 min=4.339019 max=580.482300
+[ROB_DIAG1] step=9 baseline_mean=106.708015 vs nominal_mean=31.405231 (baseline-nominal)=75.302780
+[ROB_DIAG1] step=9 radius=0.02 inactive_margin(n=244) mean=79.572914 p25=48.288345 p50=74.743347 p75=104.878006
+[ROB_DIAG2] step=9 radius=0.5 active_fraction=0.050781 kl_max=0.173542 adv_mean=31.971306
+[ROB_DIAG2] step=9 radius=0.5 inactive_margin(n=243) mean=79.732445 p25=48.266869 p50=74.924133 p75=105.024796
+[ROB_DIAG2] step=9 radius=3.0 active_fraction=0.050781 kl_max=0.168000 adv_mean=31.977028
+[ROB_DIAG2] step=9 radius=3.0 inactive_margin(n=243) mean=79.721527 p25=48.276970 p50=74.894653 p75=105.029968
+[ROB_DIAG] reached batch limit, exiting before any backward()/optimizer.step() -- checkpoint untouched.
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /home/fenglei/TS-RAG-main/TS-RAG/wandb/offline-run-20260912_162930-aml6duno[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/offline-run-20260912_162930-aml6duno/logs[0m

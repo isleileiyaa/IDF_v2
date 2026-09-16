@@ -1,0 +1,52 @@
+[RIDDE_rob_sweep] 开始时间: 2026年 09月 12日 星期六 23:08:35 CST
+[RIDDE_rob_sweep] 候选lambda_rob值: 0.5 1 2 4 8
+
+==================================================================
+[RIDDE_rob_sweep] [lambda_rob=0.5] 开始训练，日志: logs/ridde_rob_sweep_train_lambda0_5_20260912_230835.log
+==================================================================
+[RIDDE_rob_sweep] [lambda_rob=0.5] 训练退出码: 0
+[RIDDE_rob_sweep] [lambda_rob=0.5] 训练完成，开始7数据集zeroshot评测，日志: logs/ridde_rob_sweep_eval_lambda0_5_20260912_230835.log
+[RIDDE_rob_sweep] [lambda_rob=0.5] 评测退出码: 0
+[RIDDE_rob_sweep] [lambda_rob=0.5] 已清理中间resume快照目录: checkpoints/ridde_rob_sweep_lambda0_5/data50m_idf_trr_dualpath_learnfuse_rob_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_lambdasep0.0_lambdarob0_5_newbaseline_sweep
+[RIDDE_rob_sweep] [lambda_rob=0.5] 完成。剩余磁盘: /dev/nvme0n1p1  1.6T  1.4T   66G   96% /home
+
+==================================================================
+[RIDDE_rob_sweep] [lambda_rob=1] 开始训练，日志: logs/ridde_rob_sweep_train_lambda1_20260913_000442.log
+==================================================================
+[RIDDE_rob_sweep] [lambda_rob=1] 训练退出码: 0
+[RIDDE_rob_sweep] [lambda_rob=1] 训练完成，开始7数据集zeroshot评测，日志: logs/ridde_rob_sweep_eval_lambda1_20260913_000442.log
+[RIDDE_rob_sweep] [lambda_rob=1] 评测退出码: 0
+[RIDDE_rob_sweep] [lambda_rob=1] 已清理中间resume快照目录: checkpoints/ridde_rob_sweep_lambda1/data50m_idf_trr_dualpath_learnfuse_rob_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_lambdasep0.0_lambdarob1_newbaseline_sweep
+[RIDDE_rob_sweep] [lambda_rob=1] 完成。剩余磁盘: /dev/nvme0n1p1  1.6T  1.4T   65G   96% /home
+
+==================================================================
+[RIDDE_rob_sweep] [lambda_rob=2] 开始训练，日志: logs/ridde_rob_sweep_train_lambda2_20260913_005750.log
+==================================================================
+[RIDDE_rob_sweep] [lambda_rob=2] 训练退出码: 0
+[RIDDE_rob_sweep] [lambda_rob=2] 训练完成，开始7数据集zeroshot评测，日志: logs/ridde_rob_sweep_eval_lambda2_20260913_005750.log
+[RIDDE_rob_sweep] [lambda_rob=2] 评测退出码: 0
+[RIDDE_rob_sweep] [lambda_rob=2] 已清理中间resume快照目录: checkpoints/ridde_rob_sweep_lambda2/data50m_idf_trr_dualpath_learnfuse_rob_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_lambdasep0.0_lambdarob2_newbaseline_sweep
+[RIDDE_rob_sweep] [lambda_rob=2] 完成。剩余磁盘: /dev/nvme0n1p1  1.6T  1.4T   65G   96% /home
+
+==================================================================
+[RIDDE_rob_sweep] [lambda_rob=4] 开始训练，日志: logs/ridde_rob_sweep_train_lambda4_20260913_014944.log
+==================================================================
+[RIDDE_rob_sweep] [lambda_rob=4] 训练退出码: 0
+[RIDDE_rob_sweep] [lambda_rob=4] 训练完成，开始7数据集zeroshot评测，日志: logs/ridde_rob_sweep_eval_lambda4_20260913_014944.log
+[RIDDE_rob_sweep] [lambda_rob=4] 评测退出码: 0
+[RIDDE_rob_sweep] [lambda_rob=4] 已清理中间resume快照目录: checkpoints/ridde_rob_sweep_lambda4/data50m_idf_trr_dualpath_learnfuse_rob_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_lambdasep0.0_lambdarob4_newbaseline_sweep
+[RIDDE_rob_sweep] [lambda_rob=4] 完成。剩余磁盘: /dev/nvme0n1p1  1.6T  1.4T   64G   96% /home
+
+==================================================================
+[RIDDE_rob_sweep] [lambda_rob=8] 开始训练，日志: logs/ridde_rob_sweep_train_lambda8_20260913_024502.log
+==================================================================
+[RIDDE_rob_sweep] [lambda_rob=8] 训练退出码: 0
+[RIDDE_rob_sweep] [lambda_rob=8] 训练完成，开始7数据集zeroshot评测，日志: logs/ridde_rob_sweep_eval_lambda8_20260913_024502.log
+[RIDDE_rob_sweep] [lambda_rob=8] 评测退出码: 0
+[RIDDE_rob_sweep] [lambda_rob=8] 已清理中间resume快照目录: checkpoints/ridde_rob_sweep_lambda8/data50m_idf_trr_dualpath_learnfuse_rob_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_lambdasep0.0_lambdarob8_newbaseline_sweep
+[RIDDE_rob_sweep] [lambda_rob=8] 完成。剩余磁盘: /dev/nvme0n1p1  1.6T  1.4T   63G   96% /home
+
+==================================================================
+[RIDDE_rob_sweep] 全部候选跑完，结束时间: 2026年 09月 13日 星期日 03:38:35 CST
+[RIDDE_rob_sweep] 结果文件: results/forecast_evaluation/zeroshot_chronos_idf_trr_dualpath_ridde_rob_sweep_lambda*.txt
+==================================================================

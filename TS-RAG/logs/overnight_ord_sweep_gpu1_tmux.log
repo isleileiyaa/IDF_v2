@@ -1,0 +1,10 @@
+==== queue: 开始 lambda_ord=0.1 2026年 09月 16日 星期三 14:34:08 CST ====
+[overnight_additive_ord_fromscratch lambda_ord=0.1] 第1次训练尝试开始: 2026年 09月 16日 星期三 14:34:09 CST
+[overnight_additive_ord_fromscratch lambda_ord=0.1] 第1次训练失败(无checkpoint)，1800秒后重试: 2026年 09月 16日 星期三 14:49:56 CST
+[overnight_additive_ord_fromscratch lambda_ord=0.1] 第2次训练尝试开始: 2026年 09月 16日 星期三 15:19:56 CST
+[overnight_additive_ord_fromscratch lambda_ord=0.1] 训练成功(第2次): 2026年 09月 16日 星期三 15:33:55 CST
+[overnight_additive_ord_fromscratch lambda_ord=0.1] 第1次评测尝试开始: 2026年 09月 16日 星期三 15:33:55 CST
+[overnight_additive_ord_fromscratch lambda_ord=0.1] 评测成功(第1次): 2026年 09月 16日 星期三 15:37:47 CST
+==== overnight_additive_ord_fromscratch lambda_ord=0.1 全部完成: 2026年 09月 16日 星期三 15:37:47 CST ====
+==== queue: 完成 lambda_ord=0.1 2026年 09月 16日 星期三 15:37:47 CST ====
+==== queue: 全部lambda_ord跑完 2026年 09月 16日 星期三 15:37:47 CST ====

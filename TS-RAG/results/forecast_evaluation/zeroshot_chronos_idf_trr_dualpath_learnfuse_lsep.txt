@@ -1,0 +1,14 @@
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_learnfuse
+mse:0.3559, std:0.0000 ---- mae:0.3702, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_learnfuse
+mse:0.2447, std:0.0000 ---- mae:0.3040, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_learnfuse
+mse:0.2961, std:0.0000 ---- mae:0.3234, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_learnfuse
+mse:0.1514, std:0.0000 ---- mae:0.2327, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_learnfuse
+mse:0.1512, std:0.0000 ---- mae:0.1880, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_learnfuse
+mse:0.0876, std:0.0000 ---- mae:0.2009, std:0.0000
+electricity_zeroshot_512_pred_64_512_retrieve_64_idf_trr_dualpath_learnfuse
+mse:0.1175, std:0.0000 ---- mae:0.2138, std:0.0000

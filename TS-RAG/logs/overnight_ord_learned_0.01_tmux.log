@@ -1,0 +1,5 @@
+[overnight_ord_learned_fromscratch lambda_ord=0.01] 第1次训练尝试开始: 2026年 09月 16日 星期三 15:00:34 CST
+[overnight_ord_learned_fromscratch lambda_ord=0.01] 训练成功(第1次): 2026年 09月 16日 星期三 15:15:26 CST
+[overnight_ord_learned_fromscratch lambda_ord=0.01] 第1次评测尝试开始: 2026年 09月 16日 星期三 15:15:26 CST
+[overnight_ord_learned_fromscratch lambda_ord=0.01] 评测成功(第1次): 2026年 09月 16日 星期三 15:19:19 CST
+==== overnight_ord_learned_fromscratch lambda_ord=0.01 全部完成: 2026年 09月 16日 星期三 15:19:19 CST ====

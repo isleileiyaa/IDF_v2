@@ -105,6 +105,15 @@ parser.add_argument('--kill_retrieval', action='store_true',
 parser.add_argument('--rawx_norm', type=str, default='zscore', choices=['zscore', 'minmax'])
 parser.add_argument('--retrieval_mode', type=str, default=None, choices=['embedding', 'raw_x'])
 parser.add_argument('--tau', type=float, default=0.1)
+# idf_clean_dis_v4专属：最终融合方式，跟pretrain.py的--fusion_mode保持一致。
+# model.fusion_mode是普通python属性，不会随state_dict存进checkpoint，所以eval时
+# 必须显式重新传一遍这个参数，跟--tau/--ord_margin是同一个道理，否则用
+# --fusion_mode additive训出来的checkpoint，eval时会静默退回learned分支，
+# 用一个从未训练过的final_pred_head出结果，不报错但结果是错的。
+parser.add_argument('--fusion_mode', type=str, default='learned', choices=['learned', 'additive'])
+parser.add_argument("--lambda_delta", type=float, default=0.0)
+parser.add_argument("--huber_kappa", type=float, default=1.0)
+parser.add_argument("--disable_ci", action="store_true", default=False, help="c_i fixed to 1 for all samples, ignoring tau confidence weighting (v4 only)")
 # RIDDE "Training Objective ver 2.0" (idf_ridde_v2 only); unused at inference
 # (target=None skips the loss branch) but kept for CLI/script parity with pretrain.py.
 parser.add_argument('--rho_sem', type=float, default=0.0)
@@ -264,6 +273,10 @@ elif args.model == 'ChronosBoltRetrieve':
     model._debug_shapes_printed = False
     model.tau = args.tau
     model.ord_margin = args.ord_margin
+    model.fusion_mode = args.fusion_mode
+    model.disable_ci = args.disable_ci
+    model.lambda_delta = args.lambda_delta
+    model.huber_kappa = args.huber_kappa
     # augment_mode='baseline' 以前永远跳过 checkpoint 加载(纯 zero-shot 用法,比如
     # channel_quartile_analysis.py)。现在 pretrain.py 可以真正训练 baseline 分支了
     # (只放开 output_patch_embedding),所以判断条件改成"是否给了真实存在的 checkpoint

@@ -1,0 +1,46 @@
+wandb: Tracking run with wandb version 0.19.10
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+ChronosBoltRetrieve model loaded
+[gamma_diag] 从 checkpoints/data50m_idf_clean_dis_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_rho0_0.01_0_0_final.pth 加载已训练权重完成 (missing=0, unexpected=0)
+[gamma_diag] missing keys 示例: []
+[gamma_diag] unexpected keys 示例: []
+Trainable parameters:
+encode_mlp.0.weight
+encode_mlp.0.bias
+encode_mlp.2.weight
+encode_mlp.2.bias
+ret_score_head.weight
+ret_score_head.bias
+fuse_gate.weight
+fuse_gate.bias
+routing_gate.weight
+routing_gate.bias
+inv_pred_head.weight
+inv_pred_head.bias
+dyn_pred_head_clean.weight
+dyn_pred_head_clean.bias
+final_pred_head.weight
+final_pred_head.bias
+  0%|          | 0/10000 [00:00<?, ?it/s]Passing a tuple of `past_key_values` is deprecated and will be removed in Transformers v4.48.0. You should pass an instance of `EncoderDecoderCache` instead, e.g. `past_key_values=EncoderDecoderCache.from_legacy_cache(past_key_values)`.
+  0%|          | 0/10000 [00:13<?, ?it/s, total=17.7, f=17.7, cons=0, smooth=0, inv=0.0748, dis=0.0962, dis_out=0.0339, ret=0.239, dyn=-0.0823]  0%|          | 1/10000 [00:13<37:37:14, 13.54s/it, total=17.7, f=17.7, cons=0, smooth=0, inv=0.0748, dis=0.0962, dis_out=0.0339, ret=0.239, dyn=-0.0823]  0%|          | 1/10000 [00:13<37:37:14, 13.54s/it, total=17, f=17, cons=0, smooth=0, inv=0.0704, dis=0.104, dis_out=0.0338, ret=0.207, dyn=-0.0763]       0%|          | 2/10000 [00:13<15:39:49,  5.64s/it, total=17, f=17, cons=0, smooth=0, inv=0.0704, dis=0.104, dis_out=0.0338, ret=0.207, dyn=-0.0763]  0%|          | 2/10000 [00:13<15:39:49,  5.64s/it, total=18, f=18, cons=0, smooth=0, inv=0.0715, dis=0.0977, dis_out=0.033, ret=0.226, dyn=-0.0767]  0%|          | 2/10000 [00:13<15:39:49,  5.64s/it, total=17.9, f=17.9, cons=0, smooth=0, inv=0.0775, dis=0.0972, dis_out=0.0366, ret=0.229, dyn=-0.0827]  0%|          | 4/10000 [00:13<5:59:59,  2.16s/it, total=17.9, f=17.9, cons=0, smooth=0, inv=0.0775, dis=0.0972, dis_out=0.0366, ret=0.229, dyn=-0.0827]   0%|          | 4/10000 [00:13<5:59:59,  2.16s/it, total=16.2, f=16.2, cons=0, smooth=0, inv=0.0718, dis=0.0946, dis_out=0.0329, ret=0.236, dyn=-0.0783]  0%|          | 4/10000 [00:13<5:59:59,  2.16s/it, total=15.4, f=15.4, cons=0, smooth=0, inv=0.0744, dis=0.0926, dis_out=0.0344, ret=0.277, dyn=-0.0827]  0%|          | 6/10000 [00:14<3:16:28,  1.18s/it, total=15.4, f=15.4, cons=0, smooth=0, inv=0.0744, dis=0.0926, dis_out=0.0344, ret=0.277, dyn=-0.0827]  0%|          | 6/10000 [00:14<3:16:28,  1.18s/it, total=17.2, f=17.2, cons=0, smooth=0, inv=0.0737, dis=0.0939, dis_out=0.0365, ret=0.234, dyn=-0.0791]  0%|          | 6/10000 [00:14<3:16:28,  1.18s/it, total=18.1, f=18.1, cons=0, smooth=0, inv=0.0754, dis=0.0943, dis_out=0.0339, ret=0.238, dyn=-0.0803]  0%|          | 8/10000 [00:14<2:02:57,  1.35it/s, total=18.1, f=18.1, cons=0, smooth=0, inv=0.0754, dis=0.0943, dis_out=0.0339, ret=0.238, dyn=-0.0803]  0%|          | 8/10000 [00:14<2:02:57,  1.35it/s, total=18.3, f=18.3, cons=0, smooth=0, inv=0.0788, dis=0.0891, dis_out=0.0332, ret=0.291, dyn=-0.0848]  0%|          | 8/10000 [00:14<2:02:57,  1.35it/s, total=18.7, f=18.7, cons=0, smooth=0, inv=0.0773, dis=0.0868, dis_out=0.0356, ret=0.285, dyn=-0.0813]  0%|          | 10/10000 [00:14<1:23:32,  1.99it/s, total=18.7, f=18.7, cons=0, smooth=0, inv=0.0773, dis=0.0868, dis_out=0.0356, ret=0.285, dyn=-0.0813]  0%|          | 10/10000 [00:14<1:23:32,  1.99it/s, total=18.3, f=18.3, cons=0, smooth=0, inv=0.0768, dis=0.086, dis_out=0.0364, ret=0.294, dyn=-0.0812]   0%|          | 10/10000 [00:14<1:23:32,  1.99it/s, total=18.2, f=18.2, cons=0, smooth=0, inv=0.0771, dis=0.0848, dis_out=0.0341, ret=0.297, dyn=-0.0817]  0%|          | 12/10000 [00:14<59:53,  2.78it/s, total=18.2, f=18.2, cons=0, smooth=0, inv=0.0771, dis=0.0848, dis_out=0.0341, ret=0.297, dyn=-0.0817]    0%|          | 12/10000 [00:14<59:53,  2.78it/s, total=19.4, f=19.4, cons=0, smooth=0, inv=0.0789, dis=0.0864, dis_out=0.0346, ret=0.283, dyn=-0.082]   0%|          | 12/10000 [00:14<59:53,  2.78it/s, total=19.7, f=19.7, cons=0, smooth=0, inv=0.0819, dis=0.0821, dis_out=0.0359, ret=0.312, dyn=-0.0876]  0%|          | 14/10000 [00:14<45:28,  3.66it/s, total=19.7, f=19.7, cons=0, smooth=0, inv=0.0819, dis=0.0821, dis_out=0.0359, ret=0.312, dyn=-0.0876]  0%|          | 14/10000 [00:14<2:56:25,  1.06s/it, total=19.7, f=19.7, cons=0, smooth=0, inv=0.0819, dis=0.0821, dis_out=0.0359, ret=0.312, dyn=-0.0876]
+[gamma_diag] batch=0 gamma.mean=0.4999 frac<0.1=0.3972 frac>0.9=0.3956 saturation_frac(<0.1 or >0.9)=0.7928
+[gamma_diag] batch=1 gamma.mean=0.5006 frac<0.1=0.3912 frac>0.9=0.3914 saturation_frac(<0.1 or >0.9)=0.7826
+[gamma_diag] batch=2 gamma.mean=0.5010 frac<0.1=0.3956 frac>0.9=0.3971 saturation_frac(<0.1 or >0.9)=0.7927
+[gamma_diag] batch=3 gamma.mean=0.5009 frac<0.1=0.3994 frac>0.9=0.3995 saturation_frac(<0.1 or >0.9)=0.7989
+[gamma_diag] batch=4 gamma.mean=0.5009 frac<0.1=0.4005 frac>0.9=0.4013 saturation_frac(<0.1 or >0.9)=0.8018
+[gamma_diag] batch=5 gamma.mean=0.5004 frac<0.1=0.4049 frac>0.9=0.4049 saturation_frac(<0.1 or >0.9)=0.8098
+[gamma_diag] batch=6 gamma.mean=0.5010 frac<0.1=0.4026 frac>0.9=0.4035 saturation_frac(<0.1 or >0.9)=0.8061
+[gamma_diag] batch=7 gamma.mean=0.5002 frac<0.1=0.4046 frac>0.9=0.4044 saturation_frac(<0.1 or >0.9)=0.8090
+[gamma_diag] batch=8 gamma.mean=0.5003 frac<0.1=0.4091 frac>0.9=0.4088 saturation_frac(<0.1 or >0.9)=0.8179
+[gamma_diag] batch=9 gamma.mean=0.5015 frac<0.1=0.4081 frac>0.9=0.4095 saturation_frac(<0.1 or >0.9)=0.8177
+[gamma_diag] batch=10 gamma.mean=0.5004 frac<0.1=0.4111 frac>0.9=0.4109 saturation_frac(<0.1 or >0.9)=0.8220
+[gamma_diag] batch=11 gamma.mean=0.5013 frac<0.1=0.4103 frac>0.9=0.4126 saturation_frac(<0.1 or >0.9)=0.8229
+[gamma_diag] batch=12 gamma.mean=0.5007 frac<0.1=0.4091 frac>0.9=0.4093 saturation_frac(<0.1 or >0.9)=0.8184
+[gamma_diag] batch=13 gamma.mean=0.5002 frac<0.1=0.4112 frac>0.9=0.4109 saturation_frac(<0.1 or >0.9)=0.8221
+[gamma_diag] batch=14 gamma.mean=0.5005 frac<0.1=0.4166 frac>0.9=0.4174 saturation_frac(<0.1 or >0.9)=0.8341
+[gamma_diag_FINAL] n_samples=2949120 gamma.mean=0.5007 saturation_frac(<0.1 or >0.9)=0.8099
+=== 诊断结束，退出（不执行backward/optimizer.step）===
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /home/fenglei/TS-RAG-main/TS-RAG/wandb/offline-run-20260914_154942-kw2ih5h5[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/offline-run-20260914_154942-kw2ih5h5/logs[0m

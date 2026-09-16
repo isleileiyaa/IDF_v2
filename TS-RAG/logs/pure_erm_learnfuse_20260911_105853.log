@@ -1,0 +1,35 @@
+Launching pretrain (idf_trr_dualpath), lambda_sep=0.0 beta_var=1.0 gamma0_var=0.1
+model_id=data50m_idf_trr_dualpath_learnfuse_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_lambdasep0.0
+wandb: ERROR api_key not configured (no-tty). call wandb.login(key=[your_api_key])
+Traceback (most recent call last):
+  File "/home/fenglei/TS-RAG-main/TS-RAG/pretrain.py", line 153, in <module>
+    wandb.init(project=f'{args.model}_Pretrain', name=args.model_id)
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/wandb/sdk/wandb_init.py", line 1664, in init
+    wandb._sentry.reraise(e)
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/wandb/analytics/sentry.py", line 156, in reraise
+    raise exc.with_traceback(sys.exc_info()[2])
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/wandb/sdk/wandb_init.py", line 1596, in init
+    wi.maybe_login(init_settings)
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/wandb/sdk/wandb_init.py", line 208, in maybe_login
+    wandb_login._login(
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/wandb/sdk/wandb_login.py", line 314, in _login
+    key, key_status = wlogin.prompt_api_key(referrer=referrer)
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/wandb/sdk/wandb_login.py", line 242, in prompt_api_key
+    raise UsageError("api_key not configured (no-tty). call " + directive)
+wandb.errors.errors.UsageError: api_key not configured (no-tty). call wandb.login(key=[your_api_key])
+Traceback (most recent call last):
+  File "/home/fenglei/TS-RAG-main/TS-RAG/pretrain.py", line 153, in <module>
+    wandb.init(project=f'{args.model}_Pretrain', name=args.model_id)
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/wandb/sdk/wandb_init.py", line 1664, in init
+    wandb._sentry.reraise(e)
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/wandb/analytics/sentry.py", line 156, in reraise
+    raise exc.with_traceback(sys.exc_info()[2])
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/wandb/sdk/wandb_init.py", line 1596, in init
+    wi.maybe_login(init_settings)
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/wandb/sdk/wandb_init.py", line 208, in maybe_login
+    wandb_login._login(
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/wandb/sdk/wandb_login.py", line 314, in _login
+    key, key_status = wlogin.prompt_api_key(referrer=referrer)
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/wandb/sdk/wandb_login.py", line 242, in prompt_api_key
+    raise UsageError("api_key not configured (no-tty). call " + directive)
+wandb.errors.errors.UsageError: api_key not configured (no-tty). call wandb.login(key=[your_api_key])

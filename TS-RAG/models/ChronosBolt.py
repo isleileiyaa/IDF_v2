@@ -53,6 +53,7 @@ class ChronosBoltOutput(ModelOutput):
     loss_sem: Optional[torch.Tensor] = None
     loss_xcov: Optional[torch.Tensor] = None
     loss_ord: Optional[torch.Tensor] = None
+    loss_delta: Optional[torch.Tensor] = None
     loss_cos: Optional[torch.Tensor] = None
     loss_gbal: Optional[torch.Tensor] = None
     # RIDDE_新版目标函数与最终实验方案 Stage 3 (Dual+ERM): L_sep = L_xcov + beta_var*L_var
@@ -82,6 +83,12 @@ class ChronosBoltOutput(ModelOutput):
     diag_roughness_inv_per_sample: Optional[torch.Tensor] = None
     diag_roughness_dyn_per_sample: Optional[torch.Tensor] = None
     diag_energy_share_per_sample: Optional[torch.Tensor] = None
+    # idf_clean_dis / idf_clean_dis_v3 / idf_clean_dis_v4(以及共享同一分支的
+    # idf_clean_dis_deepmlp)：不变头/动态头各自的完整分位数预测曲线(B, Q, pred_len)，
+    # 之前只在forward()内部用于算diag_roughness_*等标量诊断，从未对外暴露；其它
+    # augment_mode保持None，不影响任何已有loss/精度计算路径。
+    y_inv: Optional[torch.Tensor] = None
+    y_dyn: Optional[torch.Tensor] = None
     use_disentangle_aux_loss: Optional[bool] = None
     aux_loss_enabled: Optional[bool] = None
     quantile_preds: Optional[torch.Tensor] = None
@@ -756,7 +763,7 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             self.inv_aux_backproj = nn.Linear(pred_dim, config.d_model)
             self.dyn_aux_backproj = nn.Linear(pred_dim, config.d_model)
 
-        if self.augment == 'idf_clean_dis':
+        if self.augment in ['idf_clean_dis', 'idf_clean_dis_v3', 'idf_clean_dis_v4']:
             pred_dim = self.num_quantiles * self.chronos_config.prediction_length
             self.encode_mlp = nn.Sequential(
                 nn.Linear(self.chronos_config.prediction_length, config.d_model),
@@ -1244,8 +1251,10 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
         aux_z_dyn = None
         aux_y_inv = None
         aux_y_dyn = None
+        aux_gamma_v3 = None
         dual_projector_metrics = None
         ridde_v2_metrics = None
+        v4_metrics = None
         # RIDDE_新版目标函数与最终实验方案 Stage 3 (Dual+ERM)：z_inv/z_dyn 单独存一份，
         # 不复用 aux_z_inv/aux_z_dyn（那两个是给 ver1.0 disentangle 家族的
         # use_disentangle_aux_loss 分支用的，公式和这里完全不同，混用会互相干扰）。
@@ -1262,12 +1271,12 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             retrieved_seq, loc_scale_retrieved = self.instance_norm(retrieved_seq)
 
             # fuse retrieved sequence
-            if 'moe' not in self.augment and self.augment != 'idf_branch' and self.augment != 'idf_x' and self.augment != 'idf_clean_dis' and self.augment != 'idf_clean_dis_deepmlp' and self.augment != 'idf_clean_dis_ts3align' and self.augment != 'idf_ridde_v2' and self.augment != 'idf_h_linear_head' and self.augment != 'idf_h_native_head' and self.augment != 'idf_y_linear_head' and self.augment != 'idf_residual' and self.augment != 'idf_branch_gru' and self.augment != 'idf_branch_gru_q' and self.augment != 'idf_dual_direct_head' and self.augment != 'idf_dual_projector' and self.augment != 'idf_dual_projector_mlp' and self.augment != 'idf_trr_dualpath' and self.augment != 'idf_trr_dualpath_learnfuse':
+            if 'moe' not in self.augment and self.augment != 'idf_branch' and self.augment != 'idf_x' and self.augment != 'idf_clean_dis' and self.augment != 'idf_clean_dis_v3' and self.augment != 'idf_clean_dis_v4' and self.augment != 'idf_clean_dis_deepmlp' and self.augment != 'idf_clean_dis_ts3align' and self.augment != 'idf_ridde_v2' and self.augment != 'idf_h_linear_head' and self.augment != 'idf_h_native_head' and self.augment != 'idf_y_linear_head' and self.augment != 'idf_residual' and self.augment != 'idf_branch_gru' and self.augment != 'idf_branch_gru_q' and self.augment != 'idf_dual_direct_head' and self.augment != 'idf_dual_projector' and self.augment != 'idf_dual_projector_mlp' and self.augment != 'idf_trr_dualpath' and self.augment != 'idf_trr_dualpath_learnfuse':
                 weights = torch.softmax(-distances, dim=1)
                 retrieved_seq = (weights.unsqueeze(-1) * retrieved_seq).sum(dim=1)
                 retrieved_seq = retrieved_seq.unsqueeze(1)
             # B, L = target.shape
-            L = self.chronos_config.prediction_length if self.augment in ['idf_branch', 'idf_x', 'idf_clean_dis', 'idf_clean_dis_deepmlp', 'idf_clean_dis_ts3align', 'idf_ridde_v2', 'idf_h_linear_head', 'idf_h_native_head', 'idf_y_linear_head', 'idf_residual', 'idf_branch_gru', 'idf_branch_gru_q', 'idf_dual_direct_head', 'idf_dual_projector', 'idf_dual_projector_mlp', 'idf_trr_dualpath', 'idf_trr_dualpath_learnfuse'] else 64
+            L = self.chronos_config.prediction_length if self.augment in ['idf_branch', 'idf_x', 'idf_clean_dis', 'idf_clean_dis_v3', 'idf_clean_dis_v4', 'idf_clean_dis_deepmlp', 'idf_clean_dis_ts3align', 'idf_ridde_v2', 'idf_h_linear_head', 'idf_h_native_head', 'idf_y_linear_head', 'idf_residual', 'idf_branch_gru', 'idf_branch_gru_q', 'idf_dual_direct_head', 'idf_dual_projector', 'idf_dual_projector_mlp', 'idf_trr_dualpath', 'idf_trr_dualpath_learnfuse'] else 64
             r_B, r_M, r_L = retrieved_seq.shape
             assert r_L % 2 == 0, "L of retrieved_seq should be even"
             retrieved_x, retrieved_y = retrieved_seq.split((r_L-L, L), dim=2)
@@ -1390,7 +1399,7 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
                 aux_y_inv = y_inv
                 aux_y_dyn = y_dyn
 
-            if self.augment in ['idf_clean_dis', 'idf_clean_dis_deepmlp']:
+            if self.augment in ['idf_clean_dis', 'idf_clean_dis_deepmlp', 'idf_clean_dis_v3', 'idf_clean_dis_v4']:
                 retrieved_y_enc = []
                 for i in range(r_M):
                     retrieved_y_enc.append(self.encode_mlp(retrieved_y[:, i, :]))
@@ -1414,13 +1423,44 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
                 y_inv = self.inv_pred_head(z_inv).view(*quantile_preds_shape)
                 y_dyn = self.dyn_pred_head_clean(z_dyn).view(*quantile_preds_shape)
 
-                final_in = torch.cat([y_inv.reshape(batch_size, -1), y_dyn.reshape(batch_size, -1)], dim=-1)
-                fused_quantile_preds = self.final_pred_head(final_in).view(*quantile_preds_shape)
+                fusion_mode = getattr(self, "fusion_mode", "learned")
+                if fusion_mode == "additive" and self.augment == "idf_clean_dis_v4":
+                    # idf_clean_dis_v4专属：y_inv/y_dyn此处已是(B,Q,L)，直接相加，
+                    # 跳过final_pred_head，不做reshape/cat。条件里显式判了
+                    # self.augment=='idf_clean_dis_v4'，即便误传fusion_mode='additive'，
+                    # idf_clean_dis/idf_clean_dis_deepmlp/idf_clean_dis_v3三个分支
+                    # 在代码层面也完全不受影响，走原来的learned分支。
+                    fused_quantile_preds = y_inv + y_dyn
+                else:
+                    final_in = torch.cat([y_inv.reshape(batch_size, -1), y_dyn.reshape(batch_size, -1)], dim=-1)
+                    fused_quantile_preds = self.final_pred_head(final_in).view(*quantile_preds_shape)
                 aux_h_ret = h_ret
                 aux_z_inv = z_inv
                 aux_z_dyn = z_dyn
                 aux_y_inv = y_inv
                 aux_y_dyn = y_dyn
+                aux_gamma_v3 = gamma
+
+                if self.augment == 'idf_clean_dis_v4':
+                    raw_retrieved_y = self.instance_norm.inverse(retrieved_y, loc_scale_retrieved)
+                    loc_q, scale_q = loc_scale
+                    # scale_q可以小到~1e-7量级(InstanceNorm对"几乎不变但不逐位相等"的序列
+                    # 没有下限保护，只有精确常数才会被置为1)，此处除法对这类样本会把
+                    # retrieved_y_qframe/y_bar_r放大到失真量级，进而把loss_sem(平方项)
+                    # 打到千万级。1e-2下限比实测正常scale_q均值(~1.5-1.9)低2-3个数量级，
+                    # 基本不影响正常样本，但比实测最小值(~4.6e-7)高4-5个数量级，足以把
+                    # 病态样本的比值压回可控范围。
+                    retrieved_y_qframe = (raw_retrieved_y - loc_q.unsqueeze(1)) / scale_q.clamp_min(1e-2).unsqueeze(1)
+                    y_bar_r = (alpha * retrieved_y_qframe).sum(dim=1)
+                    v4_metrics = {
+                        "y_inv": y_inv,
+                        "y_dyn": y_dyn,
+                        "alpha": alpha,
+                        "retrieved_y_qframe": retrieved_y_qframe,
+                        "y_bar_r": y_bar_r,
+                    }
+                else:
+                    v4_metrics = None
 
             if self.augment == 'idf_ridde_v2':
                 retrieved_y_enc = []
@@ -2121,7 +2161,10 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             rho_dis_output_eff = rho_dis_output if dis_mode in ("output", "both") else 0.0
             aux_loss_enabled = (
                 use_disentangle_aux_loss
-                and any(rho > 0.0 for rho in (rho1, rho2_eff, rho3, rho4, rho_dis_output_eff))
+                and (
+                    any(rho > 0.0 for rho in (rho1, rho2_eff, rho3, rho4, rho_dis_output_eff))
+                    or self.augment in ('idf_clean_dis_v3', 'idf_clean_dis_v4')
+                )
             ) or (
                 self.augment == 'idf_dual_projector'
                 and any(v > 0.0 for v in (
@@ -2145,9 +2188,157 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
 
                     loss_inv = F.mse_loss(y_inv_hidden, inv_target)
 
-                    z_inv_n = F.normalize(aux_z_inv.flatten(1), dim=-1)
-                    z_dyn_n = F.normalize(aux_z_dyn.flatten(1), dim=-1)
-                    loss_dis = (z_inv_n * z_dyn_n).sum(dim=-1).abs().mean()
+                    if self.augment in ('idf_clean_dis_v3', 'idf_clean_dis_v4'):
+                        # RIDDE_带容差的门控重叠目标函数：L_dis^rel = mean([r_i - tau]_+^2)
+                        # r_i = 4*(z_inv^T z_dyn) / (||h||^2 + eps)，h = z_inv + z_dyn
+                        # （架构恒等式，已用真实数据验证：10个batch误差都在1e-7量级，float32精度范围内）
+                        _z_inv_flat = aux_z_inv.flatten(1)
+                        _z_dyn_flat = aux_z_dyn.flatten(1)
+                        _h_flat = _z_inv_flat + _z_dyn_flat
+                        _s_i = (_z_inv_flat * _z_dyn_flat).sum(dim=-1)
+                        _E_i = (_h_flat ** 2).sum(dim=-1)
+                        _eps_dis = 1e-8
+                        r_i = 4 * _s_i / (_E_i + _eps_dis)
+                        tau_dis = getattr(self, "tau_dis", 0.17)
+                        loss_dis = (r_i - tau_dis).clamp_min(0.0).pow(2).mean()
+                        if self.training:
+                            with torch.no_grad():
+                                dis_active_frac = (r_i > tau_dis).float().mean()
+                                print(f"[idf_clean_dis_v3] tau={tau_dis:.4f} r_i.mean={r_i.mean().item():.4f} "
+                                      f"active_frac={dis_active_frac.item():.4f} loss_dis={loss_dis.item():.6f}")
+                                print(f"[idf_clean_dis_v3_ratio] rho2={rho2:.6g} "
+                                      f"loss_dis_raw={loss_dis.item():.10e} "
+                                      f"loss_forecast_raw={loss_forecast.item():.10e}")
+                                # 诊断：区分"真解耦"(z_inv/z_dyn都保持非退化范数，方向趋于正交)
+                                # 还是"gamma坍缩到0/1"(某一支范数被压到接近0，r_i自然趋近0，
+                                # 但不代表真的学到了解耦)——纯读现有中间变量，不参与反传。
+                                _z_inv_sqnorm = _z_inv_flat.pow(2).sum(dim=-1)
+                                _z_dyn_sqnorm = _z_dyn_flat.pow(2).sum(dim=-1)
+                                _z_inv_norm = _z_inv_flat.norm(dim=-1)
+                                _z_dyn_norm = _z_dyn_flat.norm(dim=-1)
+                                _cos_i = _s_i / (_z_inv_norm * _z_dyn_norm + 1e-12)
+                                _gamma_flat = aux_gamma_v3.flatten(1).mean(dim=-1) if aux_gamma_v3 is not None else None
+                                if _gamma_flat is not None:
+                                    _gamma_mean = _gamma_flat.mean().item()
+                                    _gamma_frac_near_0 = (_gamma_flat < 0.05).float().mean().item()
+                                    _gamma_frac_near_1 = (_gamma_flat > 0.95).float().mean().item()
+                                    _gamma_frac_near_0_loose = (_gamma_flat < 0.1).float().mean().item()
+                                    _gamma_frac_near_1_loose = (_gamma_flat > 0.9).float().mean().item()
+                                else:
+                                    _gamma_mean = _gamma_frac_near_0 = _gamma_frac_near_1 = float('nan')
+                                    _gamma_frac_near_0_loose = _gamma_frac_near_1_loose = float('nan')
+                                print(f"[idf_clean_dis_v3_gamma] gamma.mean={_gamma_mean:.4f} "
+                                      f"frac_near_0(<0.05)={_gamma_frac_near_0:.4f} "
+                                      f"frac_near_1(>0.95)={_gamma_frac_near_1:.4f} "
+                                      f"frac_near_0_loose(<0.1)={_gamma_frac_near_0_loose:.4f} "
+                                      f"frac_near_1_loose(>0.9)={_gamma_frac_near_1_loose:.4f} "
+                                      f"sat_loose(0.1/0.9 total)={(_gamma_frac_near_0_loose + _gamma_frac_near_1_loose):.4f}")
+                                print(f"[idf_clean_dis_v3_norm] z_inv_sqnorm.mean={_z_inv_sqnorm.mean().item():.6f} "
+                                      f"z_dyn_sqnorm.mean={_z_dyn_sqnorm.mean().item():.6f} "
+                                      f"cos_i.mean={_cos_i.mean().item():.6f} "
+                                      f"abs_cos_i.mean={_cos_i.abs().mean().item():.6f}")
+                    else:
+                        z_inv_n = F.normalize(aux_z_inv.flatten(1), dim=-1)
+                        z_dyn_n = F.normalize(aux_z_dyn.flatten(1), dim=-1)
+                        loss_dis = (z_inv_n * z_dyn_n).sum(dim=-1).abs().mean()   # |cos(z_inv, z_dyn)| 的均值，其他模式不变
+
+                    lambda_sem = float(getattr(self, "lambda_sem", 0.0))
+                    lambda_ord = float(getattr(self, "lambda_ord", 0.0))
+                    if self.augment == 'idf_clean_dis_v4' and v4_metrics is not None:
+                        m = v4_metrics
+                        target_sq = target.squeeze(1)
+                        r_i_sem = target_sq - m["y_bar_r"]
+                        diff_k = m["retrieved_y_qframe"] - m["y_bar_r"].unsqueeze(1)
+                        u_num = (m["alpha"].squeeze(-1) * diff_k.pow(2).sum(dim=-1)).sum(dim=1)
+                        ybar_mean = m["y_bar_r"].mean(dim=-1, keepdim=True)
+                        u_den = (m["y_bar_r"] - ybar_mean).pow(2).sum(dim=-1) + 1e-8
+                        tau_sem = max(float(getattr(self, "tau", 0.1)), 1e-6)
+                        u_ratio = (u_num / u_den).detach()
+                        c_i = torch.exp(-u_ratio / tau_sem)
+                        if getattr(self, "disable_ci", False):
+                            c_i = torch.ones_like(u_ratio)
+                        y_bar_r_b = m["y_bar_r"].unsqueeze(1).detach()
+                        r_i_sem_b = r_i_sem.unsqueeze(1).detach()
+                        sem_inv = (m["y_inv"] - y_bar_r_b).pow(2).mean(dim=(1, 2))
+                        sem_dyn = (m["y_dyn"] - r_i_sem_b).pow(2).mean(dim=(1, 2))
+                        loss_sem = (c_i * (sem_inv + sem_dyn)).mean()
+                        if self.training:
+                            with torch.no_grad():
+                                c_i_frac_near_0 = (c_i < 0.01).float().mean().item()
+                                c_i_frac_low = (c_i < 0.1).float().mean().item()
+                                print(f"[idf_clean_dis_v4_sem] loss_sem={loss_sem.item():.6f} "
+                                      f"c_i.mean={c_i.mean().item():.4f} c_i.min={c_i.min().item():.6f} "
+                                      f"c_i.max={c_i.max().item():.4f} c_i<0.01占比={c_i_frac_near_0:.2%} "
+                                      f"c_i<0.1占比={c_i_frac_low:.2%} lambda_sem={lambda_sem:.6g}")
+                                print(f"[idf_clean_dis_v4_ci] c_i: mean={c_i.mean().item():.4f} "
+                                      f"std={c_i.std().item():.4f} min={c_i.min().item():.4f} "
+                                      f"max={c_i.max().item():.4f} | u_ratio(pre-tau): "
+                                      f"mean={u_ratio.mean().item():.4f} std={u_ratio.std().item():.4f} "
+                                      f"min={u_ratio.min().item():.4f} max={u_ratio.max().item():.4f} "
+                                      f"tau={tau_sem:.4g}")
+
+                        # L_ord (idf_ridde_v2 Eq.22-23，公式原样复用): 复用上面同一个
+                        # c_i(Eq.19置信度权重)，粗糙度用y_inv/y_dyn(预测空间)算，
+                        # 不依赖lambda_sem是否>0。
+                        ord_margin_v4 = float(getattr(self, "ord_margin", 0.0))
+
+                        def _roughness_v4(y):  # y: (B, Q, L) -> (B, Q)
+                            d2 = y[..., 2:] - 2 * y[..., 1:-1] + y[..., :-2]
+                            return torch.log(d2.var(dim=-1) + 1e-8)
+
+                        R_inv_v4 = _roughness_v4(m["y_inv"]).mean(dim=1)
+                        R_dyn_v4 = _roughness_v4(m["y_dyn"]).mean(dim=1)
+                        loss_ord = (c_i * torch.clamp(R_inv_v4 - R_dyn_v4 + ord_margin_v4, min=0.0)).mean()
+                        if self.training:
+                            with torch.no_grad():
+                                print(f"[idf_clean_dis_v4_ord] loss_ord={loss_ord.item():.6f} "
+                                      f"R_inv.mean={R_inv_v4.mean().item():.4f} R_dyn.mean={R_dyn_v4.mean().item():.4f} "
+                                      f"lambda_ord={lambda_ord:.6g}")
+                    else:
+                        loss_sem = torch.zeros((), device=loss_forecast.device)
+                        loss_ord = torch.zeros((), device=loss_forecast.device)
+
+                    # L_xcov (idf_ridde_v2公式原样复用): 只需要z_inv/z_dyn(门控隐空间)，
+                    # 跟v4_metrics/lambda_sem无关，v3/v4共享分支都能算。
+                    lambda_xcov = float(getattr(self, "lambda_xcov", 0.0))
+                    if self.augment in ('idf_clean_dis_v3', 'idf_clean_dis_v4'):
+                        z_inv_flat_xcov = aux_z_inv.flatten(1)
+                        z_dyn_flat_xcov = aux_z_dyn.flatten(1)
+                        z_inv_c_xcov = z_inv_flat_xcov - z_inv_flat_xcov.mean(dim=0, keepdim=True)
+                        z_dyn_c_xcov = z_dyn_flat_xcov - z_dyn_flat_xcov.mean(dim=0, keepdim=True)
+                        Bsz_xcov = z_inv_c_xcov.shape[0]
+                        xcov_v4 = (z_inv_c_xcov.t() @ z_dyn_c_xcov) / max(Bsz_xcov - 1, 1)
+                        loss_xcov = xcov_v4.pow(2).sum()
+                        if self.training:
+                            with torch.no_grad():
+                                print(f"[idf_clean_dis_v4_xcov] loss_xcov={loss_xcov.item():.6f} "
+                                      f"lambda_xcov={lambda_xcov:.6g}")
+                    else:
+                        loss_xcov = torch.zeros((), device=loss_forecast.device)
+
+                    # L_Delta: 一阶差分Huber loss，约束fused_quantile_preds的中位数
+                    # 分位数轨迹贴近真实值的局部变化率，v3/v4共享分支都能算(跟lambda_sem
+                    # 是否>0无关，只需要fused_quantile_preds/target/target_mask)。
+                    lambda_delta = float(getattr(self, "lambda_delta", 0.0))
+                    if self.augment in ('idf_clean_dis_v3', 'idf_clean_dis_v4'):
+                        central_idx = torch.abs(self.quantiles - 0.5).argmin()
+                        median_pred = fused_quantile_preds[:, central_idx, :]  # (B, L)
+                        target_sq_delta = target.squeeze(1)  # (B, L)
+                        mask_sq_delta = target_mask.squeeze(1)  # (B, L)
+                        delta_yhat = median_pred[:, 1:] - median_pred[:, :-1]  # (B, L-1)
+                        delta_y = target_sq_delta[:, 1:] - target_sq_delta[:, :-1]  # (B, L-1)
+                        mask_delta = (mask_sq_delta[:, 1:] * mask_sq_delta[:, :-1]).float()  # (B, L-1)
+                        huber_kappa = float(getattr(self, "huber_kappa", 1.0))
+                        huber_elem = F.huber_loss(delta_yhat, delta_y, delta=huber_kappa, reduction='none')
+                        valid_count = mask_delta.sum(dim=1).clamp_min(1.0)  # (B,)
+                        per_sample_loss_delta = (huber_elem * mask_delta).sum(dim=1) / valid_count  # (B,)
+                        loss_delta = per_sample_loss_delta.mean()
+                        if self.training:
+                            with torch.no_grad():
+                                print(f"[idf_clean_dis_v4_delta] loss_delta={loss_delta.item():.6f} "
+                                      f"mask_delta_frac={mask_delta.mean().item():.4f} lambda_delta={lambda_delta:.6g}")
+                    else:
+                        loss_delta = torch.zeros((), device=loss_forecast.device)
 
                     # Output-level counterpart of loss_dis: same cosine-abs-mean form,
                     # applied to the flattened prediction-head outputs y_hat_inv/y_hat_dyn
@@ -2169,6 +2360,10 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
                         + rho3 * loss_ret
                         + rho4 * loss_dyn
                         + rho_dis_output_eff * loss_dis_output
+                        + lambda_sem * loss_sem
+                        + lambda_ord * loss_ord
+                        + lambda_xcov * loss_xcov
+                        + lambda_delta * loss_delta
                     )
 
         # Unscale predictions
@@ -2192,6 +2387,7 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             loss_sem=loss_sem,
             loss_xcov=loss_xcov,
             loss_ord=loss_ord,
+            loss_delta=loss_delta,
             loss_cos=loss_cos,
             loss_gbal=loss_gbal,
             loss_var=loss_var,
@@ -2208,6 +2404,8 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             diag_roughness_inv_per_sample=diag_roughness_inv_per_sample,
             diag_roughness_dyn_per_sample=diag_roughness_dyn_per_sample,
             diag_energy_share_per_sample=diag_energy_share_per_sample,
+            y_inv=aux_y_inv,
+            y_dyn=aux_y_dyn,
             use_disentangle_aux_loss=use_disentangle_aux_loss,
             aux_loss_enabled=aux_loss_enabled,
             quantile_preds=fused_quantile_preds,

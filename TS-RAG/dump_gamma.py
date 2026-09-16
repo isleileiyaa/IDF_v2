@@ -77,9 +77,12 @@ sys.argv = [
     '--data', ds['data'],
     '--top_k', '10',
     '--checkpoint_model_path',
-    '/home/fenglei/TS-RAG-main/TS-RAG/checkpoints/'
-    'data50m_idf_clean_dis_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_'
-    'cosanneal_step10000_bs256_no_embeddingtuning_rho0_0_0_0_final.pth',
+    os.environ.get(
+        'GAMMA_CKPT',
+        '/home/fenglei/TS-RAG-main/TS-RAG/checkpoints/'
+        'data50m_idf_clean_dis_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_'
+        'cosanneal_step10000_bs256_no_embeddingtuning_rho0_0_0_0_final.pth',
+    ),
     '--pretrained_model_path', '/home/fenglei/TS-RAG-main/TS-RAG/checkpoints/base/',
     '--seq_len', '512',
     '--label_len', '0',
@@ -100,7 +103,7 @@ sys.argv = [
     '--embedding_model_type', 'chronos',
     '--metadata_frequency', ds['freq'],
     '--metadata_database_name', DATASET,
-    '--augment_mode', 'idf_clean_dis',
+    '--augment_mode', os.environ.get('GAMMA_AUGMODE', 'idf_clean_dis'),
 ]
 
 import zeroshot  # noqa: E402,F401  (executes module-level setup + our patched test_retrieve)
@@ -120,6 +123,13 @@ middle = 1 - near0 - near1
 print(f'fraction near 0 (<0.1): {near0:.4f}')
 print(f'fraction near 1 (>0.9): {near1:.4f}')
 print(f'fraction in between:    {middle:.4f}')
+
+near0_strict = (g < 0.05).mean()
+near1_strict = (g > 0.95).mean()
+print(f'fraction near 0 (<0.05): {near0_strict:.4f}')
+print(f'fraction near 1 (>0.95): {near1_strict:.4f}')
+print(f'saturation_frac(<0.05 or >0.95): {near0_strict + near1_strict:.4f}')
+print(f'saturation_frac(<0.1 or >0.9):   {near0 + near1:.4f}')
 
 print(f'\n--- per-sample mean gamma (avg over d_model), first {min(10, g.shape[0])} samples ---')
 per_sample_mean = g.mean(axis=1)

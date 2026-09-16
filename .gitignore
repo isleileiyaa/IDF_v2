@@ -14,6 +14,10 @@ TS-RAG/script/my_results/
 TS-RAG/script/tmp*/
 wandb/
 
+# --- oracle cache: regeneratable npz caches from zeroshot eval, some single
+# files exceed GitHub's 100MB per-blob limit (e.g. electricity/traffic/solar) ---
+TS-RAG/results/oracle_cache/
+
 # --- python ---
 __pycache__/
 *.pyc

@@ -1,0 +1,12 @@
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_v4
+mse:0.3526, std:0.0000 ---- mae:0.3660, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_v4
+mse:0.2368, std:0.0000 ---- mae:0.2983, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_v4
+mse:0.2934, std:0.0000 ---- mae:0.3170, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_v4
+mse:0.1497, std:0.0000 ---- mae:0.2287, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_v4
+mse:0.1486, std:0.0000 ---- mae:0.1850, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_v4
+mse:0.0881, std:0.0000 ---- mae:0.1998, std:0.0000

@@ -1,0 +1,11 @@
+[overnight_v3_fromscratch] 第1次训练尝试开始: 2026年 09月 16日 星期三 11:57:40 CST
+[overnight_v3_fromscratch] 第1次训练失败(无checkpoint)，1800秒后重试: 2026年 09月 16日 星期三 11:58:44 CST
+[overnight_v3_fromscratch] 第2次训练尝试开始: 2026年 09月 16日 星期三 12:28:44 CST
+[overnight_v3_fromscratch] 第2次训练失败(无checkpoint)，1800秒后重试: 2026年 09月 16日 星期三 12:31:35 CST
+[overnight_v3_fromscratch] 第3次训练尝试开始: 2026年 09月 16日 星期三 13:01:35 CST
+[overnight_v3_fromscratch] 第3次训练失败(无checkpoint)，1800秒后重试: 2026年 09月 16日 星期三 13:01:38 CST
+[overnight_v3_fromscratch] 第4次训练尝试开始: 2026年 09月 16日 星期三 13:31:38 CST
+[overnight_v3_fromscratch] 训练成功(第4次): 2026年 09月 16日 星期三 13:45:17 CST
+[overnight_v3_fromscratch] 第1次评测尝试开始: 2026年 09月 16日 星期三 13:45:17 CST
+[overnight_v3_fromscratch] 评测成功(第1次): 2026年 09月 16日 星期三 13:49:07 CST
+==== overnight_v3_fromscratch 全部完成: 2026年 09月 16日 星期三 13:49:07 CST ====

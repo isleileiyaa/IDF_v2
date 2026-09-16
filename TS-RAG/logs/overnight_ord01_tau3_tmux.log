@@ -1,0 +1,5 @@
+[overnight_ord_weight_ord01] lambda_ord=0.1 第1次训练尝试开始: 2026年 09月 15日 星期二 19:10:10 CST
+[overnight_ord_weight_ord01] lambda_ord=0.1 训练成功(第1次): 2026年 09月 15日 星期二 19:33:15 CST
+[overnight_ord_weight_ord01] lambda_ord=0.1 第1次评测尝试开始: 2026年 09月 15日 星期二 19:33:15 CST
+[overnight_ord_weight_ord01] lambda_ord=0.1 评测成功(第1次): 2026年 09月 15日 星期二 19:39:23 CST
+==== overnight_ord_weight_ord01(lambda_ord=0.1) 全部完成: 2026年 09月 15日 星期二 19:39:23 CST ====

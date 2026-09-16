@@ -1,0 +1,23 @@
+==== overnight_gpu1_xcov 开始: 2026年 09月 15日 星期二 10:38:39 CST ====
+[overnight_gpu1_xcov] lambda_xcov=0.0001 第1次训练尝试开始: 2026年 09月 15日 星期二 10:38:39 CST
+[overnight_gpu1_xcov] lambda_xcov=0.0001 训练成功(第1次): 2026年 09月 15日 星期二 10:58:49 CST
+[overnight_gpu1_xcov] lambda_xcov=0.0001 第1次评测尝试开始: 2026年 09月 15日 星期二 10:58:49 CST
+[overnight_gpu1_xcov] lambda_xcov=0.0001 评测成功(第1次): 2026年 09月 15日 星期二 11:05:07 CST
+[overnight_gpu1_xcov] lambda_xcov=0.001 第1次训练尝试开始: 2026年 09月 15日 星期二 11:05:07 CST
+overnight_gpu1_xcov.sh: 第 15 行： 2196059 已杀死               python3 pretrain.py --model_id "$MODEL_ID" --model ChronosBoltRetrieve --top_k 10 --retrieve_lookback_length 512 --retrieval_database_path /home/fenglei/TS-RAG-main/retrieval_database/pretrain/retrieval_database_512.parquet --augment_mode idf_clean_dis_v4 --pretrained_model_path /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/base/ --context_length 512 --prediction_length 64 --data_path /home/fenglei/TS-RAG-main/datasets/pretrain/pretrain_pairs_ctx512 --train_steps 10000 --evaluation_steps 10000 --optimizer adamw --learning_rate 0.0003 --weight_decay 0.01 --tmax 20 --drop_prob 0.2 --batch_size 256 --grad_clip_value 1.0 --shuffle_buffer_length 2000 --rho1 0 --rho2 1000 --rho3 0 --rho4 0 --dyn_margin 1.0 --aux_loss_detach_ret true --tau_dis 0.17 --lambda_sem 0 --lambda_xcov "$LAMBDA_XCOV" --freeze_chronos_bolt --init_from_checkpoint "$V3_CKPT" --checkpoints "$CKPT_DIR" > "logs/${MODEL_ID}_attempt${attempt}.log" 2>&1
+[overnight_gpu1_xcov] lambda_xcov=0.001 第1次训练失败(无checkpoint)，1800秒后重试: 2026年 09月 15日 星期二 11:10:23 CST
+[overnight_gpu1_xcov] lambda_xcov=0.001 第2次训练尝试开始: 2026年 09月 15日 星期二 11:40:23 CST
+overnight_gpu1_xcov.sh: 第 15 行： 2211884 已杀死               python3 pretrain.py --model_id "$MODEL_ID" --model ChronosBoltRetrieve --top_k 10 --retrieve_lookback_length 512 --retrieval_database_path /home/fenglei/TS-RAG-main/retrieval_database/pretrain/retrieval_database_512.parquet --augment_mode idf_clean_dis_v4 --pretrained_model_path /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/base/ --context_length 512 --prediction_length 64 --data_path /home/fenglei/TS-RAG-main/datasets/pretrain/pretrain_pairs_ctx512 --train_steps 10000 --evaluation_steps 10000 --optimizer adamw --learning_rate 0.0003 --weight_decay 0.01 --tmax 20 --drop_prob 0.2 --batch_size 256 --grad_clip_value 1.0 --shuffle_buffer_length 2000 --rho1 0 --rho2 1000 --rho3 0 --rho4 0 --dyn_margin 1.0 --aux_loss_detach_ret true --tau_dis 0.17 --lambda_sem 0 --lambda_xcov "$LAMBDA_XCOV" --freeze_chronos_bolt --init_from_checkpoint "$V3_CKPT" --checkpoints "$CKPT_DIR" > "logs/${MODEL_ID}_attempt${attempt}.log" 2>&1
+[overnight_gpu1_xcov] lambda_xcov=0.001 第2次训练失败(无checkpoint)，1800秒后重试: 2026年 09月 15日 星期二 11:41:41 CST
+[overnight_gpu1_xcov] lambda_xcov=0.001 第3次训练尝试开始: 2026年 09月 15日 星期二 12:11:41 CST
+[overnight_gpu1_xcov] lambda_xcov=0.001 训练成功(第3次): 2026年 09月 15日 星期二 12:31:21 CST
+[overnight_gpu1_xcov] lambda_xcov=0.001 第1次评测尝试开始: 2026年 09月 15日 星期二 12:31:21 CST
+[overnight_gpu1_xcov] lambda_xcov=0.001 评测成功(第1次): 2026年 09月 15日 星期二 12:37:19 CST
+[overnight_gpu1_xcov] lambda_xcov=0.01 第1次训练尝试开始: 2026年 09月 15日 星期二 12:37:19 CST
+overnight_gpu1_xcov.sh: 第 15 行： 2217434 已杀死               python3 pretrain.py --model_id "$MODEL_ID" --model ChronosBoltRetrieve --top_k 10 --retrieve_lookback_length 512 --retrieval_database_path /home/fenglei/TS-RAG-main/retrieval_database/pretrain/retrieval_database_512.parquet --augment_mode idf_clean_dis_v4 --pretrained_model_path /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/base/ --context_length 512 --prediction_length 64 --data_path /home/fenglei/TS-RAG-main/datasets/pretrain/pretrain_pairs_ctx512 --train_steps 10000 --evaluation_steps 10000 --optimizer adamw --learning_rate 0.0003 --weight_decay 0.01 --tmax 20 --drop_prob 0.2 --batch_size 256 --grad_clip_value 1.0 --shuffle_buffer_length 2000 --rho1 0 --rho2 1000 --rho3 0 --rho4 0 --dyn_margin 1.0 --aux_loss_detach_ret true --tau_dis 0.17 --lambda_sem 0 --lambda_xcov "$LAMBDA_XCOV" --freeze_chronos_bolt --init_from_checkpoint "$V3_CKPT" --checkpoints "$CKPT_DIR" > "logs/${MODEL_ID}_attempt${attempt}.log" 2>&1
+[overnight_gpu1_xcov] lambda_xcov=0.01 第1次训练失败(无checkpoint)，1800秒后重试: 2026年 09月 15日 星期二 12:43:01 CST
+[overnight_gpu1_xcov] lambda_xcov=0.01 第2次训练尝试开始: 2026年 09月 15日 星期二 13:13:01 CST
+[overnight_gpu1_xcov] lambda_xcov=0.01 训练成功(第2次): 2026年 09月 15日 星期二 13:31:54 CST
+[overnight_gpu1_xcov] lambda_xcov=0.01 第1次评测尝试开始: 2026年 09月 15日 星期二 13:31:54 CST
+[overnight_gpu1_xcov] lambda_xcov=0.01 评测成功(第1次): 2026年 09月 15日 星期二 13:38:12 CST
+==== overnight_gpu1_xcov 全部完成: 2026年 09月 15日 星期二 13:38:12 CST ====

@@ -1,0 +1,24 @@
+wandb: Tracking run with wandb version 0.19.10
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+ChronosBoltRetrieve model loaded
+[RIDDE_rob] 从 checkpoints/idf_clean_dis_v3_full10000_tau017/idf_clean_dis_v3_full10000_tau017_final.pth 加载已训练权重完成 (missing=0, unexpected=0)
+[RIDDE_rob] missing keys 示例: []
+[RIDDE_rob] unexpected keys 示例: []
+Trainable parameters:
+encode_mlp.0.weight
+encode_mlp.0.bias
+encode_mlp.2.weight
+encode_mlp.2.bias
+ret_score_head.weight
+ret_score_head.bias
+fuse_gate.weight
+fuse_gate.bias
+routing_gate.weight
+routing_gate.bias
+inv_pred_head.weight
+inv_pred_head.bias
+dyn_pred_head_clean.weight
+dyn_pred_head_clean.bias
+final_pred_head.weight
+final_pred_head.bias
+  0%|          | 0/10000 [00:00<?, ?it/s]

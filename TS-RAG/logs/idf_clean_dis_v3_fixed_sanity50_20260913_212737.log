@@ -1,0 +1,234 @@
+wandb: Tracking run with wandb version 0.19.10
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+ChronosBoltRetrieve model loaded
+[RIDDE_rob] 从 checkpoints/data50m_idf_clean_dis_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_rho0_0.01_0_0_final.pth 加载已训练权重完成 (missing=0, unexpected=0)
+[RIDDE_rob] missing keys 示例: []
+[RIDDE_rob] unexpected keys 示例: []
+Trainable parameters:
+encode_mlp.0.weight
+encode_mlp.0.bias
+encode_mlp.2.weight
+encode_mlp.2.bias
+ret_score_head.weight
+ret_score_head.bias
+fuse_gate.weight
+fuse_gate.bias
+routing_gate.weight
+routing_gate.bias
+inv_pred_head.weight
+inv_pred_head.bias
+dyn_pred_head_clean.weight
+dyn_pred_head_clean.bias
+final_pred_head.weight
+final_pred_head.bias
+  0%|          | 0/50 [00:00<?, ?it/s]Passing a tuple of `past_key_values` is deprecated and will be removed in Transformers v4.48.0. You should pass an instance of `EncoderDecoderCache` instead, e.g. `past_key_values=EncoderDecoderCache.from_legacy_cache(past_key_values)`.
+  0%|          | 0/50 [00:14<?, ?it/s, total=20.2, f=17.7, cons=0, smooth=0, inv=0.0748, dis=0.0025, dis_out=0.0339, ret=0.239, dyn=-0.0823]  2%|▏         | 1/50 [00:14<12:13, 14.97s/it, total=20.2, f=17.7, cons=0, smooth=0, inv=0.0748, dis=0.0025, dis_out=0.0339, ret=0.239, dyn=-0.0823]  2%|▏         | 1/50 [00:15<12:13, 14.97s/it, total=19.4, f=17, cons=0, smooth=0, inv=0.0711, dis=0.0024, dis_out=0.0339, ret=0.213, dyn=-0.077]     4%|▍         | 2/50 [00:15<04:58,  6.23s/it, total=19.4, f=17, cons=0, smooth=0, inv=0.0711, dis=0.0024, dis_out=0.0339, ret=0.213, dyn=-0.077]  4%|▍         | 2/50 [00:15<04:58,  6.23s/it, total=19, f=18.1, cons=0, smooth=0, inv=0.0732, dis=0.0009, dis_out=0.0332, ret=0.239, dyn=-0.0783]  4%|▍         | 2/50 [00:15<04:58,  6.23s/it, total=18.2, f=17.9, cons=0, smooth=0, inv=0.0808, dis=0.0003, dis_out=0.0365, ret=0.258, dyn=-0.0855]  8%|▊         | 4/50 [00:15<01:49,  2.38s/it, total=18.2, f=17.9, cons=0, smooth=0, inv=0.0808, dis=0.0003, dis_out=0.0365, ret=0.258, dyn=-0.0855]  8%|▊         | 4/50 [00:15<01:49,  2.38s/it, total=16.3, f=16.1, cons=0, smooth=0, inv=0.0755, dis=0.0001, dis_out=0.033, ret=0.269, dyn=-0.0818]   8%|▊         | 4/50 [00:15<01:49,  2.38s/it, total=15.5, f=15.4, cons=0, smooth=0, inv=0.0787, dis=0.0001, dis_out=0.0339, ret=0.322, dyn=-0.0869] 12%|█▏        | 6/50 [00:15<00:57,  1.30s/it, total=15.5, f=15.4, cons=0, smooth=0, inv=0.0787, dis=0.0001, dis_out=0.0339, ret=0.322, dyn=-0.0869] 12%|█▏        | 6/50 [00:15<00:57,  1.30s/it, total=17.2, f=17.2, cons=0, smooth=0, inv=0.0796, dis=0, dis_out=0.0366, ret=0.297, dyn=-0.0845]      12%|█▏        | 6/50 [00:15<00:57,  1.30s/it, total=18.2, f=18.1, cons=0, smooth=0, inv=0.0816, dis=0, dis_out=0.0337, ret=0.308, dyn=-0.0859] 16%|█▌        | 8/50 [00:15<00:34,  1.23it/s, total=18.2, f=18.1, cons=0, smooth=0, inv=0.0816, dis=0, dis_out=0.0337, ret=0.308, dyn=-0.0859] 16%|█▌        | 8/50 [00:15<00:34,  1.23it/s, total=18.4, f=18.4, cons=0, smooth=0, inv=0.0851, dis=0, dis_out=0.0333, ret=0.363, dyn=-0.091]  16%|█▌        | 8/50 [00:15<00:34,  1.23it/s, total=18.8, f=18.8, cons=0, smooth=0, inv=0.0832, dis=0, dis_out=0.0351, ret=0.357, dyn=-0.0877] 20%|██        | 10/50 [00:15<00:22,  1.82it/s, total=18.8, f=18.8, cons=0, smooth=0, inv=0.0832, dis=0, dis_out=0.0351, ret=0.357, dyn=-0.0877] 20%|██        | 10/50 [00:15<00:22,  1.82it/s, total=18.2, f=18.2, cons=0, smooth=0, inv=0.0837, dis=0, dis_out=0.0362, ret=0.397, dyn=-0.0878] 20%|██        | 10/50 [00:16<00:22,  1.82it/s, total=18.2, f=18.2, cons=0, smooth=0, inv=0.0846, dis=0, dis_out=0.0336, ret=0.416, dyn=-0.089]  24%|██▍       | 12/50 [00:16<00:14,  2.54it/s, total=18.2, f=18.2, cons=0, smooth=0, inv=0.0846, dis=0, dis_out=0.0336, ret=0.416, dyn=-0.089] 24%|██▍       | 12/50 [00:16<00:14,  2.54it/s, total=19.5, f=19.5, cons=0, smooth=0, inv=0.086, dis=0, dis_out=0.034, ret=0.39, dyn=-0.0893]   24%|██▍       | 12/50 [00:16<00:14,  2.54it/s, total=19.8, f=19.8, cons=0, smooth=0, inv=0.091, dis=0, dis_out=0.0359, ret=0.45, dyn=-0.0953] 28%|██▊       | 14/50 [00:16<00:10,  3.38it/s, total=19.8, f=19.8, cons=0, smooth=0, inv=0.091, dis=0, dis_out=0.0359, ret=0.45, dyn=-0.0953] 28%|██▊       | 14/50 [00:16<00:10,  3.38it/s, total=19.1, f=19.1, cons=0, smooth=0, inv=0.0887, dis=0, dis_out=0.0345, ret=0.466, dyn=-0.0969] 28%|██▊       | 14/50 [00:16<00:10,  3.38it/s, total=18.5, f=18.5, cons=0, smooth=0, inv=0.0897, dis=0, dis_out=0.0339, ret=0.483, dyn=-0.0962] 32%|███▏      | 16/50 [00:16<00:07,  4.29it/s, total=18.5, f=18.5, cons=0, smooth=0, inv=0.0897, dis=0, dis_out=0.0339, ret=0.483, dyn=-0.0962] 32%|███▏      | 16/50 [00:16<00:07,  4.29it/s, total=19.9, f=19.9, cons=0, smooth=0, inv=0.0893, dis=0, dis_out=0.0315, ret=0.581, dyn=-0.0965] 32%|███▏      | 16/50 [00:16<00:07,  4.29it/s, total=18.6, f=18.6, cons=0, smooth=0, inv=0.0878, dis=0, dis_out=0.0315, ret=0.517, dyn=-0.0946] 36%|███▌      | 18/50 [00:16<00:06,  5.25it/s, total=18.6, f=18.6, cons=0, smooth=0, inv=0.0878, dis=0, dis_out=0.0315, ret=0.517, dyn=-0.0946] 36%|███▌      | 18/50 [00:16<00:06,  5.25it/s, total=20.6, f=20.6, cons=0, smooth=0, inv=0.093, dis=0, dis_out=0.0322, ret=0.583, dyn=-0.0996]  36%|███▌      | 18/50 [00:16<00:06,  5.25it/s, total=18.8, f=18.8, cons=0, smooth=0, inv=0.0794, dis=0, dis_out=0.0354, ret=0.475, dyn=-0.0863] 40%|████      | 20/50 [00:16<00:04,  6.21it/s, total=18.8, f=18.8, cons=0, smooth=0, inv=0.0794, dis=0, dis_out=0.0354, ret=0.475, dyn=-0.0863][idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1719 active_frac=0.5195 loss_dis=0.002524
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=2.5239624083e-03 loss_forecast_raw=1.7718433380e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4999 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=54.601929 z_dyn_sqnorm.mean=59.230423 cos_i.mean=0.096195 abs_cos_i.mean=0.096195
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1695 active_frac=0.4453 loss_dis=0.002448
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=2.4481513537e-03 loss_forecast_raw=1.6973905563e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5004 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=52.112648 z_dyn_sqnorm.mean=55.717625 cos_i.mean=0.094667 abs_cos_i.mean=0.094667
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1477 active_frac=0.2969 loss_dis=0.000943
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=9.4321963843e-04 loss_forecast_raw=1.8054864883e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5006 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=53.609085 z_dyn_sqnorm.mean=56.650124 cos_i.mean=0.081242 abs_cos_i.mean=0.081242
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1348 active_frac=0.1992 loss_dis=0.000308
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=3.0788080767e-04 loss_forecast_raw=1.7878938675e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5005 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=58.976631 z_dyn_sqnorm.mean=61.669991 cos_i.mean=0.073310 abs_cos_i.mean=0.073310
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1195 active_frac=0.1172 loss_dis=0.000141
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=1.4103582362e-04 loss_forecast_raw=1.6131908417e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5005 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=55.191109 z_dyn_sqnorm.mean=59.149437 cos_i.mean=0.064534 abs_cos_i.mean=0.064534
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1068 active_frac=0.0547 loss_dis=0.000057
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=5.6725493778e-05 loss_forecast_raw=1.5427468300e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5000 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=57.401333 z_dyn_sqnorm.mean=62.609932 cos_i.mean=0.057280 abs_cos_i.mean=0.057280
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1017 active_frac=0.0195 loss_dis=0.000032
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=3.1929004763e-05 loss_forecast_raw=1.7208393097e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5004 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=58.294319 z_dyn_sqnorm.mean=61.274475 cos_i.mean=0.054230 abs_cos_i.mean=0.054230
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0946 active_frac=0.0117 loss_dis=0.000012
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=1.1883452316e-05 loss_forecast_raw=1.8138687134e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4999 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=59.776917 z_dyn_sqnorm.mean=62.252567 cos_i.mean=0.050220 abs_cos_i.mean=0.050220
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0844 active_frac=0.0078 loss_dis=0.000003
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=2.5583901788e-06 loss_forecast_raw=1.8360160828e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4997 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=62.204391 z_dyn_sqnorm.mean=65.657051 cos_i.mean=0.044618 abs_cos_i.mean=0.044618
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0787 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.8751018524e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5004 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=60.951416 z_dyn_sqnorm.mean=63.498924 cos_i.mean=0.041429 abs_cos_i.mean=0.041429
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0735 active_frac=0.0039 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=4.3480179102e-07 loss_forecast_raw=1.8194507599e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4995 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=61.217808 z_dyn_sqnorm.mean=63.359306 cos_i.mean=0.038584 abs_cos_i.mean=0.038584
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0702 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.8241062164e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5001 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=61.855377 z_dyn_sqnorm.mean=64.241257 cos_i.mean=0.036741 abs_cos_i.mean=0.036741
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0682 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.9478710175e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4997 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=63.052250 z_dyn_sqnorm.mean=64.724747 cos_i.mean=0.035681 abs_cos_i.mean=0.035681
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0630 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.9752864838e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4994 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=66.706131 z_dyn_sqnorm.mean=68.728561 cos_i.mean=0.032878 abs_cos_i.mean=0.032878
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0612 active_frac=0.0039 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=3.2476640399e-07 loss_forecast_raw=1.9053853989e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4996 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=64.679001 z_dyn_sqnorm.mean=69.685471 cos_i.mean=0.031967 abs_cos_i.mean=0.031967
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0592 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.8500362396e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4994 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=65.549896 z_dyn_sqnorm.mean=69.122902 cos_i.mean=0.030852 abs_cos_i.mean=0.030852
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0542 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.9871501923e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4995 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=64.981827 z_dyn_sqnorm.mean=68.797974 cos_i.mean=0.028211 abs_cos_i.mean=0.028211
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0573 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.8581310272e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4995 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=64.037369 z_dyn_sqnorm.mean=67.642113 cos_i.mean=0.029847 abs_cos_i.mean=0.029847
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0510 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=2.0600158691e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4996 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=67.664368 z_dyn_sqnorm.mean=70.907257 cos_i.mean=0.026515 abs_cos_i.mean=0.026515
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0563 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.8783945084e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4991 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=57.984936 z_dyn_sqnorm.mean=62.066380 cos_i.mean=0.029295 abs_cos_i.mean=0.029295
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0550 active_frac=0.0000 loss_dis=0.000000
+ 40%|████      | 20/50 [00:16<00:04,  6.21it/s, total=18.8, f=18.8, cons=0, smooth=0, inv=0.0875, dis=0, dis_out=0.0361, ret=0.505, dyn=-0.0938] 40%|████      | 20/50 [00:16<00:04,  6.21it/s, total=19.3, f=19.3, cons=0, smooth=0, inv=0.0801, dis=0, dis_out=0.0326, ret=0.522, dyn=-0.0869] 44%|████▍     | 22/50 [00:16<00:03,  7.14it/s, total=19.3, f=19.3, cons=0, smooth=0, inv=0.0801, dis=0, dis_out=0.0326, ret=0.522, dyn=-0.0869] 44%|████▍     | 22/50 [00:17<00:03,  7.14it/s, total=25.4, f=25.4, cons=0, smooth=0, inv=0.0855, dis=0, dis_out=0.0336, ret=0.531, dyn=-0.0933] 44%|████▍     | 22/50 [00:17<00:03,  7.14it/s, total=23, f=23, cons=0, smooth=0, inv=0.081, dis=0, dis_out=0.0326, ret=0.5, dyn=-0.0891]        48%|████▊     | 24/50 [00:17<00:03,  7.99it/s, total=23, f=23, cons=0, smooth=0, inv=0.081, dis=0, dis_out=0.0326, ret=0.5, dyn=-0.0891] 48%|████▊     | 24/50 [00:17<00:03,  7.99it/s, total=25.3, f=25.3, cons=0, smooth=0, inv=0.0811, dis=0, dis_out=0.0318, ret=0.522, dyn=-0.0885] 48%|████▊     | 24/50 [00:17<00:03,  7.99it/s, total=18.8, f=18.8, cons=0, smooth=0, inv=0.0772, dis=0, dis_out=0.0331, ret=0.512, dyn=-0.085]  52%|█████▏    | 26/50 [00:17<00:02,  8.61it/s, total=18.8, f=18.8, cons=0, smooth=0, inv=0.0772, dis=0, dis_out=0.0331, ret=0.512, dyn=-0.085] 52%|█████▏    | 26/50 [00:17<00:02,  8.61it/s, total=22.4, f=22.4, cons=0, smooth=0, inv=0.0827, dis=0, dis_out=0.0328, ret=0.552, dyn=-0.0905] 52%|█████▏    | 26/50 [00:17<00:02,  8.61it/s, total=19.4, f=19.4, cons=0, smooth=0, inv=0.0785, dis=0, dis_out=0.0319, ret=0.513, dyn=-0.0857] 56%|█████▌    | 28/50 [00:17<00:02,  8.99it/s, total=19.4, f=19.4, cons=0, smooth=0, inv=0.0785, dis=0, dis_out=0.0319, ret=0.513, dyn=-0.0857] 56%|█████▌    | 28/50 [00:17<00:02,  8.99it/s, total=19.9, f=19.9, cons=0, smooth=0, inv=0.0862, dis=0, dis_out=0.0343, ret=0.555, dyn=-0.0938] 56%|█████▌    | 28/50 [00:17<00:02,  8.99it/s, total=20.4, f=20.4, cons=0, smooth=0, inv=0.0824, dis=0, dis_out=0.034, ret=0.566, dyn=-0.093]   60%|██████    | 30/50 [00:17<00:02,  9.25it/s, total=20.4, f=20.4, cons=0, smooth=0, inv=0.0824, dis=0, dis_out=0.034, ret=0.566, dyn=-0.093] 60%|██████    | 30/50 [00:17<00:02,  9.25it/s, total=18, f=18, cons=0, smooth=0, inv=0.0838, dis=0, dis_out=0.0325, ret=0.541, dyn=-0.0918]   60%|██████    | 30/50 [00:17<00:02,  9.25it/s, total=19.6, f=19.6, cons=0, smooth=0, inv=0.0803, dis=0, dis_out=0.0334, ret=0.579, dyn=-0.0897] 64%|██████▍   | 32/50 [00:17<00:01,  9.50it/s, total=19.6, f=19.6, cons=0, smooth=0, inv=0.0803, dis=0, dis_out=0.0334, ret=0.579, dyn=-0.0897] 64%|██████▍   | 32/50 [00:18<00:01,  9.50it/s, total=20, f=20, cons=0, smooth=0, inv=0.0775, dis=0, dis_out=0.0319, ret=0.519, dyn=-0.086]      64%|██████▍   | 32/50 [00:18<00:01,  9.50it/s, total=19.5, f=19.5, cons=0, smooth=0, inv=0.071, dis=0, dis_out=0.0356, ret=0.484, dyn=-0.0817] 68%|██████▊   | 34/50 [00:18<00:01,  9.68it/s, total=19.5, f=19.5, cons=0, smooth=0, inv=0.071, dis=0, dis_out=0.0356, ret=0.484, dyn=-0.0817] 68%|██████▊   | 34/50 [00:18<00:01,  9.68it/s, total=16.6, f=16.6, cons=0, smooth=0, inv=0.0698, dis=0, dis_out=0.032, ret=0.499, dyn=-0.0776] 68%|██████▊   | 34/50 [00:18<00:01,  9.68it/s, total=19.9, f=19.9, cons=0, smooth=0, inv=0.0772, dis=0, dis_out=0.0359, ret=0.464, dyn=-0.0846] 72%|███████▏  | 36/50 [00:18<00:01,  9.87it/s, total=19.9, f=19.9, cons=0, smooth=0, inv=0.0772, dis=0, dis_out=0.0359, ret=0.464, dyn=-0.0846] 72%|███████▏  | 36/50 [00:18<00:01,  9.87it/s, total=19.5, f=19.5, cons=0, smooth=0, inv=0.0726, dis=0, dis_out=0.0364, ret=0.478, dyn=-0.0813] 72%|███████▏  | 36/50 [00:18<00:01,  9.87it/s, total=20.5, f=20.5, cons=0, smooth=0, inv=0.0797, dis=0, dis_out=0.0319, ret=0.546, dyn=-0.0879] 76%|███████▌  | 38/50 [00:18<00:01, 10.05it/s, total=20.5, f=20.5, cons=0, smooth=0, inv=0.0797, dis=0, dis_out=0.0319, ret=0.546, dyn=-0.0879] 76%|███████▌  | 38/50 [00:18<00:01, 10.05it/s, total=18, f=18, cons=0, smooth=0, inv=0.0785, dis=0, dis_out=0.0347, ret=0.512, dyn=-0.0878]     76%|███████▌  | 38/50 [00:18<00:01, 10.05it/s, total=19.6, f=19.6, cons=0, smooth=0, inv=0.0745, dis=0, dis_out=0.0338, ret=0.47, dyn=-0.0832] 80%|████████  | 40/50 [00:18<00:00, 10.12it/s, total=19.6, f=19.6, cons=0, smooth=0, inv=0.0745, dis=0, dis_out=0.0338, ret=0.47, dyn=-0.0832][idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.8789825439e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4990 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=63.861420 z_dyn_sqnorm.mean=67.524918 cos_i.mean=0.028615 abs_cos_i.mean=0.028615
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0534 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.9343919754e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4995 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=58.258751 z_dyn_sqnorm.mean=62.228302 cos_i.mean=0.027780 abs_cos_i.mean=0.027780
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0538 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=2.5431377411e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4990 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=62.247627 z_dyn_sqnorm.mean=66.655884 cos_i.mean=0.027937 abs_cos_i.mean=0.027937
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0530 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=2.3017015457e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4993 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=58.977924 z_dyn_sqnorm.mean=63.796104 cos_i.mean=0.027519 abs_cos_i.mean=0.027519
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0542 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=2.5277450562e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4993 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=59.085915 z_dyn_sqnorm.mean=63.358883 cos_i.mean=0.028162 abs_cos_i.mean=0.028162
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0549 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.8770473480e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4991 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=56.197559 z_dyn_sqnorm.mean=60.703255 cos_i.mean=0.028605 abs_cos_i.mean=0.028605
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0513 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=2.2426975250e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4988 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=60.111877 z_dyn_sqnorm.mean=64.516556 cos_i.mean=0.026644 abs_cos_i.mean=0.026644
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0517 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.9448310852e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4994 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=57.168736 z_dyn_sqnorm.mean=61.283684 cos_i.mean=0.026878 abs_cos_i.mean=0.026878
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0505 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.9873189926e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4991 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=62.680370 z_dyn_sqnorm.mean=67.321365 cos_i.mean=0.026244 abs_cos_i.mean=0.026244
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0520 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=2.0420017242e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4991 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=59.738678 z_dyn_sqnorm.mean=66.121658 cos_i.mean=0.027020 abs_cos_i.mean=0.027020
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0564 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.7974380493e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4994 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=60.904835 z_dyn_sqnorm.mean=65.525757 cos_i.mean=0.029412 abs_cos_i.mean=0.029412
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0548 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.9639984131e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4989 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=58.140175 z_dyn_sqnorm.mean=63.592712 cos_i.mean=0.028537 abs_cos_i.mean=0.028537
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0562 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.9971483231e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4991 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=56.287575 z_dyn_sqnorm.mean=61.299603 cos_i.mean=0.029312 abs_cos_i.mean=0.029312
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0622 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.9547182083e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4990 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=51.556190 z_dyn_sqnorm.mean=58.424229 cos_i.mean=0.032536 abs_cos_i.mean=0.032536
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0602 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.6570549011e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4991 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=50.749432 z_dyn_sqnorm.mean=55.547920 cos_i.mean=0.031448 abs_cos_i.mean=0.031448
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0620 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.9904592514e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4997 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=56.220287 z_dyn_sqnorm.mean=60.784485 cos_i.mean=0.032397 abs_cos_i.mean=0.032397
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0638 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.9460693359e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4995 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=52.808350 z_dyn_sqnorm.mean=58.236351 cos_i.mean=0.033397 abs_cos_i.mean=0.033397
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0579 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=2.0513614655e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4990 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=57.850113 z_dyn_sqnorm.mean=62.711040 cos_i.mean=0.030221 abs_cos_i.mean=0.030221
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0602 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.7954126358e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4990 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=57.000786 z_dyn_sqnorm.mean=62.744690 cos_i.mean=0.031425 abs_cos_i.mean=0.031425
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0649 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.9594074249e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4993 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=54.125244 z_dyn_sqnorm.mean=59.373081 cos_i.mean=0.033989 abs_cos_i.mean=0.033989
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0575 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.9031497955e+01
+ 80%|████████  | 40/50 [00:18<00:00, 10.12it/s, total=19, f=19, cons=0, smooth=0, inv=0.0764, dis=0, dis_out=0.034, ret=0.547, dyn=-0.086]      80%|████████  | 40/50 [00:18<00:00, 10.12it/s, total=21.4, f=21.4, cons=0, smooth=0, inv=0.0768, dis=0, dis_out=0.0323, ret=0.491, dyn=-0.0855] 84%|████████▍ | 42/50 [00:18<00:00, 10.25it/s, total=21.4, f=21.4, cons=0, smooth=0, inv=0.0768, dis=0, dis_out=0.0323, ret=0.491, dyn=-0.0855] 84%|████████▍ | 42/50 [00:19<00:00, 10.25it/s, total=19.7, f=19.7, cons=0, smooth=0, inv=0.0684, dis=0, dis_out=0.0329, ret=0.476, dyn=-0.0775] 84%|████████▍ | 42/50 [00:19<00:00, 10.25it/s, total=21.8, f=21.8, cons=0, smooth=0, inv=0.0727, dis=0, dis_out=0.0339, ret=0.48, dyn=-0.0817]  88%|████████▊ | 44/50 [00:19<00:00, 10.07it/s, total=21.8, f=21.8, cons=0, smooth=0, inv=0.0727, dis=0, dis_out=0.0339, ret=0.48, dyn=-0.0817] 88%|████████▊ | 44/50 [00:19<00:00, 10.07it/s, total=19.1, f=19.1, cons=0, smooth=0, inv=0.0739, dis=0, dis_out=0.0297, ret=0.51, dyn=-0.0822] 88%|████████▊ | 44/50 [00:19<00:00, 10.07it/s, total=17.3, f=17.3, cons=0, smooth=0, inv=0.0728, dis=0, dis_out=0.0334, ret=0.495, dyn=-0.0816] 92%|█████████▏| 46/50 [00:19<00:00, 10.12it/s, total=17.3, f=17.3, cons=0, smooth=0, inv=0.0728, dis=0, dis_out=0.0334, ret=0.495, dyn=-0.0816] 92%|█████████▏| 46/50 [00:19<00:00, 10.12it/s, total=18, f=18, cons=0, smooth=0, inv=0.0765, dis=0, dis_out=0.0346, ret=0.501, dyn=-0.0833]     92%|█████████▏| 46/50 [00:19<00:00, 10.12it/s, total=21.3, f=21.3, cons=0, smooth=0, inv=0.0734, dis=0, dis_out=0.0328, ret=0.45, dyn=-0.0778] 96%|█████████▌| 48/50 [00:19<00:00, 10.02it/s, total=21.3, f=21.3, cons=0, smooth=0, inv=0.0734, dis=0, dis_out=0.0328, ret=0.45, dyn=-0.0778] 96%|█████████▌| 48/50 [00:19<00:00, 10.02it/s, total=21.7, f=21.7, cons=0, smooth=0, inv=0.0735, dis=0, dis_out=0.0319, ret=0.513, dyn=-0.0823] 96%|█████████▌| 48/50 [00:19<00:00, 10.02it/s, total=18.8, f=18.8, cons=0, smooth=0, inv=0.0703, dis=0, dis_out=0.0309, ret=0.45, dyn=-0.0767] 100%|██████████| 50/50 [00:19<00:00,  9.73it/s, total=18.8, f=18.8, cons=0, smooth=0, inv=0.0703, dis=0, dis_out=0.0309, ret=0.45, dyn=-0.0767]100%|██████████| 50/50 [00:19<00:00,  2.53it/s, total=18.8, f=18.8, cons=0, smooth=0, inv=0.0703, dis=0, dis_out=0.0309, ret=0.45, dyn=-0.0767]
+[idf_clean_dis_v3_gamma] gamma.mean=0.4987 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=55.281174 z_dyn_sqnorm.mean=61.284187 cos_i.mean=0.029995 abs_cos_i.mean=0.029995
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0624 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=2.1418292999e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4996 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=55.824776 z_dyn_sqnorm.mean=61.251827 cos_i.mean=0.032671 abs_cos_i.mean=0.032671
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0633 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.9693111420e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4993 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=49.579494 z_dyn_sqnorm.mean=55.268456 cos_i.mean=0.033149 abs_cos_i.mean=0.033149
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0598 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=2.1755739212e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4998 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=52.716793 z_dyn_sqnorm.mean=58.309837 cos_i.mean=0.031252 abs_cos_i.mean=0.031252
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0592 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.9118116379e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4994 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=53.391300 z_dyn_sqnorm.mean=58.399513 cos_i.mean=0.030881 abs_cos_i.mean=0.030881
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0647 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.7338556290e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4999 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=52.765160 z_dyn_sqnorm.mean=58.096607 cos_i.mean=0.033952 abs_cos_i.mean=0.033952
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0606 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.8011283875e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4999 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=55.465351 z_dyn_sqnorm.mean=59.355766 cos_i.mean=0.031662 abs_cos_i.mean=0.031662
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0651 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=2.1311796188e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4992 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=53.356049 z_dyn_sqnorm.mean=55.775307 cos_i.mean=0.034086 abs_cos_i.mean=0.034086
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0622 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=2.1664070129e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4994 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=53.187611 z_dyn_sqnorm.mean=58.485764 cos_i.mean=0.032562 abs_cos_i.mean=0.032562
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0653 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=1000 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.8845695496e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.4999 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=51.106285 z_dyn_sqnorm.mean=54.927925 cos_i.mean=0.034165 abs_cos_i.mean=0.034165
+	iters: 50 | loss: 19.4857511
+	speed: 2.0786s/iter
+lr = 0.0002981533
+training finished
+✅ IDF checkpoint saved to checkpoints/smoke_idf_clean_dis_v3_fixed_sanity50/idf_clean_dis_v3_fixed_sanity50_final.pth
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /home/fenglei/TS-RAG-main/TS-RAG/wandb/offline-run-20260913_212744-lrkt3kl3[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/offline-run-20260913_212744-lrkt3kl3/logs[0m

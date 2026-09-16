@@ -1,0 +1,8 @@
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_v3
+mse:0.0000, std:0.0000 ---- mae:0.0000, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_v3
+mse:0.0000, std:0.0000 ---- mae:0.0000, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_v4
+mse:0.0000, std:0.0000 ---- mae:0.0000, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis_v4
+mse:0.0000, std:0.0000 ---- mae:0.0000, std:0.0000
