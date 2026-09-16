@@ -1,0 +1,8 @@
+[overnight_tau_probe_tau5] tau=5 第1次训练尝试开始: 2026年 09月 15日 星期二 17:27:11 CST
+overnight_tau_probe_full.sh: 第 49 行： 2354830 已杀死               python3 pretrain.py --model_id "$MODEL_ID" --model ChronosBoltRetrieve --top_k 10 --retrieve_lookback_length 512 --retrieval_database_path /home/fenglei/TS-RAG-main/retrieval_database/pretrain/retrieval_database_512.parquet --augment_mode idf_clean_dis_v4 --pretrained_model_path /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/base/ --context_length 512 --prediction_length 64 --data_path /home/fenglei/TS-RAG-main/datasets/pretrain/pretrain_pairs_ctx512 --train_steps 10000 --evaluation_steps 10000 --optimizer adamw --learning_rate 0.0003 --weight_decay 0.01 --tmax 20 --drop_prob 0.2 --batch_size 256 --grad_clip_value 1.0 --shuffle_buffer_length 2000 --rho1 0 --rho2 1000 --rho3 0 --rho4 0 --dyn_margin 1.0 --aux_loss_detach_ret true --tau_dis 0.17 --lambda_sem 0 --lambda_ord 0.01 --ord_margin 0.05 --tau "$TAU_VALUE" --freeze_chronos_bolt --init_from_checkpoint "$V3_CKPT" --checkpoints "$CKPT_DIR" > "logs/${MODEL_ID}_attempt${attempt}.log" 2>&1
+[overnight_tau_probe_tau5] tau=5 第1次训练失败(无checkpoint)，1800秒后重试: 2026年 09月 15日 星期二 17:32:04 CST
+[overnight_tau_probe_tau5] tau=5 第2次训练尝试开始: 2026年 09月 15日 星期二 18:02:04 CST
+[overnight_tau_probe_tau5] tau=5 训练成功(第2次): 2026年 09月 15日 星期二 18:21:33 CST
+[overnight_tau_probe_tau5] tau=5 第1次评测尝试开始: 2026年 09月 15日 星期二 18:21:33 CST
+[overnight_tau_probe_tau5] tau=5 评测成功(第1次): 2026年 09月 15日 星期二 18:27:38 CST
+==== overnight_tau_probe_tau5(tau=5) 全部完成: 2026年 09月 15日 星期二 18:27:38 CST ====

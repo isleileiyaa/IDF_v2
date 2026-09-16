@@ -1,0 +1,54 @@
+Some weights of ChronosBoltModelForForecastingWithRetrieval were not initialized from the model checkpoint at /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/base/ and are newly initialized: ['dyn_aux_backproj.bias', 'dyn_aux_backproj.weight', 'dyn_pred_head_clean.bias', 'dyn_pred_head_clean.weight', 'encode_mlp.0.bias', 'encode_mlp.0.weight', 'encode_mlp.2.bias', 'encode_mlp.2.weight', 'final_pred_head.bias', 'final_pred_head.weight', 'fuse_gate.bias', 'fuse_gate.weight', 'inv_aux_backproj.bias', 'inv_aux_backproj.weight', 'inv_pred_head.bias', 'inv_pred_head.weight', 'ret_score_head.bias', 'ret_score_head.weight', 'routing_gate.bias', 'routing_gate.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Passing a tuple of `past_key_values` is deprecated and will be removed in Transformers v4.48.0. You should pass an instance of `EncoderDecoderCache` instead, e.g. `past_key_values=EncoderDecoderCache.from_legacy_cache(past_key_values)`.
+使用设备: cuda:0
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis
+augment_mode=idf_clean_dis_v4, retrieval_mode=embedding
+best_model_path: /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/smoke_idf_clean_dis_v4_lambda20_300v2/smoke_idf_clean_dis_v4_lambda20_300v2_final.pth
+----------retrieval for ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_clean_dis has done!!----------
+retrieved_data_path = /home/fenglei/TS-RAG-main/datasets/ETT-small/ETTh1_retrieve_ETTh1_512_only_self_train_None.csv
+2 (3392, 7)
+self.enc_in = 7
+self.data_x = (3392, 7)
+eval_split = test
+Loaded checkpoint: /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/smoke_idf_clean_dis_v4_lambda20_300v2/smoke_idf_clean_dis_v4_lambda20_300v2_final.pth
+Missing keys: []
+Unexpected keys: []
+------------------------------------
+mse_mean = 0.0000, mse_std = 0.0000
+mae_mean = 0.0000, mae_std = 0.0000
+MSE: 0.0000
+MAE: 0.0000
+gamma_dump_tmp.txt
+
+=== dataset: ETTh1 ===
+=== gamma tensor shape: (32, 768) ===
+gamma dtype: torch.float32, device: cuda:0
+
+--- global stats over all (B, d_model) entries ---
+mean=0.5050  std=0.4795  min=0.0000  max=1.0000
+fraction near 0 (<0.1): 0.4510
+fraction near 1 (>0.9): 0.4655
+fraction in between:    0.0835
+fraction near 0 (<0.05): 0.4324
+fraction near 1 (>0.95): 0.4486
+saturation_frac(<0.05 or >0.95): 0.8810
+saturation_frac(<0.1 or >0.9):   0.9165
+
+--- per-sample mean gamma (avg over d_model), first 10 samples ---
+sample 0: mean(gamma)=0.5030
+sample 1: mean(gamma)=0.5030
+sample 2: mean(gamma)=0.5012
+sample 3: mean(gamma)=0.5028
+sample 4: mean(gamma)=0.5062
+sample 5: mean(gamma)=0.5081
+sample 6: mean(gamma)=0.5099
+sample 7: mean(gamma)=0.5078
+sample 8: mean(gamma)=0.5080
+sample 9: mean(gamma)=0.5078
+
+--- gamma vector for sample 0, first 20 dims ---
+[0.0059 0.     1.     0.0015 0.9144 1.     0.0059 0.2491 0.0001 0.
+ 0.8081 0.9976 0.     0.9986 0.9977 0.     0.0044 0.0001 1.     0.0015]
+
+Saved full gamma tensor to /tmp/gamma_values_ETTh1.npy, shape (32, 768)

@@ -1,0 +1,20 @@
+==== overnight_gpu1 开始: 2026年 09月 14日 星期一 22:36:11 CST ====
+[overnight_gpu1] rho_ord=0.0001 第1次训练尝试开始: 2026年 09月 14日 星期一 22:36:11 CST
+[overnight_gpu1] rho_ord=0.0001 训练成功(第1次): 2026年 09月 14日 星期一 22:56:37 CST
+[overnight_gpu1] rho_ord=0.0001 第1次评测尝试开始: 2026年 09月 14日 星期一 22:56:37 CST
+[overnight_gpu1] rho_ord=0.0001 评测成功(第1次): 2026年 09月 14日 星期一 23:02:15 CST
+[overnight_gpu1] rho_ord=0.01 第1次训练尝试开始: 2026年 09月 14日 星期一 23:02:15 CST
+[overnight_gpu1] rho_ord=0.01 训练成功(第1次): 2026年 09月 14日 星期一 23:20:26 CST
+[overnight_gpu1] rho_ord=0.01 第1次评测尝试开始: 2026年 09月 14日 星期一 23:20:26 CST
+[overnight_gpu1] rho_ord=0.01 评测成功(第1次): 2026年 09月 14日 星期一 23:26:54 CST
+[overnight_gpu1] rho_ord=0.1 第1次训练尝试开始: 2026年 09月 14日 星期一 23:26:54 CST
+[overnight_gpu1] rho_ord=0.1 第1次训练失败(无checkpoint，大概率被资源争抢杀掉)，3600秒后重试: 2026年 09月 14日 星期一 23:38:32 CST
+[overnight_gpu1] rho_ord=0.1 第2次训练尝试开始: 2026年 09月 15日 星期二 00:38:32 CST
+[overnight_gpu1] rho_ord=0.1 训练成功(第2次): 2026年 09月 15日 星期二 00:56:20 CST
+[overnight_gpu1] rho_ord=0.1 第1次评测尝试开始: 2026年 09月 15日 星期二 00:56:20 CST
+[overnight_gpu1] rho_ord=0.1 评测成功(第1次): 2026年 09月 15日 星期二 01:01:54 CST
+[overnight_gpu1] rho_ord=1.0 第1次训练尝试开始: 2026年 09月 15日 星期二 01:01:54 CST
+[overnight_gpu1] rho_ord=1.0 训练成功(第1次): 2026年 09月 15日 星期二 01:19:40 CST
+[overnight_gpu1] rho_ord=1.0 第1次评测尝试开始: 2026年 09月 15日 星期二 01:19:40 CST
+[overnight_gpu1] rho_ord=1.0 评测成功(第1次): 2026年 09月 15日 星期二 01:25:56 CST
+==== overnight_gpu1 全部完成: 2026年 09月 15日 星期二 01:25:56 CST ====

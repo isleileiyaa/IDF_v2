@@ -1,0 +1,106 @@
+wandb: Tracking run with wandb version 0.19.10
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+ChronosBoltRetrieve model loaded
+[gamma_diag] 从 checkpoints/idf_clean_dis_v3_full10000_tau020/idf_clean_dis_v3_full10000_tau020_final.pth 加载已训练权重完成 (missing=0, unexpected=0)
+[gamma_diag] missing keys 示例: []
+[gamma_diag] unexpected keys 示例: []
+Trainable parameters:
+encode_mlp.0.weight
+encode_mlp.0.bias
+encode_mlp.2.weight
+encode_mlp.2.bias
+ret_score_head.weight
+ret_score_head.bias
+fuse_gate.weight
+fuse_gate.bias
+routing_gate.weight
+routing_gate.bias
+inv_pred_head.weight
+inv_pred_head.bias
+dyn_pred_head_clean.weight
+dyn_pred_head_clean.bias
+final_pred_head.weight
+final_pred_head.bias
+  0%|          | 0/10000 [00:00<?, ?it/s]Passing a tuple of `past_key_values` is deprecated and will be removed in Transformers v4.48.0. You should pass an instance of `EncoderDecoderCache` instead, e.g. `past_key_values=EncoderDecoderCache.from_legacy_cache(past_key_values)`.
+  0%|          | 0/10000 [00:15<?, ?it/s, total=17.9, f=17.9, cons=0, smooth=0, inv=0.0779, dis=0, dis_out=0.0301, ret=0.293, dyn=-0.0831]  0%|          | 1/10000 [00:15<43:53:36, 15.80s/it, total=17.9, f=17.9, cons=0, smooth=0, inv=0.0779, dis=0, dis_out=0.0301, ret=0.293, dyn=-0.0831]  0%|          | 1/10000 [00:15<43:53:36, 15.80s/it, total=16.9, f=16.9, cons=0, smooth=0, inv=0.0729, dis=0, dis_out=0.0307, ret=0.258, dyn=-0.0771]  0%|          | 2/10000 [00:15<18:14:34,  6.57s/it, total=16.9, f=16.9, cons=0, smooth=0, inv=0.0729, dis=0, dis_out=0.0307, ret=0.258, dyn=-0.0771]  0%|          | 2/10000 [00:15<18:14:34,  6.57s/it, total=18, f=18, cons=0, smooth=0, inv=0.0742, dis=0, dis_out=0.0301, ret=0.282, dyn=-0.0777]      0%|          | 2/10000 [00:16<18:14:34,  6.57s/it, total=17.6, f=17.6, cons=0, smooth=0, inv=0.0804, dis=0, dis_out=0.0317, ret=0.282, dyn=-0.0836]  0%|          | 4/10000 [00:16<6:58:04,  2.51s/it, total=17.6, f=17.6, cons=0, smooth=0, inv=0.0804, dis=0, dis_out=0.0317, ret=0.282, dyn=-0.0836]   0%|          | 4/10000 [00:16<6:58:04,  2.51s/it, total=16.1, f=16.1, cons=0, smooth=0, inv=0.0745, dis=0, dis_out=0.0276, ret=0.293, dyn=-0.0797]  0%|          | 4/10000 [00:16<6:58:04,  2.51s/it, total=15.3, f=15.3, cons=0, smooth=0, inv=0.0771, dis=0, dis_out=0.0295, ret=0.334, dyn=-0.0833]  0%|          | 6/10000 [00:16<3:48:18,  1.37s/it, total=15.3, f=15.3, cons=0, smooth=0, inv=0.0771, dis=0, dis_out=0.0295, ret=0.334, dyn=-0.0833]  0%|          | 6/10000 [00:16<3:48:18,  1.37s/it, total=17.2, f=17.2, cons=0, smooth=0, inv=0.0771, dis=0, dis_out=0.0318, ret=0.289, dyn=-0.0801]  0%|          | 6/10000 [00:16<3:48:18,  1.37s/it, total=18.1, f=18.1, cons=0, smooth=0, inv=0.078, dis=0, dis_out=0.0301, ret=0.289, dyn=-0.0806]   0%|          | 8/10000 [00:16<2:22:53,  1.17it/s, total=18.1, f=18.1, cons=0, smooth=0, inv=0.078, dis=0, dis_out=0.0301, ret=0.289, dyn=-0.0806]  0%|          | 8/10000 [00:16<2:22:53,  1.17it/s, total=18.2, f=18.2, cons=0, smooth=0, inv=0.0816, dis=0, dis_out=0.0324, ret=0.347, dyn=-0.085]  0%|          | 8/10000 [00:16<2:22:53,  1.17it/s, total=18.6, f=18.6, cons=0, smooth=0, inv=0.0797, dis=0, dis_out=0.0302, ret=0.342, dyn=-0.0813]  0%|          | 10/10000 [00:16<1:36:25,  1.73it/s, total=18.6, f=18.6, cons=0, smooth=0, inv=0.0797, dis=0, dis_out=0.0302, ret=0.342, dyn=-0.0813]  0%|          | 10/10000 [00:16<1:36:25,  1.73it/s, total=18.2, f=18.2, cons=0, smooth=0, inv=0.0795, dis=0, dis_out=0.0313, ret=0.352, dyn=-0.0812]  0%|          | 10/10000 [00:16<1:36:25,  1.73it/s, total=18.2, f=18.2, cons=0, smooth=0, inv=0.08, dis=0, dis_out=0.0292, ret=0.356, dyn=-0.0824]    0%|          | 12/10000 [00:16<1:09:17,  2.40it/s, total=18.2, f=18.2, cons=0, smooth=0, inv=0.08, dis=0, dis_out=0.0292, ret=0.356, dyn=-0.0824]  0%|          | 12/10000 [00:16<1:09:17,  2.40it/s, total=19.4, f=19.4, cons=0, smooth=0, inv=0.0817, dis=0, dis_out=0.0293, ret=0.341, dyn=-0.0823]  0%|          | 12/10000 [00:17<1:09:17,  2.40it/s, total=19.6, f=19.6, cons=0, smooth=0, inv=0.0851, dis=0, dis_out=0.0278, ret=0.381, dyn=-0.0876]  0%|          | 14/10000 [00:17<51:49,  3.21it/s, total=19.6, f=19.6, cons=0, smooth=0, inv=0.0851, dis=0, dis_out=0.0278, ret=0.381, dyn=-0.0876]    0%|          | 14/10000 [00:17<3:26:10,  1.24s/it, total=19.6, f=19.6, cons=0, smooth=0, inv=0.0851, dis=0, dis_out=0.0278, ret=0.381, dyn=-0.0876]
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0987 active_frac=0.0234 loss_dis=0.000001
+[idf_clean_dis_v3_ratio] rho2=0.01 loss_dis_raw=7.3032725822e-07 loss_forecast_raw=1.7903680801e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5082 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=56.889229 z_dyn_sqnorm.mean=60.339333 cos_i.mean=0.052594 abs_cos_i.mean=0.052594
+[gamma_diag] batch=0 gamma.mean=0.5082 frac<0.1=0.4280 frac>0.9=0.4446 saturation_frac(<0.1 or >0.9)=0.8726
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1017 active_frac=0.0117 loss_dis=0.000001
+[idf_clean_dis_v3_ratio] rho2=0.01 loss_dis_raw=1.4425121435e-06 loss_forecast_raw=1.6937772751e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5088 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=53.287231 z_dyn_sqnorm.mean=56.063019 cos_i.mean=0.054223 abs_cos_i.mean=0.054223
+[gamma_diag] batch=1 gamma.mean=0.5088 frac<0.1=0.4252 frac>0.9=0.4428 saturation_frac(<0.1 or >0.9)=0.8680
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0974 active_frac=0.0117 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=0.01 loss_dis_raw=1.9496726011e-08 loss_forecast_raw=1.7965393066e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5090 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=54.199123 z_dyn_sqnorm.mean=56.461052 cos_i.mean=0.051775 abs_cos_i.mean=0.051775
+[gamma_diag] batch=2 gamma.mean=0.5090 frac<0.1=0.4276 frac>0.9=0.4451 saturation_frac(<0.1 or >0.9)=0.8727
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1021 active_frac=0.0039 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=0.01 loss_dis_raw=2.0019001568e-07 loss_forecast_raw=1.7643844604e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5088 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=58.548668 z_dyn_sqnorm.mean=60.656227 cos_i.mean=0.054337 abs_cos_i.mean=0.054337
+[gamma_diag] batch=3 gamma.mean=0.5088 frac<0.1=0.4279 frac>0.9=0.4447 saturation_frac(<0.1 or >0.9)=0.8726
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0984 active_frac=0.0039 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=0.01 loss_dis_raw=4.4838222379e-07 loss_forecast_raw=1.6107057571e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5086 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=54.388344 z_dyn_sqnorm.mean=57.812263 cos_i.mean=0.052349 abs_cos_i.mean=0.052349
+[gamma_diag] batch=4 gamma.mean=0.5086 frac<0.1=0.4288 frac>0.9=0.4460 saturation_frac(<0.1 or >0.9)=0.8748
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0976 active_frac=0.0078 loss_dis=0.000001
+[idf_clean_dis_v3_ratio] rho2=0.01 loss_dis_raw=7.6646529124e-07 loss_forecast_raw=1.5306339264e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5085 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=55.966709 z_dyn_sqnorm.mean=60.220818 cos_i.mean=0.052018 abs_cos_i.mean=0.052018
+[gamma_diag] batch=5 gamma.mean=0.5085 frac<0.1=0.4297 frac>0.9=0.4470 saturation_frac(<0.1 or >0.9)=0.8767
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1003 active_frac=0.0078 loss_dis=0.000001
+[idf_clean_dis_v3_ratio] rho2=0.01 loss_dis_raw=1.0556414054e-06 loss_forecast_raw=1.7189208984e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5088 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=56.246998 z_dyn_sqnorm.mean=58.248852 cos_i.mean=0.053371 abs_cos_i.mean=0.053371
+[gamma_diag] batch=6 gamma.mean=0.5088 frac<0.1=0.4293 frac>0.9=0.4467 saturation_frac(<0.1 or >0.9)=0.8760
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.1020 active_frac=0.0117 loss_dis=0.000001
+[idf_clean_dis_v3_ratio] rho2=0.01 loss_dis_raw=6.2647126242e-07 loss_forecast_raw=1.8098430634e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5083 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=56.932007 z_dyn_sqnorm.mean=58.451786 cos_i.mean=0.054334 abs_cos_i.mean=0.054334
+[gamma_diag] batch=7 gamma.mean=0.5083 frac<0.1=0.4287 frac>0.9=0.4456 saturation_frac(<0.1 or >0.9)=0.8743
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0966 active_frac=0.0078 loss_dis=0.000001
+[idf_clean_dis_v3_ratio] rho2=0.01 loss_dis_raw=9.6658641269e-07 loss_forecast_raw=1.8209276199e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5080 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=59.379097 z_dyn_sqnorm.mean=61.594116 cos_i.mean=0.051417 abs_cos_i.mean=0.051417
+[gamma_diag] batch=8 gamma.mean=0.5080 frac<0.1=0.4321 frac>0.9=0.4479 saturation_frac(<0.1 or >0.9)=0.8800
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0966 active_frac=0.0078 loss_dis=0.000001
+[idf_clean_dis_v3_ratio] rho2=0.01 loss_dis_raw=5.2155485264e-07 loss_forecast_raw=1.8616701126e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5088 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=58.095684 z_dyn_sqnorm.mean=58.899445 cos_i.mean=0.051434 abs_cos_i.mean=0.051434
+[gamma_diag] batch=9 gamma.mean=0.5088 frac<0.1=0.4306 frac>0.9=0.4484 saturation_frac(<0.1 or >0.9)=0.8790
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0950 active_frac=0.0039 loss_dis=0.000001
+[idf_clean_dis_v3_ratio] rho2=0.01 loss_dis_raw=8.1459199919e-07 loss_forecast_raw=1.8169994354e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5083 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=57.934750 z_dyn_sqnorm.mean=58.829613 cos_i.mean=0.050466 abs_cos_i.mean=0.050466
+[gamma_diag] batch=10 gamma.mean=0.5083 frac<0.1=0.4320 frac>0.9=0.4495 saturation_frac(<0.1 or >0.9)=0.8815
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0948 active_frac=0.0039 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=0.01 loss_dis_raw=3.4616010058e-09 loss_forecast_raw=1.8174753189e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5088 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=58.145748 z_dyn_sqnorm.mean=59.712654 cos_i.mean=0.050338 abs_cos_i.mean=0.050338
+[gamma_diag] batch=11 gamma.mean=0.5088 frac<0.1=0.4323 frac>0.9=0.4504 saturation_frac(<0.1 or >0.9)=0.8827
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0943 active_frac=0.0078 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=0.01 loss_dis_raw=1.4828381723e-07 loss_forecast_raw=1.9378322601e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5088 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=59.544434 z_dyn_sqnorm.mean=59.723072 cos_i.mean=0.050061 abs_cos_i.mean=0.050061
+[gamma_diag] batch=12 gamma.mean=0.5088 frac<0.1=0.4307 frac>0.9=0.4493 saturation_frac(<0.1 or >0.9)=0.8800
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0885 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=0.01 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.9572334290e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5084 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=62.001961 z_dyn_sqnorm.mean=63.353424 cos_i.mean=0.046848 abs_cos_i.mean=0.046848
+[gamma_diag] batch=13 gamma.mean=0.5084 frac<0.1=0.4331 frac>0.9=0.4512 saturation_frac(<0.1 or >0.9)=0.8842
+[idf_clean_dis_v3] tau=0.1700 r_i.mean=0.0870 active_frac=0.0000 loss_dis=0.000000
+[idf_clean_dis_v3_ratio] rho2=0.01 loss_dis_raw=0.0000000000e+00 loss_forecast_raw=1.8895038605e+01
+[idf_clean_dis_v3_gamma] gamma.mean=0.5085 frac_near_0(<0.05)=0.0000 frac_near_1(>0.95)=0.0000
+[idf_clean_dis_v3_norm] z_inv_sqnorm.mean=61.060349 z_dyn_sqnorm.mean=64.696487 cos_i.mean=0.046135 abs_cos_i.mean=0.046135
+[gamma_diag] batch=14 gamma.mean=0.5085 frac<0.1=0.4368 frac>0.9=0.4545 saturation_frac(<0.1 or >0.9)=0.8913
+[gamma_diag_FINAL] n_samples=2949120 gamma.mean=0.5086 saturation_frac(<0.1 or >0.9)=0.8778
+=== 诊断结束，退出（不执行backward/optimizer.step）===
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /home/fenglei/TS-RAG-main/TS-RAG/wandb/offline-run-20260914_155148-mem5pteo[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/offline-run-20260914_155148-mem5pteo/logs[0m

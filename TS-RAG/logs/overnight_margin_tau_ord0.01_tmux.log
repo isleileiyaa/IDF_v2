@@ -1,0 +1,7 @@
+[overnight_additive_ord_fromscratch lambda_ord=0.01] 第1次训练尝试开始: 2026年 09月 16日 星期三 15:50:43 CST
+[overnight_additive_ord_fromscratch lambda_ord=0.01] 第1次训练失败(无checkpoint)，1800秒后重试: 2026年 09月 16日 星期三 16:01:09 CST
+[overnight_additive_ord_fromscratch lambda_ord=0.01] 第1次训练尝试开始: 2026年 09月 16日 星期三 16:21:10 CST
+[overnight_additive_ord_fromscratch lambda_ord=0.01] 训练成功(第1次): 2026年 09月 16日 星期三 16:34:57 CST
+[overnight_additive_ord_fromscratch lambda_ord=0.01] 第1次评测尝试开始: 2026年 09月 16日 星期三 16:34:57 CST
+[overnight_additive_ord_fromscratch lambda_ord=0.01] 评测成功(第1次): 2026年 09月 16日 星期三 16:38:49 CST
+==== overnight_additive_ord_fromscratch lambda_ord=0.01 全部完成: 2026年 09月 16日 星期三 16:38:49 CST ====

@@ -1,0 +1,22 @@
+==================================================================
+[v3_seed2022] 开始: 2026年 09月 14日 星期一 10:05:29 CST
+==================================================================
+[v3_seed2022] 开始训练 baseline(seed2022)，日志: logs/v3_seed2022_train_baseline.log
+[v3_seed2022] baseline(seed2022) 训练退出码: 0
+[v3_seed2022] 开始评测 baseline (augment_mode=idf_clean_dis)，日志: logs/v3_seed2022_eval_baseline.log
+[v3_seed2022] 评测 baseline 退出码: 0
+[v3_seed2022] 开始训练 tau=0.20(seed2022)，日志: logs/v3_seed2022_train_tau020.log
+[v3_seed2022] tau=0.20(seed2022) 训练退出码: 0
+[v3_seed2022] 开始评测 tau020 (augment_mode=idf_clean_dis_v3)，日志: logs/v3_seed2022_eval_tau020.log
+[v3_seed2022] 评测 tau020 退出码: 0
+[v3_seed2022] 开始训练 tau=0.17(seed2022)，日志: logs/v3_seed2022_train_tau017.log
+[v3_seed2022] tau=0.17(seed2022) 训练退出码: 0
+[v3_seed2022] 开始评测 tau017 (augment_mode=idf_clean_dis_v3)，日志: logs/v3_seed2022_eval_tau017.log
+[v3_seed2022] 评测 tau017 退出码: 0
+[v3_seed2022] 开始训练 tau=0.13(seed2022)，日志: logs/v3_seed2022_train_tau013.log
+[v3_seed2022] tau=0.13(seed2022) 训练退出码: 0
+[v3_seed2022] 开始评测 tau013 (augment_mode=idf_clean_dis_v3)，日志: logs/v3_seed2022_eval_tau013.log
+[v3_seed2022] 评测 tau013 退出码: 0
+==================================================================
+[v3_seed2022] 全部完成: 2026年 09月 14日 星期一 12:49:43 CST
+==================================================================

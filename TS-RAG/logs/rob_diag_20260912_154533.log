@@ -1,0 +1,40 @@
+wandb: Tracking run with wandb version 0.19.10
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+ChronosBoltRetrieve model loaded
+[RIDDE_rob] 从 checkpoints/smoke_ridde_rob/data50m_idf_trr_dualpath_learnfuse_rob_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_lambdasep0.0_lambdarob0.1_final.pth 加载已训练权重完成 (missing=0, unexpected=0)
+[RIDDE_rob] missing keys 示例: []
+[RIDDE_rob] unexpected keys 示例: []
+[RIDDE_rob] f_0(TrueBase)从 checkpoints/truebase_rerun/data50m_baseline_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_seed2021_final.pth 加载完成 (missing=0, unexpected=0)
+[RIDDE_rob] lambda_rob>0: 从可训练列表移除 {'ret_score_head', 'encode_mlp'}(参考权重omega固定,不再训练)
+Trainable parameters:
+P_inv.0.weight
+P_inv.0.bias
+P_inv.2.weight
+P_inv.2.bias
+P_dyn.0.weight
+P_dyn.0.bias
+P_dyn.2.weight
+P_dyn.2.bias
+f_inv.weight
+f_inv.bias
+f_dyn.weight
+f_dyn.bias
+final_pred_head.weight
+final_pred_head.bias
+  0%|          | 0/50 [00:00<?, ?it/s]Passing a tuple of `past_key_values` is deprecated and will be removed in Transformers v4.48.0. You should pass an instance of `EncoderDecoderCache` instead, e.g. `past_key_values=EncoderDecoderCache.from_legacy_cache(past_key_values)`.
+  0%|          | 0/50 [00:08<?, ?it/s, total=17.8, f=17.7, rob=1.43, rob_af=0.0508, rob_kl=0.02]  2%|▏         | 1/50 [00:08<06:54,  8.46s/it, total=17.8, f=17.7, rob=1.43, rob_af=0.0508, rob_kl=0.02]  2%|▏         | 1/50 [00:08<06:54,  8.46s/it, total=17.6, f=17.5, rob=1.81, rob_af=0.0547, rob_kl=0.02]  4%|▍         | 2/50 [00:08<02:51,  3.58s/it, total=17.6, f=17.5, rob=1.81, rob_af=0.0547, rob_kl=0.02]  4%|▍         | 2/50 [00:08<02:51,  3.58s/it, total=18.3, f=18.2, rob=1.25, rob_af=0.0625, rob_kl=0.02]  6%|▌         | 3/50 [00:08<01:34,  2.01s/it, total=18.3, f=18.2, rob=1.25, rob_af=0.0625, rob_kl=0.02]  6%|▌         | 3/50 [00:08<01:34,  2.01s/it, total=17.7, f=17.7, rob=0.645, rob_af=0.0625, rob_kl=0.02]  8%|▊         | 4/50 [00:08<00:58,  1.28s/it, total=17.7, f=17.7, rob=0.645, rob_af=0.0625, rob_kl=0.02]  8%|▊         | 4/50 [00:09<00:58,  1.28s/it, total=16.6, f=16.5, rob=1.03, rob_af=0.0469, rob_kl=0.02]  10%|█         | 5/50 [00:09<00:39,  1.15it/s, total=16.6, f=16.5, rob=1.03, rob_af=0.0469, rob_kl=0.02] 10%|█         | 5/50 [00:09<00:39,  1.15it/s, total=15.5, f=15.4, rob=0.887, rob_af=0.0469, rob_kl=0.02] 12%|█▏        | 6/50 [00:09<00:27,  1.60it/s, total=15.5, f=15.4, rob=0.887, rob_af=0.0469, rob_kl=0.02] 12%|█▏        | 6/50 [00:09<00:27,  1.60it/s, total=17.3, f=17.3, rob=0.662, rob_af=0.0547, rob_kl=0.02] 14%|█▍        | 7/50 [00:09<00:20,  2.14it/s, total=17.3, f=17.3, rob=0.662, rob_af=0.0547, rob_kl=0.02] 14%|█▍        | 7/50 [00:09<00:20,  2.14it/s, total=18.5, f=18.4, rob=0.928, rob_af=0.0586, rob_kl=0.02] 16%|█▌        | 8/50 [00:09<00:15,  2.73it/s, total=18.5, f=18.4, rob=0.928, rob_af=0.0586, rob_kl=0.02] 16%|█▌        | 8/50 [00:09<00:15,  2.73it/s, total=18.6, f=18.4, rob=1.46, rob_af=0.0703, rob_kl=0.02]  18%|█▊        | 9/50 [00:09<00:12,  3.36it/s, total=18.6, f=18.4, rob=1.46, rob_af=0.0703, rob_kl=0.02] 18%|█▊        | 9/50 [00:09<00:44,  1.09s/it, total=18.6, f=18.4, rob=1.46, rob_af=0.0703, rob_kl=0.02]
+[ROB_DIAG] step=0 n=256 diff(adv-nominal) mean=0.236330 std=0.462156 min=0.000967 max=4.632248 active_frac=0.050781 kl_max=0.020000 nominal_mean=24.062008 adv_mean=24.298340 loss_rob(vs f0)=1.432814
+[ROB_DIAG] step=1 n=256 diff(adv-nominal) mean=0.216325 std=0.417279 min=0.002081 max=3.130692 active_frac=0.054688 kl_max=0.020000 nominal_mean=25.920944 adv_mean=26.137268 loss_rob(vs f0)=1.814734
+[ROB_DIAG] step=2 n=256 diff(adv-nominal) mean=0.236828 std=0.542626 min=0.000952 max=5.418144 active_frac=0.062500 kl_max=0.020000 nominal_mean=26.167114 adv_mean=26.403942 loss_rob(vs f0)=1.246529
+[ROB_DIAG] step=3 n=256 diff(adv-nominal) mean=0.240774 std=0.452169 min=0.000189 max=3.283005 active_frac=0.062500 kl_max=0.020000 nominal_mean=29.574669 adv_mean=29.815443 loss_rob(vs f0)=0.644651
+[ROB_DIAG] step=4 n=256 diff(adv-nominal) mean=0.222854 std=0.411125 min=0.001438 max=3.479500 active_frac=0.046875 kl_max=0.020000 nominal_mean=21.497337 adv_mean=21.720190 loss_rob(vs f0)=1.030905
+[ROB_DIAG] step=5 n=256 diff(adv-nominal) mean=0.194153 std=0.350106 min=0.002364 max=2.431778 active_frac=0.046875 kl_max=0.020000 nominal_mean=17.610128 adv_mean=17.804281 loss_rob(vs f0)=0.887533
+[ROB_DIAG] step=6 n=256 diff(adv-nominal) mean=0.181526 std=0.282318 min=0.001227 max=2.440033 active_frac=0.054688 kl_max=0.020000 nominal_mean=21.855125 adv_mean=22.036652 loss_rob(vs f0)=0.662096
+[ROB_DIAG] step=7 n=256 diff(adv-nominal) mean=0.246354 std=0.524630 min=0.003261 max=4.481628 active_frac=0.058594 kl_max=0.020000 nominal_mean=27.268911 adv_mean=27.515266 loss_rob(vs f0)=0.928537
+[ROB_DIAG] step=8 n=256 diff(adv-nominal) mean=0.215006 std=0.357405 min=0.000521 max=3.327026 active_frac=0.070312 kl_max=0.020000 nominal_mean=31.194599 adv_mean=31.409605 loss_rob(vs f0)=1.456280
+[ROB_DIAG] step=9 n=256 diff(adv-nominal) mean=0.377220 std=1.088831 min=0.000529 max=11.942642 active_frac=0.039062 kl_max=0.020000 nominal_mean=30.942650 adv_mean=31.319868 loss_rob(vs f0)=0.854630
+[ROB_DIAG] reached batch limit, exiting before any backward()/optimizer.step() -- checkpoint untouched.
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /home/fenglei/TS-RAG-main/TS-RAG/wandb/offline-run-20260912_154536-ys3xeg19[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/offline-run-20260912_154536-ys3xeg19/logs[0m

@@ -1,0 +1,4 @@
+Launching pretrain with (rho_sem, rho_xcov, rho_ord, rho_cos, rho_gbal)=(0, 0, 0.01, 0, 0)
+model_id=data50m_idf_ridde_v2_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10000_bs256_no_embeddingtuning_sem0_xcov0_ord0.01
+wandb: Tracking run with wandb version 0.19.10
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.

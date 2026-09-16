@@ -63,7 +63,20 @@ parser.add_argument('--rho1', type=float, default=0.0)
 parser.add_argument('--rho2', type=float, default=0.0)
 parser.add_argument('--tau_dis', type=float, default=0.17)
 parser.add_argument('--lambda_sem', type=float, default=0.0)
+parser.add_argument("--fusion_mode", type=str, default="learned",
+                     choices=["learned", "additive"],
+                     help="idf_clean_dis_v4专属：最终融合方式。learned=现有final_pred_head"
+                          "(cat(y_inv,y_dyn))（默认，等价于不加这个参数时的行为）；"
+                          "additive=y_inv+y_dyn直接相加，跳过final_pred_head。"
+                          "对v3/其他augment_mode无效。")
+parser.add_argument("--disable_ci", action="store_true", default=False, help="c_i fixed to 1 for all samples, ignoring tau confidence weighting (v4 only)")
 parser.add_argument('--lambda_ord', type=float, default=0.0)
+parser.add_argument("--lambda_delta", type=float, default=0.0, help="weight for L_Delta (final-y first-difference Huber loss vs ground truth, v3/v4 only)")
+parser.add_argument("--huber_kappa", type=float, default=1.0, help="Huber loss delta/threshold parameter for L_Delta")
+parser.add_argument("--calibrate_grad_norm", action="store_true", default=False,
+                     help="诊断专用：第一步forward后分别对loss_forecast和loss_delta单独backward，"
+                          "打印||grad(loss_forecast)||/||grad(loss_delta)||比值和建议的lambda_delta"
+                          "取值(5%%/10%%梯度范数占比)，然后退出，不进行真正训练。")
 parser.add_argument('--lambda_xcov', type=float, default=0.0)
 parser.add_argument('--rho3', type=float, default=0.0)
 parser.add_argument('--rho4', type=float, default=0.0)
@@ -194,7 +207,11 @@ elif args.model == 'ChronosBoltRetrieve':
     model.rho2 = args.rho2
     model.tau_dis = args.tau_dis
     model.lambda_sem = args.lambda_sem
+    model.fusion_mode = args.fusion_mode
+    model.disable_ci = args.disable_ci
     model.lambda_ord = args.lambda_ord
+    model.lambda_delta = args.lambda_delta
+    model.huber_kappa = args.huber_kappa
     model.lambda_xcov = args.lambda_xcov
     model.rho3 = args.rho3
     model.rho4 = args.rho4
@@ -890,6 +907,30 @@ for i, batch in pbar:
     else:
         loss = outputs.loss
     loss = loss.mean()
+
+    if args.calibrate_grad_norm and i == 0:
+        trainable_params = [p for p in params if p.requires_grad]
+        model_optim.zero_grad()
+        outputs.loss_forecast.backward(retain_graph=True)
+        grad_norm_pred = torch.sqrt(sum(
+            (p.grad.detach() ** 2).sum() for p in trainable_params if p.grad is not None
+        ))
+        model_optim.zero_grad()
+        outputs.loss_delta.backward()
+        grad_norm_delta = torch.sqrt(sum(
+            (p.grad.detach() ** 2).sum() for p in trainable_params if p.grad is not None
+        ))
+        model_optim.zero_grad()
+        ratio = (grad_norm_delta / grad_norm_pred).item()
+        print(f"[calibrate_grad_norm] loss_forecast={outputs.loss_forecast.item():.6f} "
+              f"loss_delta(raw,未乘lambda_delta)={outputs.loss_delta.item():.6f}")
+        print(f"[calibrate_grad_norm] ||grad(loss_forecast)||={grad_norm_pred.item():.6f} "
+              f"||grad(loss_delta)||={grad_norm_delta.item():.6f} ratio={ratio:.6f}")
+        for target_ratio in (0.05, 0.10):
+            suggested = target_ratio / ratio
+            print(f"[calibrate_grad_norm] 目标梯度范数占比={target_ratio:.2f} "
+                  f"-> 建议lambda_delta≈{suggested:.6f}")
+        raise SystemExit(0)
 
     # RIDDE_新版目标函数与最终实验方案 Stage 4 (4.2-4.6节)：L_TRR/CVaR。lambda_trr=0
     # (Stage 3 及更早的所有 augment_mode)完全跳过这一段，行为跟改动前一模一样。

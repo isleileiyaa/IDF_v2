@@ -1,0 +1,12 @@
+===== rho_ord评测(PID 2090280)已结束: 2026年 09月 14日 星期一 22:15:41 CST =====
+==== v4_lambda_smallsweep 开始: 2026年 09月 14日 星期一 22:15:41 CST ====
+[v4_lambda_smallsweep] 开始训练 lambda_sem=0.1，日志: logs/smoke_idf_clean_dis_v4_lambda0.1_300v3.log
+[v4_lambda_smallsweep] lambda_sem=0.1 训练退出码: 0
+[v4_lambda_smallsweep] 开始eval模式饱和度诊断 lambda_sem=0.1，日志: logs/dump_gamma_v4_lambda0.1_300v3.log
+[v4_lambda_smallsweep] lambda_sem=0.1 饱和度诊断退出码: 0
+[v4_lambda_smallsweep] 开始训练 lambda_sem=1，日志: logs/smoke_idf_clean_dis_v4_lambda1_300v3.log
+[v4_lambda_smallsweep] lambda_sem=1 训练退出码: 0
+[v4_lambda_smallsweep] 开始eval模式饱和度诊断 lambda_sem=1，日志: logs/dump_gamma_v4_lambda1_300v3.log
+[v4_lambda_smallsweep] lambda_sem=1 饱和度诊断退出码: 0
+==== v4_lambda_smallsweep 全部完成: 2026年 09月 14日 星期一 22:21:05 CST ====
+===== λ_sem=0.1/1重跑完成: 2026年 09月 14日 星期一 22:21:05 CST =====

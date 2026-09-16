@@ -1,0 +1,27 @@
+==== overnight_gpu0_ord 开始: 2026年 09月 15日 星期二 10:38:39 CST ====
+[overnight_gpu0_ord] lambda_ord=0.0001 第1次训练尝试开始: 2026年 09月 15日 星期二 10:38:39 CST
+overnight_gpu0_ord.sh: 第 15 行： 2183660 已杀死               python3 pretrain.py --model_id "$MODEL_ID" --model ChronosBoltRetrieve --top_k 10 --retrieve_lookback_length 512 --retrieval_database_path /home/fenglei/TS-RAG-main/retrieval_database/pretrain/retrieval_database_512.parquet --augment_mode idf_clean_dis_v4 --pretrained_model_path /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/base/ --context_length 512 --prediction_length 64 --data_path /home/fenglei/TS-RAG-main/datasets/pretrain/pretrain_pairs_ctx512 --train_steps 10000 --evaluation_steps 10000 --optimizer adamw --learning_rate 0.0003 --weight_decay 0.01 --tmax 20 --drop_prob 0.2 --batch_size 256 --grad_clip_value 1.0 --shuffle_buffer_length 2000 --rho1 0 --rho2 1000 --rho3 0 --rho4 0 --dyn_margin 1.0 --aux_loss_detach_ret true --tau_dis 0.17 --lambda_sem 0 --lambda_ord "$LAMBDA_ORD" --ord_margin 0.0 --freeze_chronos_bolt --init_from_checkpoint "$V3_CKPT" --checkpoints "$CKPT_DIR" > "logs/${MODEL_ID}_attempt${attempt}.log" 2>&1
+[overnight_gpu0_ord] lambda_ord=0.0001 第1次训练失败(无checkpoint)，1800秒后重试: 2026年 09月 15日 星期二 10:39:47 CST
+[overnight_gpu0_ord] lambda_ord=0.0001 第2次训练尝试开始: 2026年 09月 15日 星期二 11:09:47 CST
+[overnight_gpu0_ord] lambda_ord=0.0001 训练成功(第2次): 2026年 09月 15日 星期二 11:28:23 CST
+[overnight_gpu0_ord] lambda_ord=0.0001 第1次评测尝试开始: 2026年 09月 15日 星期二 11:28:23 CST
+[overnight_gpu0_ord] lambda_ord=0.0001 评测成功(第1次): 2026年 09月 15日 星期二 11:34:11 CST
+[overnight_gpu0_ord] lambda_ord=0.01 第1次训练尝试开始: 2026年 09月 15日 星期二 11:34:11 CST
+[overnight_gpu0_ord] lambda_ord=0.01 训练成功(第1次): 2026年 09月 15日 星期二 11:52:03 CST
+[overnight_gpu0_ord] lambda_ord=0.01 第1次评测尝试开始: 2026年 09月 15日 星期二 11:52:03 CST
+[overnight_gpu0_ord] lambda_ord=0.01 评测成功(第1次): 2026年 09月 15日 星期二 11:56:11 CST
+[overnight_gpu0_ord] lambda_ord=0.1 第1次训练尝试开始: 2026年 09月 15日 星期二 11:56:11 CST
+overnight_gpu0_ord.sh: 第 15 行： 2212640 已杀死               python3 pretrain.py --model_id "$MODEL_ID" --model ChronosBoltRetrieve --top_k 10 --retrieve_lookback_length 512 --retrieval_database_path /home/fenglei/TS-RAG-main/retrieval_database/pretrain/retrieval_database_512.parquet --augment_mode idf_clean_dis_v4 --pretrained_model_path /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/base/ --context_length 512 --prediction_length 64 --data_path /home/fenglei/TS-RAG-main/datasets/pretrain/pretrain_pairs_ctx512 --train_steps 10000 --evaluation_steps 10000 --optimizer adamw --learning_rate 0.0003 --weight_decay 0.01 --tmax 20 --drop_prob 0.2 --batch_size 256 --grad_clip_value 1.0 --shuffle_buffer_length 2000 --rho1 0 --rho2 1000 --rho3 0 --rho4 0 --dyn_margin 1.0 --aux_loss_detach_ret true --tau_dis 0.17 --lambda_sem 0 --lambda_ord "$LAMBDA_ORD" --ord_margin 0.0 --freeze_chronos_bolt --init_from_checkpoint "$V3_CKPT" --checkpoints "$CKPT_DIR" > "logs/${MODEL_ID}_attempt${attempt}.log" 2>&1
+[overnight_gpu0_ord] lambda_ord=0.1 第1次训练失败(无checkpoint)，1800秒后重试: 2026年 09月 15日 星期二 12:12:19 CST
+[overnight_gpu0_ord] lambda_ord=0.1 第2次训练尝试开始: 2026年 09月 15日 星期二 12:42:19 CST
+[overnight_gpu0_ord] lambda_ord=0.1 训练成功(第2次): 2026年 09月 15日 星期二 13:02:06 CST
+[overnight_gpu0_ord] lambda_ord=0.1 第1次评测尝试开始: 2026年 09月 15日 星期二 13:02:06 CST
+[overnight_gpu0_ord] lambda_ord=0.1 评测成功(第1次): 2026年 09月 15日 星期二 13:08:09 CST
+[overnight_gpu0_ord] lambda_ord=1.0 第1次训练尝试开始: 2026年 09月 15日 星期二 13:08:09 CST
+overnight_gpu0_ord.sh: 第 15 行： 2227074 已杀死               python3 pretrain.py --model_id "$MODEL_ID" --model ChronosBoltRetrieve --top_k 10 --retrieve_lookback_length 512 --retrieval_database_path /home/fenglei/TS-RAG-main/retrieval_database/pretrain/retrieval_database_512.parquet --augment_mode idf_clean_dis_v4 --pretrained_model_path /home/fenglei/TS-RAG-main/TS-RAG/checkpoints/base/ --context_length 512 --prediction_length 64 --data_path /home/fenglei/TS-RAG-main/datasets/pretrain/pretrain_pairs_ctx512 --train_steps 10000 --evaluation_steps 10000 --optimizer adamw --learning_rate 0.0003 --weight_decay 0.01 --tmax 20 --drop_prob 0.2 --batch_size 256 --grad_clip_value 1.0 --shuffle_buffer_length 2000 --rho1 0 --rho2 1000 --rho3 0 --rho4 0 --dyn_margin 1.0 --aux_loss_detach_ret true --tau_dis 0.17 --lambda_sem 0 --lambda_ord "$LAMBDA_ORD" --ord_margin 0.0 --freeze_chronos_bolt --init_from_checkpoint "$V3_CKPT" --checkpoints "$CKPT_DIR" > "logs/${MODEL_ID}_attempt${attempt}.log" 2>&1
+[overnight_gpu0_ord] lambda_ord=1.0 第1次训练失败(无checkpoint)，1800秒后重试: 2026年 09月 15日 星期二 13:13:42 CST
+[overnight_gpu0_ord] lambda_ord=1.0 第2次训练尝试开始: 2026年 09月 15日 星期二 13:43:42 CST
+[overnight_gpu0_ord] lambda_ord=1.0 训练成功(第2次): 2026年 09月 15日 星期二 14:03:06 CST
+[overnight_gpu0_ord] lambda_ord=1.0 第1次评测尝试开始: 2026年 09月 15日 星期二 14:03:06 CST
+[overnight_gpu0_ord] lambda_ord=1.0 评测成功(第1次): 2026年 09月 15日 星期二 14:09:36 CST
+==== overnight_gpu0_ord 全部完成: 2026年 09月 15日 星期二 14:09:36 CST ====

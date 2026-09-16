@@ -10,6 +10,11 @@ pred_len=64
 datasets="${DATASETS:-ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate electricity traffic solar PEMS08 AQWan Wind ILI ZafNoo CzeLan}"
 lookback_length=512
 augment_mode=${AUGMENT_MODE:-idf_clean_dis}
+fusion_mode=${FUSION_MODE:-learned}
+disable_ci_flag=""
+if [ "${DISABLE_CI:-0}" = "1" ]; then
+    disable_ci_flag="--disable_ci"
+fi
 top_k=10
 rho1=${1:-${RHO1:-0}}
 rho2=${2:-${RHO2:-0}}
@@ -114,6 +119,8 @@ python $run_file \
     --metadata_frequency $metadata_frequency \
     --metadata_database_name $retrieve_database_name \
     --augment_mode $augment_mode \
+    --fusion_mode $fusion_mode \
+    $disable_ci_flag \
     --eval_split "$eval_split"
 
 done

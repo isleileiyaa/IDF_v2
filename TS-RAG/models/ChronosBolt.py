@@ -53,6 +53,7 @@ class ChronosBoltOutput(ModelOutput):
     loss_sem: Optional[torch.Tensor] = None
     loss_xcov: Optional[torch.Tensor] = None
     loss_ord: Optional[torch.Tensor] = None
+    loss_delta: Optional[torch.Tensor] = None
     loss_cos: Optional[torch.Tensor] = None
     loss_gbal: Optional[torch.Tensor] = None
     # RIDDE_新版目标函数与最终实验方案 Stage 3 (Dual+ERM): L_sep = L_xcov + beta_var*L_var
@@ -82,6 +83,12 @@ class ChronosBoltOutput(ModelOutput):
     diag_roughness_inv_per_sample: Optional[torch.Tensor] = None
     diag_roughness_dyn_per_sample: Optional[torch.Tensor] = None
     diag_energy_share_per_sample: Optional[torch.Tensor] = None
+    # idf_clean_dis / idf_clean_dis_v3 / idf_clean_dis_v4(以及共享同一分支的
+    # idf_clean_dis_deepmlp)：不变头/动态头各自的完整分位数预测曲线(B, Q, pred_len)，
+    # 之前只在forward()内部用于算diag_roughness_*等标量诊断，从未对外暴露；其它
+    # augment_mode保持None，不影响任何已有loss/精度计算路径。
+    y_inv: Optional[torch.Tensor] = None
+    y_dyn: Optional[torch.Tensor] = None
     use_disentangle_aux_loss: Optional[bool] = None
     aux_loss_enabled: Optional[bool] = None
     quantile_preds: Optional[torch.Tensor] = None
@@ -1416,8 +1423,17 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
                 y_inv = self.inv_pred_head(z_inv).view(*quantile_preds_shape)
                 y_dyn = self.dyn_pred_head_clean(z_dyn).view(*quantile_preds_shape)
 
-                final_in = torch.cat([y_inv.reshape(batch_size, -1), y_dyn.reshape(batch_size, -1)], dim=-1)
-                fused_quantile_preds = self.final_pred_head(final_in).view(*quantile_preds_shape)
+                fusion_mode = getattr(self, "fusion_mode", "learned")
+                if fusion_mode == "additive" and self.augment == "idf_clean_dis_v4":
+                    # idf_clean_dis_v4专属：y_inv/y_dyn此处已是(B,Q,L)，直接相加，
+                    # 跳过final_pred_head，不做reshape/cat。条件里显式判了
+                    # self.augment=='idf_clean_dis_v4'，即便误传fusion_mode='additive'，
+                    # idf_clean_dis/idf_clean_dis_deepmlp/idf_clean_dis_v3三个分支
+                    # 在代码层面也完全不受影响，走原来的learned分支。
+                    fused_quantile_preds = y_inv + y_dyn
+                else:
+                    final_in = torch.cat([y_inv.reshape(batch_size, -1), y_dyn.reshape(batch_size, -1)], dim=-1)
+                    fused_quantile_preds = self.final_pred_head(final_in).view(*quantile_preds_shape)
                 aux_h_ret = h_ret
                 aux_z_inv = z_inv
                 aux_z_dyn = z_dyn
@@ -2237,7 +2253,10 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
                         ybar_mean = m["y_bar_r"].mean(dim=-1, keepdim=True)
                         u_den = (m["y_bar_r"] - ybar_mean).pow(2).sum(dim=-1) + 1e-8
                         tau_sem = max(float(getattr(self, "tau", 0.1)), 1e-6)
-                        c_i = torch.exp(-(u_num / u_den) / tau_sem).detach()
+                        u_ratio = (u_num / u_den).detach()
+                        c_i = torch.exp(-u_ratio / tau_sem)
+                        if getattr(self, "disable_ci", False):
+                            c_i = torch.ones_like(u_ratio)
                         y_bar_r_b = m["y_bar_r"].unsqueeze(1).detach()
                         r_i_sem_b = r_i_sem.unsqueeze(1).detach()
                         sem_inv = (m["y_inv"] - y_bar_r_b).pow(2).mean(dim=(1, 2))
@@ -2245,8 +2264,18 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
                         loss_sem = (c_i * (sem_inv + sem_dyn)).mean()
                         if self.training:
                             with torch.no_grad():
+                                c_i_frac_near_0 = (c_i < 0.01).float().mean().item()
+                                c_i_frac_low = (c_i < 0.1).float().mean().item()
                                 print(f"[idf_clean_dis_v4_sem] loss_sem={loss_sem.item():.6f} "
-                                      f"c_i.mean={c_i.mean().item():.4f} lambda_sem={lambda_sem:.6g}")
+                                      f"c_i.mean={c_i.mean().item():.4f} c_i.min={c_i.min().item():.6f} "
+                                      f"c_i.max={c_i.max().item():.4f} c_i<0.01占比={c_i_frac_near_0:.2%} "
+                                      f"c_i<0.1占比={c_i_frac_low:.2%} lambda_sem={lambda_sem:.6g}")
+                                print(f"[idf_clean_dis_v4_ci] c_i: mean={c_i.mean().item():.4f} "
+                                      f"std={c_i.std().item():.4f} min={c_i.min().item():.4f} "
+                                      f"max={c_i.max().item():.4f} | u_ratio(pre-tau): "
+                                      f"mean={u_ratio.mean().item():.4f} std={u_ratio.std().item():.4f} "
+                                      f"min={u_ratio.min().item():.4f} max={u_ratio.max().item():.4f} "
+                                      f"tau={tau_sem:.4g}")
 
                         # L_ord (idf_ridde_v2 Eq.22-23，公式原样复用): 复用上面同一个
                         # c_i(Eq.19置信度权重)，粗糙度用y_inv/y_dyn(预测空间)算，
@@ -2287,6 +2316,30 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
                     else:
                         loss_xcov = torch.zeros((), device=loss_forecast.device)
 
+                    # L_Delta: 一阶差分Huber loss，约束fused_quantile_preds的中位数
+                    # 分位数轨迹贴近真实值的局部变化率，v3/v4共享分支都能算(跟lambda_sem
+                    # 是否>0无关，只需要fused_quantile_preds/target/target_mask)。
+                    lambda_delta = float(getattr(self, "lambda_delta", 0.0))
+                    if self.augment in ('idf_clean_dis_v3', 'idf_clean_dis_v4'):
+                        central_idx = torch.abs(self.quantiles - 0.5).argmin()
+                        median_pred = fused_quantile_preds[:, central_idx, :]  # (B, L)
+                        target_sq_delta = target.squeeze(1)  # (B, L)
+                        mask_sq_delta = target_mask.squeeze(1)  # (B, L)
+                        delta_yhat = median_pred[:, 1:] - median_pred[:, :-1]  # (B, L-1)
+                        delta_y = target_sq_delta[:, 1:] - target_sq_delta[:, :-1]  # (B, L-1)
+                        mask_delta = (mask_sq_delta[:, 1:] * mask_sq_delta[:, :-1]).float()  # (B, L-1)
+                        huber_kappa = float(getattr(self, "huber_kappa", 1.0))
+                        huber_elem = F.huber_loss(delta_yhat, delta_y, delta=huber_kappa, reduction='none')
+                        valid_count = mask_delta.sum(dim=1).clamp_min(1.0)  # (B,)
+                        per_sample_loss_delta = (huber_elem * mask_delta).sum(dim=1) / valid_count  # (B,)
+                        loss_delta = per_sample_loss_delta.mean()
+                        if self.training:
+                            with torch.no_grad():
+                                print(f"[idf_clean_dis_v4_delta] loss_delta={loss_delta.item():.6f} "
+                                      f"mask_delta_frac={mask_delta.mean().item():.4f} lambda_delta={lambda_delta:.6g}")
+                    else:
+                        loss_delta = torch.zeros((), device=loss_forecast.device)
+
                     # Output-level counterpart of loss_dis: same cosine-abs-mean form,
                     # applied to the flattened prediction-head outputs y_hat_inv/y_hat_dyn
                     # (B, num_quantiles, L) -> (B, num_quantiles * L) instead of z_inv/z_dyn.
@@ -2310,6 +2363,7 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
                         + lambda_sem * loss_sem
                         + lambda_ord * loss_ord
                         + lambda_xcov * loss_xcov
+                        + lambda_delta * loss_delta
                     )
 
         # Unscale predictions
@@ -2333,6 +2387,7 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             loss_sem=loss_sem,
             loss_xcov=loss_xcov,
             loss_ord=loss_ord,
+            loss_delta=loss_delta,
             loss_cos=loss_cos,
             loss_gbal=loss_gbal,
             loss_var=loss_var,
@@ -2349,6 +2404,8 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
             diag_roughness_inv_per_sample=diag_roughness_inv_per_sample,
             diag_roughness_dyn_per_sample=diag_roughness_dyn_per_sample,
             diag_energy_share_per_sample=diag_energy_share_per_sample,
+            y_inv=aux_y_inv,
+            y_dyn=aux_y_dyn,
             use_disentangle_aux_loss=use_disentangle_aux_loss,
             aux_loss_enabled=aux_loss_enabled,
             quantile_preds=fused_quantile_preds,

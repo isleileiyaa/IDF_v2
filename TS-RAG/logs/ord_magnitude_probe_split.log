@@ -1,0 +1,50 @@
+Launching pretrain with (rho_sem, rho_xcov, rho_ord, rho_cos, rho_gbal)=(0, 0, 0, 0, 0)
+model_id=data50m_idf_ridde_v2_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10_bs256_no_embeddingtuning_sem0_xcov0_ord0
+wandb: Tracking run with wandb version 0.19.10
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+ChronosBoltRetrieve model loaded
+Trainable parameters:
+encode_mlp.0.weight
+encode_mlp.0.bias
+encode_mlp.2.weight
+encode_mlp.2.bias
+ret_score_head.weight
+ret_score_head.bias
+fuse_gate.weight
+fuse_gate.bias
+routing_gate.weight
+routing_gate.bias
+inv_pred_head.weight
+inv_pred_head.bias
+dyn_pred_head_clean.weight
+dyn_pred_head_clean.bias
+final_pred_head.weight
+final_pred_head.bias
+
+  0%|          | 0/10 [00:00<?, ?it/s]Passing a tuple of `past_key_values` is deprecated and will be removed in Transformers v4.48.0. You should pass an instance of `EncoderDecoderCache` instead, e.g. `past_key_values=EncoderDecoderCache.from_legacy_cache(past_key_values)`.
+
+  0%|          | 0/10 [00:15<?, ?it/s, total=54.8, f=54.8, sem=0, xcov=6.72, ord=0, l_cos=0.998, l_gbal=0, cos=0.998, g_mean=0.5, g_sat=0]
+ 10%|█         | 1/10 [00:15<02:21, 15.67s/it, total=54.8, f=54.8, sem=0, xcov=6.72, ord=0, l_cos=0.998, l_gbal=0, cos=0.998, g_mean=0.5, g_sat=0]
+ 10%|█         | 1/10 [00:15<02:21, 15.67s/it, total=57.7, f=57.7, sem=0, xcov=8.64, ord=0, l_cos=0.998, l_gbal=0, cos=0.998, g_mean=0.5, g_sat=0]
+ 10%|█         | 1/10 [00:15<02:21, 15.67s/it, total=47.8, f=47.8, sem=0.0615, xcov=6.78, ord=0.0051, l_cos=0.998, l_gbal=0, cos=0.998, g_mean=0.5, g_sat=0]
+ 30%|███       | 3/10 [00:15<00:28,  4.13s/it, total=47.8, f=47.8, sem=0.0615, xcov=6.78, ord=0.0051, l_cos=0.998, l_gbal=0, cos=0.998, g_mean=0.5, g_sat=0]
+ 30%|███       | 3/10 [00:15<00:28,  4.13s/it, total=51.2, f=51.2, sem=0.243, xcov=12.8, ord=0.0121, l_cos=0.998, l_gbal=0, cos=0.998, g_mean=0.5, g_sat=0] 
+ 30%|███       | 3/10 [00:16<00:28,  4.13s/it, total=50.3, f=50.3, sem=0.272, xcov=14.7, ord=0.013, l_cos=0.997, l_gbal=0, cos=0.997, g_mean=0.5, g_sat=0] 
+ 50%|█████     | 5/10 [00:16<00:10,  2.06s/it, total=50.3, f=50.3, sem=0.272, xcov=14.7, ord=0.013, l_cos=0.997, l_gbal=0, cos=0.997, g_mean=0.5, g_sat=0]
+ 50%|█████     | 5/10 [00:16<00:10,  2.06s/it, total=46.5, f=46.5, sem=0.24, xcov=13.9, ord=0.0094, l_cos=0.996, l_gbal=0, cos=0.996, g_mean=0.5, g_sat=0]
+ 50%|█████     | 5/10 [00:16<00:10,  2.06s/it, total=46.5, f=46.5, sem=0.296, xcov=15.5, ord=0.0113, l_cos=0.995, l_gbal=0, cos=0.995, g_mean=0.5, g_sat=0]
+ 70%|███████   | 7/10 [00:16<00:03,  1.22s/it, total=46.5, f=46.5, sem=0.296, xcov=15.5, ord=0.0113, l_cos=0.995, l_gbal=0, cos=0.995, g_mean=0.5, g_sat=0]
+ 70%|███████   | 7/10 [00:16<00:03,  1.22s/it, total=49.9, f=49.9, sem=0.306, xcov=15.6, ord=0.011, l_cos=0.992, l_gbal=0, cos=0.992, g_mean=0.5, g_sat=0] 
+ 70%|███████   | 7/10 [00:16<00:03,  1.22s/it, total=56.8, f=56.8, sem=0.0389, xcov=1.44, ord=0.0018, l_cos=0.997, l_gbal=0, cos=0.997, g_mean=0.499, g_sat=0]
+ 90%|█████████ | 9/10 [00:16<00:00,  1.25it/s, total=56.8, f=56.8, sem=0.0389, xcov=1.44, ord=0.0018, l_cos=0.997, l_gbal=0, cos=0.997, g_mean=0.499, g_sat=0]
+ 90%|█████████ | 9/10 [00:16<00:00,  1.25it/s, total=66.6, f=66.6, sem=0.0013, xcov=2.93, ord=0, l_cos=0.996, l_gbal=0, cos=0.996, g_mean=0.498, g_sat=0]     
+100%|██████████| 10/10 [00:16<00:00,  1.65s/it, total=66.6, f=66.6, sem=0.0013, xcov=2.93, ord=0, l_cos=0.996, l_gbal=0, cos=0.996, g_mean=0.498, g_sat=0]
+	iters: 10 | loss: 52.8204422
+	speed: 11.6666s/iter
+lr = 0.0002981533
+training finished
+✅ IDF checkpoint saved to checkpoints/tmp_ord_probe/data50m_idf_ridde_v2_512_pred64_lookback512_top10_lr0.0003_drop0.2_adamw_cosanneal_step10_bs256_no_embeddingtuning_sem0_xcov0_ord0_final.pth
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /home/fenglei/TS-RAG-main/TS-RAG/wandb/offline-run-20260914_191331-u9unv0br[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/offline-run-20260914_191331-u9unv0br/logs[0m

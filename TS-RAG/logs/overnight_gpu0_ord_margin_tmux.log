@@ -1,0 +1,14 @@
+==== overnight_gpu0_ord_margin 开始: 2026年 09月 15日 星期二 15:20:20 CST ====
+[overnight_gpu0_ord_margin] ord_margin=0.02 第1次训练尝试开始: 2026年 09月 15日 星期二 15:20:20 CST
+[overnight_gpu0_ord_margin] ord_margin=0.02 训练成功(第1次): 2026年 09月 15日 星期二 15:38:43 CST
+[overnight_gpu0_ord_margin] ord_margin=0.02 第1次评测尝试开始: 2026年 09月 15日 星期二 15:38:43 CST
+[overnight_gpu0_ord_margin] ord_margin=0.02 评测成功(第1次): 2026年 09月 15日 星期二 15:43:39 CST
+[overnight_gpu0_ord_margin] ord_margin=0.05 第1次训练尝试开始: 2026年 09月 15日 星期二 15:43:39 CST
+[overnight_gpu0_ord_margin] ord_margin=0.05 训练成功(第1次): 2026年 09月 15日 星期二 16:02:06 CST
+[overnight_gpu0_ord_margin] ord_margin=0.05 第1次评测尝试开始: 2026年 09月 15日 星期二 16:02:06 CST
+[overnight_gpu0_ord_margin] ord_margin=0.05 评测成功(第1次): 2026年 09月 15日 星期二 16:08:21 CST
+[overnight_gpu0_ord_margin] ord_margin=0.1 第1次训练尝试开始: 2026年 09月 15日 星期二 16:08:21 CST
+[overnight_gpu0_ord_margin] ord_margin=0.1 训练成功(第1次): 2026年 09月 15日 星期二 16:28:26 CST
+[overnight_gpu0_ord_margin] ord_margin=0.1 第1次评测尝试开始: 2026年 09月 15日 星期二 16:28:26 CST
+[overnight_gpu0_ord_margin] ord_margin=0.1 评测成功(第1次): 2026年 09月 15日 星期二 16:34:55 CST
+==== overnight_gpu0_ord_margin 全部完成: 2026年 09月 15日 星期二 16:34:55 CST ====
