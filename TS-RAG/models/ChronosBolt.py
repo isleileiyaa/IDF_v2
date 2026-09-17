@@ -1420,16 +1420,21 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
                 z_inv = gamma * h
                 z_dyn = (1 - gamma) * h
 
-                y_inv = self.inv_pred_head(z_inv).view(*quantile_preds_shape)
-                y_dyn = self.dyn_pred_head_clean(z_dyn).view(*quantile_preds_shape)
+                head_mode = getattr(self, "head_mode", "learned")
+                if head_mode == "frozen_native":
+                    y_inv = self._project_with_native_head(z_inv, quantile_preds_shape)
+                    y_dyn = self._project_with_native_head(z_dyn, quantile_preds_shape)
+                else:
+                    y_inv = self.inv_pred_head(z_inv).view(*quantile_preds_shape)
+                    y_dyn = self.dyn_pred_head_clean(z_dyn).view(*quantile_preds_shape)
 
                 fusion_mode = getattr(self, "fusion_mode", "learned")
-                if fusion_mode == "additive" and self.augment == "idf_clean_dis_v4":
-                    # idf_clean_dis_v4专属：y_inv/y_dyn此处已是(B,Q,L)，直接相加，
-                    # 跳过final_pred_head，不做reshape/cat。条件里显式判了
-                    # self.augment=='idf_clean_dis_v4'，即便误传fusion_mode='additive'，
-                    # idf_clean_dis/idf_clean_dis_deepmlp/idf_clean_dis_v3三个分支
-                    # 在代码层面也完全不受影响，走原来的learned分支。
+                # 原逻辑：fusion_mode=='additive'仅对idf_clean_dis_v4生效，v3始终走final_pred_head。
+                # 新增：head_mode=='frozen_native'时（v3或v4）强制走加法融合——此时y_inv/y_dyn
+                # 已经是冻结头输出的分位数预测(B,Q,L)，语义上不适合再喂给final_pred_head去
+                # "学习融合"。head_mode=='frozen_native'与fusion_mode!='additive'的非法组合
+                # 由CLI层拦截（pretrain.py/zeroshot.py），这里默认二者已一致。
+                if fusion_mode == "additive" and (self.augment == "idf_clean_dis_v4" or head_mode == "frozen_native"):
                     fused_quantile_preds = y_inv + y_dyn
                 else:
                     final_in = torch.cat([y_inv.reshape(batch_size, -1), y_dyn.reshape(batch_size, -1)], dim=-1)
@@ -1915,6 +1920,7 @@ class ChronosBoltModelForForecastingWithRetrieval(T5PreTrainedModel):
         loss_gbal = None
         loss_var = None
         loss_sep = None
+        loss_delta = None
         diag_cos_sim = None
         diag_gamma_mean = None
         diag_gamma_sat_frac = None

@@ -14,9 +14,14 @@ unset CHECKPOINTS_DIR
 mkdir -p logs
 
 LAMBDA_DELTA="${LAMBDA_DELTA:?必须指定LAMBDA_DELTA}"
-export LAMBDA_DELTA
+PRETRAIN_SEED="${PRETRAIN_SEED:-2021}"
+export LAMBDA_DELTA PRETRAIN_SEED
 RETRY_WAIT=1800
-MODEL_ID="idf_clean_dis_v4_fusion_learned_lambdadelta${LAMBDA_DELTA}_fromscratch_full10000"
+if [ "$PRETRAIN_SEED" = "2021" ]; then
+    MODEL_ID="idf_clean_dis_v4_fusion_learned_lambdadelta${LAMBDA_DELTA}_fromscratch_full10000"
+else
+    MODEL_ID="idf_clean_dis_v4_fusion_learned_lambdadelta${LAMBDA_DELTA}_fromscratch_full10000_seed${PRETRAIN_SEED}"
+fi
 CKPT="checkpoints/${MODEL_ID}/${MODEL_ID}_final.pth"
 
 attempt=1
@@ -33,7 +38,7 @@ while [ ! -f "$CKPT" ]; do
     sleep "$RETRY_WAIT"
 done
 
-RESULT_FILE="results/forecast_evaluation/zeroshot_chronos_idf_clean_dis_fusion_learned_lambdadelta${LAMBDA_DELTA}_fromscratch_full10000.txt"
+RESULT_FILE="results/forecast_evaluation/zeroshot_chronos_idf_clean_dis_fusion_${MODEL_ID#idf_clean_dis_v4_fusion_}.txt"
 attempt=1
 while true; do
     n=$(grep -c "^ETTh1\|^ETTh2\|^ETTm1\|^ETTm2\|^weather\|^exchange_rate" "$RESULT_FILE" 2>/dev/null || echo 0)
@@ -46,10 +51,10 @@ while true; do
     DATASETS="ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate" \
         AUGMENT_MODE="idf_clean_dis_v4" \
         FUSION_MODE="learned" \
-        SAVE_SUFFIX="fusion_learned_lambdadelta${LAMBDA_DELTA}_fromscratch_full10000" \
+        SAVE_SUFFIX="fusion_${MODEL_ID#idf_clean_dis_v4_fusion_}" \
         CHECKPOINT_MODEL_PATH="$CKPT" \
         bash script/zeroshot_chronos_idf_clean_dis.sh \
-        > "logs/zeroshot_learned_lambdadelta${LAMBDA_DELTA}_fromscratch_full10000_attempt${attempt}.log" 2>&1
+        > "logs/zeroshot_fusion_${MODEL_ID#idf_clean_dis_v4_fusion_}_attempt${attempt}.log" 2>&1
     n=$(grep -c "^ETTh1\|^ETTh2\|^ETTm1\|^ETTm2\|^weather\|^exchange_rate" "$RESULT_FILE" 2>/dev/null || echo 0)
     if [ "$n" -eq 6 ]; then
         echo "[overnight_learned_lambdadelta lambda_delta=${LAMBDA_DELTA}] 评测成功(第${attempt}次): $(date)"

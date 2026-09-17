@@ -8,7 +8,12 @@ augment_mode=idf_clean_dis_v4
 context_length=512
 prediction_length=64
 lambda_delta="${LAMBDA_DELTA:-7.0}"
-model_id="idf_clean_dis_v4_fusion_learned_lambdadelta${lambda_delta}_fromscratch_full10000"
+export PRETRAIN_SEED="${PRETRAIN_SEED:-2021}"
+if [ "$PRETRAIN_SEED" = "2021" ]; then
+    model_id="idf_clean_dis_v4_fusion_learned_lambdadelta${lambda_delta}_fromscratch_full10000"
+else
+    model_id="idf_clean_dis_v4_fusion_learned_lambdadelta${lambda_delta}_fromscratch_full10000_seed${PRETRAIN_SEED}"
+fi
 checkpoints="${CHECKPOINTS_DIR:-/home/fenglei/TS-RAG-main/TS-RAG/checkpoints/${model_id}}"
 data_path="${PRETRAIN_DATA_PATH:-/home/fenglei/TS-RAG-main/datasets/pretrain/pretrain_pairs_ctx${retrieve_lookback_length}}"
 train_steps=${TRAIN_STEPS:-10000}

@@ -1,0 +1,4 @@
+Launching pretrain (fromscratch, no init_from_checkpoint) with rho=(0, 1000, 0, 0), tau_dis=0.17
+model_id=idf_clean_dis_v3_fromscratch_full10000_taudis0.17_seed1234
+wandb: Tracking run with wandb version 0.19.10
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.

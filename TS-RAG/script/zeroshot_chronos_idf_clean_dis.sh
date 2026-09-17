@@ -11,6 +11,7 @@ datasets="${DATASETS:-ETTh1 ETTh2 ETTm1 ETTm2 weather exchange_rate electricity 
 lookback_length=512
 augment_mode=${AUGMENT_MODE:-idf_clean_dis}
 fusion_mode=${FUSION_MODE:-learned}
+head_mode=${HEAD_MODE:-learned}
 disable_ci_flag=""
 if [ "${DISABLE_CI:-0}" = "1" ]; then
     disable_ci_flag="--disable_ci"
@@ -120,6 +121,7 @@ python $run_file \
     --metadata_database_name $retrieve_database_name \
     --augment_mode $augment_mode \
     --fusion_mode $fusion_mode \
+    --head_mode $head_mode \
     $disable_ci_flag \
     --eval_split "$eval_split"
 
