@@ -8,3 +8,15 @@ ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_h_native_head
 mse:0.1475, std:0.0000 ---- mae:0.2230, std:0.0000
 weather_zeroshot_512_pred_64_512_retrieve_64_idf_h_native_head
 mse:0.1481, std:0.0000 ---- mae:0.1790, std:0.0000
+ETTh1_zeroshot_512_pred_64_512_retrieve_64_idf_h_native_head
+mse:0.3602, std:0.0000 ---- mae:0.3642, std:0.0000
+ETTh2_zeroshot_512_pred_64_512_retrieve_64_idf_h_native_head
+mse:0.2396, std:0.0000 ---- mae:0.2948, std:0.0000
+ETTm1_zeroshot_512_pred_64_512_retrieve_64_idf_h_native_head
+mse:0.2976, std:0.0000 ---- mae:0.3136, std:0.0000
+ETTm2_zeroshot_512_pred_64_512_retrieve_64_idf_h_native_head
+mse:0.1477, std:0.0000 ---- mae:0.2241, std:0.0000
+weather_zeroshot_512_pred_64_512_retrieve_64_idf_h_native_head
+mse:0.1489, std:0.0000 ---- mae:0.1805, std:0.0000
+exchange_rate_zeroshot_512_pred_64_512_retrieve_64_idf_h_native_head
+mse:0.0765, std:0.0000 ---- mae:0.1889, std:0.0000

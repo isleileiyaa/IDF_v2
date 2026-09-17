@@ -1,0 +1,40 @@
+Launching pretrain (idf_h_native_head, fromscratch, no init_from_checkpoint), evaluation_steps=10000
+model_id=idf_h_native_head_fromscratch_full10000
+wandb: Tracking run with wandb version 0.19.10
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+ChronosBoltRetrieve model loaded
+Trainable parameters:
+encode_mlp.0.weight
+encode_mlp.0.bias
+encode_mlp.2.weight
+encode_mlp.2.bias
+ret_score_head.weight
+ret_score_head.bias
+fuse_gate.weight
+fuse_gate.bias
+  0%|          | 0/10000 [00:00<?, ?it/s]Passing a tuple of `past_key_values` is deprecated and will be removed in Transformers v4.48.0. You should pass an instance of `EncoderDecoderCache` instead, e.g. `past_key_values=EncoderDecoderCache.from_legacy_cache(past_key_values)`.
+  0%|          | 0/10000 [00:20<?, ?it/s]
+Traceback (most recent call last):
+  File "/home/fenglei/TS-RAG-main/TS-RAG/pretrain.py", line 897, in <module>
+    outputs = model(context = batch['x'].float(),
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/fenglei/TS-RAG-main/TS-RAG/models/ChronosBolt.py", line 2395, in forward
+    loss_delta=loss_delta,
+UnboundLocalError: local variable 'loss_delta' referenced before assignment
+Traceback (most recent call last):
+  File "/home/fenglei/TS-RAG-main/TS-RAG/pretrain.py", line 897, in <module>
+    outputs = model(context = batch['x'].float(),
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/fenglei/miniconda3/envs/tsrag/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/fenglei/TS-RAG-main/TS-RAG/models/ChronosBolt.py", line 2395, in forward
+    loss_delta=loss_delta,
+UnboundLocalError: local variable 'loss_delta' referenced before assignment
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /home/fenglei/TS-RAG-main/TS-RAG/wandb/offline-run-20260917_213523-nlreuski[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/offline-run-20260917_213523-nlreuski/logs[0m

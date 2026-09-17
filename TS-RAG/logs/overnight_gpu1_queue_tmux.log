@@ -1,0 +1,33 @@
+==== gpu1 queue: 开始 tau_dis=0.13 2026年 09月 16日 星期三 23:13:22 CST ====
+[overnight_v3_taudis tau_dis=0.13] 第1次训练尝试开始: 2026年 09月 16日 星期三 23:13:22 CST
+[overnight_v3_taudis tau_dis=0.13] 训练成功(第1次): 2026年 09月 16日 星期三 23:32:09 CST
+[overnight_v3_taudis tau_dis=0.13] 第1次评测尝试开始: 2026年 09月 16日 星期三 23:32:09 CST
+[overnight_v3_taudis tau_dis=0.13] 评测成功(第1次): 2026年 09月 16日 星期三 23:38:32 CST
+==== overnight_v3_taudis tau_dis=0.13 全部完成: 2026年 09月 16日 星期三 23:38:32 CST ====
+==== gpu1 queue: 完成 tau_dis=0.13 2026年 09月 16日 星期三 23:38:32 CST ====
+==== gpu1 queue: 开始 tau_dis=0.25 2026年 09月 16日 星期三 23:38:32 CST ====
+[overnight_v3_taudis tau_dis=0.25] 第1次训练尝试开始: 2026年 09月 16日 星期三 23:38:33 CST
+[overnight_v3_taudis tau_dis=0.25] 第1次训练失败(无checkpoint)，1800秒后重试: 2026年 09月 16日 星期三 23:44:47 CST
+[overnight_v3_taudis tau_dis=0.25] 第2次训练尝试开始: 2026年 09月 17日 星期四 00:14:47 CST
+[overnight_v3_taudis tau_dis=0.25] 第2次训练失败(无checkpoint)，1800秒后重试: 2026年 09月 17日 星期四 00:15:28 CST
+[overnight_v3_taudis tau_dis=0.25] 第3次训练尝试开始: 2026年 09月 17日 星期四 00:45:28 CST
+[overnight_v3_taudis tau_dis=0.25] 训练成功(第3次): 2026年 09月 17日 星期四 01:03:25 CST
+[overnight_v3_taudis tau_dis=0.25] 第1次评测尝试开始: 2026年 09月 17日 星期四 01:03:25 CST
+[overnight_v3_taudis tau_dis=0.25] 评测成功(第1次): 2026年 09月 17日 星期四 01:09:49 CST
+==== overnight_v3_taudis tau_dis=0.25 全部完成: 2026年 09月 17日 星期四 01:09:49 CST ====
+==== gpu1 queue: 完成 tau_dis=0.25 2026年 09月 17日 星期四 01:09:49 CST ====
+==== gpu1 queue: 开始 lambda_delta=10.0 2026年 09月 17日 星期四 01:09:49 CST ====
+[overnight_learned_lambdadelta lambda_delta=10.0] 第1次训练尝试开始: 2026年 09月 17日 星期四 01:09:50 CST
+[overnight_learned_lambdadelta lambda_delta=10.0] 训练成功(第1次): 2026年 09月 17日 星期四 01:29:15 CST
+[overnight_learned_lambdadelta lambda_delta=10.0] 第1次评测尝试开始: 2026年 09月 17日 星期四 01:29:15 CST
+[overnight_learned_lambdadelta lambda_delta=10.0] 评测成功(第1次): 2026年 09月 17日 星期四 01:35:37 CST
+==== overnight_learned_lambdadelta lambda_delta=10.0 全部完成: 2026年 09月 17日 星期四 01:35:37 CST ====
+==== gpu1 queue: 完成 lambda_delta=10.0 2026年 09月 17日 星期四 01:35:37 CST ====
+==== gpu1 queue: 开始 lambda_delta=15.0 2026年 09月 17日 星期四 01:35:37 CST ====
+[overnight_learned_lambdadelta lambda_delta=15.0] 第1次训练尝试开始: 2026年 09月 17日 星期四 01:35:38 CST
+[overnight_learned_lambdadelta lambda_delta=15.0] 训练成功(第1次): 2026年 09月 17日 星期四 01:55:34 CST
+[overnight_learned_lambdadelta lambda_delta=15.0] 第1次评测尝试开始: 2026年 09月 17日 星期四 01:55:34 CST
+[overnight_learned_lambdadelta lambda_delta=15.0] 评测成功(第1次): 2026年 09月 17日 星期四 02:01:49 CST
+==== overnight_learned_lambdadelta lambda_delta=15.0 全部完成: 2026年 09月 17日 星期四 02:01:49 CST ====
+==== gpu1 queue: 完成 lambda_delta=15.0 2026年 09月 17日 星期四 02:01:49 CST ====
+==== gpu1 queue: 全部完成 2026年 09月 17日 星期四 02:01:49 CST ====

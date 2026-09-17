@@ -111,6 +111,12 @@ parser.add_argument('--tau', type=float, default=0.1)
 # --fusion_mode additive训出来的checkpoint，eval时会静默退回learned分支，
 # 用一个从未训练过的final_pred_head出结果，不报错但结果是错的。
 parser.add_argument('--fusion_mode', type=str, default='learned', choices=['learned', 'additive'])
+# idf_clean_dis_v3/v4专属：y_inv/y_dyn的投影头，跟pretrain.py的--head_mode保持一致。
+# model.head_mode是普通python属性，不会随state_dict存进checkpoint，所以eval时必须
+# 显式重新传一遍这个参数，否则用--head_mode frozen_native训出来的checkpoint，
+# eval时会静默退回learned分支，用一套从未训练过的inv_pred_head/dyn_pred_head_clean
+# 出结果，不报错但结果是错的。
+parser.add_argument('--head_mode', type=str, default='learned', choices=['learned', 'frozen_native'])
 parser.add_argument("--lambda_delta", type=float, default=0.0)
 parser.add_argument("--huber_kappa", type=float, default=1.0)
 parser.add_argument("--disable_ci", action="store_true", default=False, help="c_i fixed to 1 for all samples, ignoring tau confidence weighting (v4 only)")
@@ -128,6 +134,12 @@ parser.add_argument('--pretrained_model_path', type=str, default='./checkpoints/
 
 args = parser.parse_args()
 args.return_feature_id = 0
+
+if args.head_mode == "frozen_native":
+    if args.fusion_mode != "additive":
+        raise ValueError(f"--head_mode frozen_native 必须搭配 --fusion_mode additive，当前fusion_mode={args.fusion_mode}")
+    if args.augment_mode not in ("idf_clean_dis_v3", "idf_clean_dis_v4"):
+        raise ValueError(f"--head_mode frozen_native 目前只在idf_clean_dis_v3/idf_clean_dis_v4白名单内验证过，当前augment_mode={args.augment_mode}")
 
 if args.save_file_name is not None : 
     log_fine_name = args.save_file_name
@@ -274,6 +286,7 @@ elif args.model == 'ChronosBoltRetrieve':
     model.tau = args.tau
     model.ord_margin = args.ord_margin
     model.fusion_mode = args.fusion_mode
+    model.head_mode = args.head_mode
     model.disable_ci = args.disable_ci
     model.lambda_delta = args.lambda_delta
     model.huber_kappa = args.huber_kappa

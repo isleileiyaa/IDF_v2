@@ -69,6 +69,11 @@ parser.add_argument("--fusion_mode", type=str, default="learned",
                           "(cat(y_inv,y_dyn))（默认，等价于不加这个参数时的行为）；"
                           "additive=y_inv+y_dyn直接相加，跳过final_pred_head。"
                           "对v3/其他augment_mode无效。")
+parser.add_argument("--head_mode", type=str, default="learned", choices=["learned", "frozen_native"],
+                     help="idf_clean_dis_v3/v4专属：y_inv/y_dyn的投影头。learned=现有的"
+                          "inv_pred_head/dyn_pred_head_clean（默认，等价于不加这个参数时的行为）；"
+                          "frozen_native=复用冻结的原生output_patch_embedding对z_inv/z_dyn各投影一次，"
+                          "必须搭配--fusion_mode additive。对其他augment_mode无效。")
 parser.add_argument("--disable_ci", action="store_true", default=False, help="c_i fixed to 1 for all samples, ignoring tau confidence weighting (v4 only)")
 parser.add_argument('--lambda_ord', type=float, default=0.0)
 parser.add_argument("--lambda_delta", type=float, default=0.0, help="weight for L_Delta (final-y first-difference Huber loss vs ground truth, v3/v4 only)")
@@ -179,6 +184,12 @@ parser.add_argument('--use_multi_gpu', action='store_true', help='use multiple g
 
 args = parser.parse_args()
 
+if args.head_mode == "frozen_native":
+    if args.fusion_mode != "additive":
+        raise ValueError(f"--head_mode frozen_native 必须搭配 --fusion_mode additive，当前fusion_mode={args.fusion_mode}")
+    if args.augment_mode not in ("idf_clean_dis_v3", "idf_clean_dis_v4"):
+        raise ValueError(f"--head_mode frozen_native 目前只在idf_clean_dis_v3/idf_clean_dis_v4白名单内验证过，当前augment_mode={args.augment_mode}")
+
 # init wandb project
 wandb.init(project=f'{args.model}_Pretrain', name=args.model_id)
 wandb.config.update(args)
@@ -208,6 +219,7 @@ elif args.model == 'ChronosBoltRetrieve':
     model.tau_dis = args.tau_dis
     model.lambda_sem = args.lambda_sem
     model.fusion_mode = args.fusion_mode
+    model.head_mode = args.head_mode
     model.disable_ci = args.disable_ci
     model.lambda_ord = args.lambda_ord
     model.lambda_delta = args.lambda_delta
